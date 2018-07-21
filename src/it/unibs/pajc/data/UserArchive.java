@@ -1,9 +1,11 @@
-package it.unibs.pajc.model;
+package it.unibs.pajc.data;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class UserArchive {
+import it.unibs.pajc.model.User;
+
+public class UserArchive extends Archive{
 	
 	private ArrayList<User> users;
 	

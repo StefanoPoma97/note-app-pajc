@@ -1,9 +1,12 @@
-package it.unibs.pajc.model;
+package it.unibs.pajc.data;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class NoteArchive {
+import it.unibs.pajc.model.Note;
+import it.unibs.pajc.model.User;
+
+public class NoteArchive extends Archive{
 
 	private ArrayList<Note> notes;
 	private int id =1;
