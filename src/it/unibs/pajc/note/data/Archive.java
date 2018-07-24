@@ -18,6 +18,13 @@ public abstract class Archive<E extends Identifiable> {
 		elements = new ArrayList<E>();
 	}
 	
+	/**
+	 * Aggiunge un elemento all'archivio.
+	 * L'elemento per essere inserito deve essere valido. Il metodo validate è definito nelle classi {@link Note} e {@link User}.
+	 * In seguito è assegnato un ID a ciascun elemento ed infine questo viene inserito nel database.
+	 * @param e
+	 * @return
+	 */
 	public boolean add(E e) {
 		if(!validate(e))
 			return false;
@@ -30,16 +37,18 @@ public abstract class Archive<E extends Identifiable> {
 
 	/**
 	 * Metodo per la validazione dell'istanza da inserire nell'archivio
-	 * Metodo dummy, fare l'override per ogni classe.
 	 * @param e L'istanza della classe da validare
 	 * @return true se la classe è valida.
 	 */
-	protected boolean validate(E e) {
-		return true;
-	}
-	                     
+	protected abstract boolean validate(E e);
+	               
+	
+	/**
+	 * Metodo per la gestione centralizzata degli id
+	 * @param e
+	 */
 	private void setID(E e) {
-//		Note n = (Note) i;
+		//TODO: far in modo che il max venga salvato in modo da non doverlo ricalcolare
 		OptionalInt maxID = elements.stream().mapToInt(x -> x.getID()).max();
 		if (maxID.isPresent()) {
 			int id = maxID.getAsInt();
@@ -69,6 +78,10 @@ public abstract class Archive<E extends Identifiable> {
 		return elements.removeAll(getWhere(pred));
 	}
 	
+	
+	public List<E> getAll() {
+		return elements;
+	}
 	
 	
 	

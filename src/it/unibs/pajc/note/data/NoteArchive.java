@@ -1,7 +1,5 @@
 package it.unibs.pajc.note.data;
 
-import java.util.List;
-
 import it.unibs.pajc.note.model.Note;
 
 public class NoteArchive extends Archive<Note> {
@@ -19,11 +17,6 @@ public class NoteArchive extends Archive<Note> {
 		if (n.getTitle().isEmpty())
 			return false;
 		return true;
-	}
-	
-	
-	public List<Note> getNotes() {
-		return elements;
 	}
 	
 	// public void updateNote (Note note, int index){

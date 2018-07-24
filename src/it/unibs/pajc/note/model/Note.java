@@ -13,7 +13,6 @@ public class Note extends Identifiable{
 	private boolean isPublic;
 	private String author;
 	private Set<Tag> tags;
-	private int likes;
 
 	public Note(String _title) {
 		this.title = _title;
@@ -28,13 +27,6 @@ public class Note extends Identifiable{
 		tags.add(newTag);
 	}
 
-	public void addLike() {
-		likes = likes++;
-	}
-
-	public void removeLike() {
-		likes = likes--;
-	}
 
 	public void setTitle(String title) {
 		this.title = title;

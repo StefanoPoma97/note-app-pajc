@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
-import it.unibs.pajc.note.model.User;
 
 class NoteArchiveTests {
 	
@@ -47,7 +46,7 @@ class NoteArchiveTests {
 		notes.add(new Note("Hello1"));
 		notes.add(new Note(""));
 		
-		assertEquals(2,notes.getNotes().size());
+		assertEquals(2,notes.getAll().size());
 	}
 	
 	@Test
@@ -68,7 +67,7 @@ class NoteArchiveTests {
 		notes.add(new Note("Hello1"));
 		notes.add(new Note(""));
 		
-		int[] ids = notes.getNotes().stream().mapToInt(x -> x.getID()).toArray();
+		int[] ids = notes.getAll().stream().mapToInt(x -> x.getID()).toArray();
 		assertArrayEquals(new int[]{0,1} , ids);
 
 	}
@@ -80,16 +79,28 @@ class NoteArchiveTests {
 		notes.add(new Note("Hello1"));
 		notes.add(new Note("Hello2"));
 		
-		Predicate<Note> title = x ->  x.getTitle().contains("2");
+		Predicate<Note> title = x ->  x.getTitle().contains("o");
 		
 		notes.remove(title);
-		assertEquals(2,notes.getNotes().size());
+		assertEquals(0,notes.getAll().size());
 	}
+	
+	@Test
+	void idRemove() {
+		notes.add(new Note("Hello"));
+		notes.add(new Note("Hello1"));
+		notes.add(new Note("Hello2"));
+		notes.remove(n -> n.getTitle().equals("Hello1"));
+		
+		notes.add(new Note("Hello1"));
+		
+		int[] ids = notes.getAll().stream().mapToInt(x -> x.getID()).toArray();
+		assertArrayEquals(new int[]{0,2,3} , ids);	}
 
 	@Test
 	void validateTest() {
 		notes.add(new Note(""));
-		assertEquals(notes.getNotes().size(), 0);
+		assertEquals(notes.getAll().size(), 0);
 	}
 	
 	

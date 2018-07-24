@@ -8,6 +8,11 @@ public class User extends Identifiable{
 	private String password;
 	private Set<Tag> personalTag;
 	
+	
+	public User(String name) {
+		this.name = name;
+	}		
+	
 	public String getName() {
 		return name;
 	}
@@ -21,15 +26,15 @@ public class User extends Identifiable{
 		this.password = password;
 	}
 	
-	@Override
-	public boolean equals(Object arg0) {
-		User tmp= (User)arg0;
-		if (tmp.getName().equals(this.name) && tmp.getPassword().equals(this.password) ){
-			return true;
-		}
-		else
-			return false;
-	}
+//	@Override
+//	public boolean equals(Object arg0) {
+//		User tmp= (User)arg0;
+//		if (tmp.getName().equals(this.name) && tmp.getPassword().equals(this.password) ){
+//			return true;
+//		}
+//		else
+//			return false;
+//	}
 	
 	public void addTag (Tag newTag){
 		personalTag.add(newTag);
