@@ -15,7 +15,7 @@ public class NoteArchive extends Archive<Note> {
 	 * Una nota è valida se il titolo non è vuoto.
 	 */
 	@Override
-	protected boolean validation(Note n) {
+	protected boolean validate(Note n) {
 		if (n.getTitle().isEmpty())
 			return false;
 		return true;

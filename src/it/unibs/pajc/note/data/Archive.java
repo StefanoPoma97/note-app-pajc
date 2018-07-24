@@ -19,11 +19,11 @@ public abstract class Archive<E extends Identifiable> {
 	}
 	
 	public boolean add(E e) {
-		if(!validation(e))
+		if(!validate(e))
 			return false;
 		
 		setID(e);
-		store(e);
+		elements.add(e);
 		
 		return true;
 	}
@@ -34,11 +34,11 @@ public abstract class Archive<E extends Identifiable> {
 	 * @param e L'istanza della classe da validare
 	 * @return true se la classe è valida.
 	 */
-	protected boolean validation(E e) {
+	protected boolean validate(E e) {
 		return true;
 	}
 	                     
-	protected void setID(E e) {
+	private void setID(E e) {
 //		Note n = (Note) i;
 		OptionalInt maxID = elements.stream().mapToInt(x -> x.getID()).max();
 		if (maxID.isPresent()) {
@@ -48,12 +48,7 @@ public abstract class Archive<E extends Identifiable> {
 			e.setID(0);
 		}
 	}
-	
-	
-	protected void store(E e) {
-		elements.add(e);
-	}
-	
+
 	
 	/**
 	 * Metodo per applicare un filtro di ricerca all'archivio
@@ -62,6 +57,16 @@ public abstract class Archive<E extends Identifiable> {
 	 */
 	public List<E> getWhere(Predicate<E> pred) {
 		return elements.stream().filter(pred).collect(Collectors.toList());
+	}
+	
+	
+	/**
+	 * Rimuove gli elementi in base al {@link Predicate}
+	 * @param pred La condizione secondo la quale rimuovere gli elementi
+	 * @return true se sono stati rimossi elementi
+	 */
+	public boolean remove(Predicate<E> pred) {
+		return elements.removeAll(getWhere(pred));
 	}
 	
 	
