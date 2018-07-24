@@ -1,4 +1,4 @@
-package it.unibs.pajc.model;
+package it.unibs.pajc.note.model;
 
 public class Tag {
 	

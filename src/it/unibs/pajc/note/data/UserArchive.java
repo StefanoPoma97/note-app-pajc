@@ -1,11 +1,11 @@
-package it.unibs.pajc.data;
+package it.unibs.pajc.note.data;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-import it.unibs.pajc.model.User;
+import it.unibs.pajc.note.model.User;
 
-public class UserArchive extends Archive{
+public class UserArchive{
 	
 	private ArrayList<User> users;
 	
@@ -44,7 +44,7 @@ public class UserArchive extends Archive{
 	private void createId(User in){
 		StringBuffer str= new StringBuffer(in.getName());
 		str.append(in.getPassword());
-		in.setId(str.toString().hashCode());
+		in.setID(str.toString().hashCode());
 	}
 	
 

@@ -1,4 +1,4 @@
-package it.unibs.pajc.model;
+package it.unibs.pajc.note.model;
 
 import java.util.Set;
 
@@ -37,7 +37,7 @@ public class User {
 		personalTag.add(newTag);
 	}
 	
-	public void setId(int id) {
+	public void setID(int id) {
 		this.id = id;
 	}
 	public Set<Tag> getPersonalTag() {
