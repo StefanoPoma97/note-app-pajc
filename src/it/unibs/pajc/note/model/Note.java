@@ -4,9 +4,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Set;
 
-public class Note {
+public class Note extends Identifiable{
 
-	private int id;
 	private String title;
 	private String body;
 	private Calendar createdAt;
@@ -47,14 +46,6 @@ public class Note {
 
 	public void setBody(String body) {
 		this.body = body;
-	}
-
-	public int getID() {
-		return id;
-	}
-
-	public void setID(int id) {
-		this.id = id;
 	}
 
 	public Calendar getUpdatedAt() {

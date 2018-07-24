@@ -2,12 +2,10 @@ package it.unibs.pajc.note.model;
 
 import java.util.Set;
 
-public class User {
-	
-	
+public class User extends Identifiable{
+
 	private String name;
 	private String password;
-	private int id;
 	private Set<Tag> personalTag;
 	
 	public String getName() {
@@ -37,9 +35,6 @@ public class User {
 		personalTag.add(newTag);
 	}
 	
-	public void setID(int id) {
-		this.id = id;
-	}
 	public Set<Tag> getPersonalTag() {
 		return personalTag;
 	}

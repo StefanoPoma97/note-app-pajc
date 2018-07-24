@@ -1,9 +1,8 @@
 package it.unibs.pajc.note.model;
 
-public class Tag {
+public class Tag extends Identifiable{
 	
 	private String name;
-	private int id;
 	
 	
 	public String getName() {
