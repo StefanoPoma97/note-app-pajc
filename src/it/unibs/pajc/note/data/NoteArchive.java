@@ -2,8 +2,10 @@ package it.unibs.pajc.note.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import it.unibs.pajc.note.model.Note;
 
@@ -41,11 +43,21 @@ public class NoteArchive extends Archive {
 		notes.add(n);
 	}
 	
+	/**
+	 * Metodo per applicare un filtro di ricerca all'archivio
+	 * @param pred Il filtro su cui si basa la ricerca
+	 * @return La lista filtrata
+	 */
+	public List<Note> getWhere(Predicate<Note> pred) {
+		return notes.stream().filter(pred).collect(Collectors.toList());
+	}
+	
+	
 	public List<Note> getNotes() {
 		return notes;
 	}
 	
-
+	
 
 	// public List<Note> getUserNote (User us){
 	// List<Note> out= (List<Note>) notes.stream()

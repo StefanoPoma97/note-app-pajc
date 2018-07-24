@@ -1,6 +1,6 @@
 package it.unibs.pajc.note.model;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Set;
 
@@ -9,8 +9,8 @@ public class Note {
 	private int id;
 	private String title;
 	private String body;
-	private Date createdAt;
-	private Date updatedAt;
+	private Calendar createdAt;
+	private Calendar updatedAt;
 	private boolean isPublic;
 	private String author;
 	private Set<Tag> tags;
@@ -18,7 +18,7 @@ public class Note {
 
 	public Note(String _title) {
 		this.title = _title;
-		createdAt = new Date();
+		createdAt = new GregorianCalendar();
 	}
 
 	public String getTitle() {
@@ -57,11 +57,11 @@ public class Note {
 		this.id = id;
 	}
 
-	public Date getUpdatedAt() {
+	public Calendar getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(Calendar updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
@@ -89,7 +89,7 @@ public class Note {
 		this.tags = tags;
 	}
 
-	public Date getCreatedAt() {
+	public Calendar getCreatedAt() {
 		return createdAt;
 	}
 
