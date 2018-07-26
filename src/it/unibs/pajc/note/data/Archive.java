@@ -26,12 +26,13 @@ public abstract class Archive<E extends Identifiable> {
 	 * @return
 	 */
 	public boolean add(E e) {
+		
 		if(!validate(e))
 			return false;
 		
 		setID(e);
 		elements.add(e);
-		
+			
 		return true;
 	}
 

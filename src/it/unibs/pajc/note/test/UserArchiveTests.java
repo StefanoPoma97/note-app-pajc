@@ -1,5 +1,6 @@
 package it.unibs.pajc.note.test;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -60,7 +61,20 @@ class UserArchiveTests {
 		
 		int[] ids = users.getAll().stream().mapToInt(x -> x.getID()).toArray();
 		assertArrayEquals(new int[]{0,2,3} , ids);
-
+	}
+	
+	@Test 
+	void isPresent() {
+		users.add(new User("Daniele"));
+		assertTrue(users.getAll().contains(new User("Dani")));
+	}
+	
+	
+	@Test
+	void authenticate() {
+		String username;
+		String password;
+//		assertTrue(users.authenticate(username, password));
 	}
 	
 
