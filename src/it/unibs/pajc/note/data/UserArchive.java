@@ -10,6 +10,12 @@ public class UserArchive extends Archive<User> {
 		super();
 	}
 
+	/**
+	 * Un utente è valido se:
+	 * - username != ""
+	 * - pwd != ""
+	 * - username unico nell'archivio
+	 */
 	@Override
 	protected boolean validate(User e) {
 		if (e.getName().isEmpty())
@@ -30,7 +36,13 @@ public class UserArchive extends Archive<User> {
 	}
 	
 	
-
+	/**
+	 * Metodo per l'autenticazione dell'utente.
+	 * Esso deve avere l'username e la password uguali per essere accettato
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	public boolean authenticate(String username, String password) {
 		// Questo assume che ci sia un solo utente con quell'username come dovrebbe
 		// essere

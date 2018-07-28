@@ -4,6 +4,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
+/**
+ * Classe per la gestione delle pwd
+ * @author danielevezz
+ *
+ */
 public class AuthenticationUtility {
 
 	public static String hashToString(byte[] hash) {

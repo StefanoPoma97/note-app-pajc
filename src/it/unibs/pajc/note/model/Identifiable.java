@@ -1,5 +1,9 @@
 package it.unibs.pajc.note.model;
-
+/**
+ * Per la gestione degli id
+ * @author danielevezz
+ *
+ */
 public abstract class Identifiable {
 	private int id;
 

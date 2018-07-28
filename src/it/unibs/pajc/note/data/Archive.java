@@ -45,7 +45,8 @@ public abstract class Archive<E extends Identifiable> {
 	               
 	
 	/**
-	 * Metodo per la gestione centralizzata degli id
+	 * Metodo per la gestione degli id
+	 * Prende l'id max e lo incrementa 
 	 * @param e
 	 */
 	private void setID(E e) {
