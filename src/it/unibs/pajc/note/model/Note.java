@@ -11,7 +11,7 @@ public class Note extends Identifiable{
 	private Calendar createdAt;
 	private Calendar updatedAt;
 	private boolean isPublic;
-	private String author;
+	private User author;
 	private Set<Tag> tags;
 
 	public Note(String _title) {
@@ -56,11 +56,11 @@ public class Note extends Identifiable{
 		this.isPublic = isPublic;
 	}
 
-	public String getAuthor() {
+	public User getAuthor() {
 		return author;
 	}
 
-	public void setAutor(String author) {
+	public void setAutor(User author) {
 		this.author = author;
 	}
 
