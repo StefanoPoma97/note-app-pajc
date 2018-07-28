@@ -2,14 +2,17 @@ package it.unibs.pajc.note.model;
 
 import java.util.Set;
 
+import it.unibs.pajc.note.utility.AuthenticationUtility;
+
 public class User extends Identifiable {
 
 	private String name;
-	private String password;
+	private byte[] password;
 	private Set<Tag> personalTag;
 
-	public User(String name) {
+	public User(String name, String password) {
 		this.name = name;
+		this.password = AuthenticationUtility.generateHash(password);
 	}
 
 	public String getName() {
@@ -17,26 +20,17 @@ public class User extends Identifiable {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		if(name != null)
+			this.name = name;
 	}
 
 	public String getPassword() {
-		return password;
+		return AuthenticationUtility.hashToString(password);
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	
-	//NON VA
-	@Override
-	public boolean equals(Object arg0) {
-		User tmp = (User) arg0;
-		if (tmp.getName().equals(this.name)) {
-			return true;
-		} else
-			return false;
+		if(password != null)
+			this.password = AuthenticationUtility.generateHash(password);
 	}
 
 	public void addTag(Tag newTag) {

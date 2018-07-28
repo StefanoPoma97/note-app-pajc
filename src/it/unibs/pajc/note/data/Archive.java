@@ -80,7 +80,7 @@ public abstract class Archive<E extends Identifiable> {
 	}
 	
 	
-	public List<E> getAll() {
+	public List<E> all() {
 		return elements;
 	}
 	

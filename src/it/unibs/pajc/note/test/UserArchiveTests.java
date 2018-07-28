@@ -1,5 +1,6 @@
 package it.unibs.pajc.note.test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,45 +37,63 @@ class UserArchiveTests {
 
 	@Test
 	void addNewUser() {
-		users.add(new User("Dan"));
-		assertEquals(1, users.getAll().size());
+		users.add(new User("Dan","pwd"));
+		assertEquals(1, users.all().size());
 	}
 	
 	@Test
 	void idAutoIncrementTest() {
-		users.add(new User("Hello"));
-		users.add(new User("Hello1"));
-		users.add(new User(""));
+		users.add(new User("Hello","pwd"));
+		users.add(new User("Hello1","pwd"));
+		users.add(new User("",""));
 		
-		int[] ids = users.getAll().stream().mapToInt(x -> x.getID()).toArray();
+		int[] ids = users.all().stream().mapToInt(x -> x.getID()).toArray();
 		assertArrayEquals(new int[]{0,1} , ids);
 
 	}
 	
 	@Test
 	void idRemove() {
-		users.add(new User("Hello"));
-		users.add(new User("Hello1"));
-		users.add(new User("Hello2"));
+		users.add(new User("Hello","pwd"));
+		users.add(new User("Hello1","pwd"));
+		users.add(new User("Hello2","pwd"));
 		users.remove(u -> u.getName().equals("Hello1"));
-		users.add(new User("Hello1"));
+		users.add(new User("Hello1","pwd"));
 		
-		int[] ids = users.getAll().stream().mapToInt(x -> x.getID()).toArray();
+		int[] ids = users.all().stream().mapToInt(x -> x.getID()).toArray();
 		assertArrayEquals(new int[]{0,2,3} , ids);
 	}
 	
 	@Test 
 	void isPresent() {
-		users.add(new User("Daniele"));
-		assertTrue(users.getAll().contains(new User("Dani")));
+		String uname = "Stefano";
+		User u = new User(uname ,"pwd");
+		users.add(u);
+		assertTrue(users.all().contains(u));
 	}
 	
 	
 	@Test
-	void authenticate() {
-		String username;
-		String password;
-//		assertTrue(users.authenticate(username, password));
+	void simpleAuth() {
+		String username = "Dan";
+		String password = "pwd123!";
+		
+		users.add(new User(username,password));
+		
+		assertTrue(users.authenticate(username, password));
+	}
+	
+	@Test
+	void noDuplicateUsernames() {
+		users.add(new User("Dan", "pollo"));
+		users.add(new User("Dan", "pollo123"));
+		assertFalse(users.authenticate("Dan", "pollo123"));
+	}
+	
+	@Test
+	void emptyPwd() {
+		users.add(new User("Dan", ""));
+		assertEquals(users.all().size(), 0);
 	}
 	
 

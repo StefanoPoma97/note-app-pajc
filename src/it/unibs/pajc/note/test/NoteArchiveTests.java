@@ -46,7 +46,7 @@ class NoteArchiveTests {
 		notes.add(new Note("Hello1"));
 		notes.add(new Note(""));
 		
-		assertEquals(2,notes.getAll().size());
+		assertEquals(2,notes.all().size());
 	}
 	
 	@Test
@@ -67,7 +67,7 @@ class NoteArchiveTests {
 		notes.add(new Note("Hello1"));
 		notes.add(new Note(""));
 		
-		int[] ids = notes.getAll().stream().mapToInt(x -> x.getID()).toArray();
+		int[] ids = notes.all().stream().mapToInt(x -> x.getID()).toArray();
 		assertArrayEquals(new int[]{0,1} , ids);
 
 	}
@@ -82,7 +82,7 @@ class NoteArchiveTests {
 		Predicate<Note> title = x ->  x.getTitle().contains("o");
 		
 		notes.remove(title);
-		assertEquals(0,notes.getAll().size());
+		assertEquals(0,notes.all().size());
 	}
 	
 	@Test
@@ -94,13 +94,13 @@ class NoteArchiveTests {
 		
 		notes.add(new Note("Hello1"));
 		
-		int[] ids = notes.getAll().stream().mapToInt(x -> x.getID()).toArray();
+		int[] ids = notes.all().stream().mapToInt(x -> x.getID()).toArray();
 		assertArrayEquals(new int[]{0,2,3} , ids);	}
 
 	@Test
 	void validateTest() {
 		notes.add(new Note(""));
-		assertEquals(notes.getAll().size(), 0);
+		assertEquals(notes.all().size(), 0);
 	}
 	
 	
