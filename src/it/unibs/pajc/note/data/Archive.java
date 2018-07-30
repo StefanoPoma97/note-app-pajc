@@ -1,5 +1,6 @@
 package it.unibs.pajc.note.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
@@ -7,8 +8,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import it.unibs.pajc.note.model.Identifiable;
+import it.unibs.pajc.note.utility.Errors;
 
-public abstract class Archive<E extends Identifiable> {
+public abstract class Archive<E extends Identifiable>  implements Serializable{
+
 	protected List<E> elements;
 	
 	/**
@@ -22,26 +25,30 @@ public abstract class Archive<E extends Identifiable> {
 	 * Aggiunge un elemento all'archivio.
 	 * L'elemento per essere inserito deve essere valido. Il metodo validate è definito nelle classi {@link Note} e {@link User}.
 	 * In seguito è assegnato un ID a ciascun elemento ed infine questo viene inserito nel database.
+	 * viene tornato un Enum per capire che eventuali errori si sono presentati
 	 * @param e
-	 * @return
+	 * @return Errors
 	 */
-	public boolean add(E e) {
+	public Errors add(E e) {
+
+		if (validate(e).equals(Errors.CORRECT)){
+			setID(e);
+			elements.add(e);
+			return Errors.CORRECT;
+		}
+		else
+			return validate(e);
 		
-		if(!validate(e))
-			return false;
-		
-		setID(e);
-		elements.add(e);
-			
-		return true;
 	}
+	
+	
 
 	/**
 	 * Metodo per la validazione dell'istanza da inserire nell'archivio
 	 * @param e L'istanza della classe da validare
-	 * @return true se la classe è valida.
+	 * @return Errors.CORRECT se la classe � valida
 	 */
-	protected abstract boolean validate(E e);
+	protected abstract Errors validate(E e);
 	               
 	
 	/**

@@ -4,6 +4,9 @@ public class Tag extends Identifiable{
 	
 	private String name;
 	
+	public Tag (String tag){
+		this.name=tag;
+	}
 	
 	public String getName() {
 		return name;
