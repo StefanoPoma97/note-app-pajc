@@ -1,14 +1,17 @@
 package it.unibs.pajc.note.model;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import it.unibs.pajc.note.utility.AuthenticationUtility;
 
-public class User extends Identifiable {
+public class User extends Identifiable implements Serializable {
 
 	private String name;
 	private byte[] password;
-	private Set<Tag> personalTag;
+	//ha senso che sia un HashSet?
+	private Set<Tag> personalTag = new HashSet<Tag>();
 
 	public User(String name, String password) {
 		this.name = name;
@@ -24,6 +27,7 @@ public class User extends Identifiable {
 			this.name = name;
 	}
 
+	//ritorna l'Hash code della password per ragioni di sicurezza
 	public String getPassword() {
 		return AuthenticationUtility.hashToString(password);
 	}
@@ -33,6 +37,7 @@ public class User extends Identifiable {
 			this.password = AuthenticationUtility.generateHash(password);
 	}
 
+	//TODO null pointer eccezione!
 	public void addTag(Tag newTag) {
 		personalTag.add(newTag);
 	}
@@ -45,6 +50,16 @@ public class User extends Identifiable {
 	public String toString() {
 
 		return this.name;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		User tmp= (User)obj;
+		if (tmp.getName().equals(this.name)){
+			return true;
+		}
+		else
+			return false;
 	}
 
 }
