@@ -2,7 +2,7 @@ package it.unibs.pajc.note.data;
 
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.utility.AuthenticationUtility;
-import it.unibs.pajc.note.utility.Errors;
+import it.unibs.pajc.note.utility.ValidationStatus;
 
 public class UserArchive extends Archive<User> {
 	
@@ -19,19 +19,19 @@ public class UserArchive extends Archive<User> {
 	 * ritorna un Enum per segnalarlo
 	 */
 	@Override
-	protected Errors validate(User e) {
+	protected ValidationStatus validate(User e) {
 		if (e.getName().isEmpty())
-			return Errors.NAME_EMPTY;
+			return ValidationStatus.NAME_EMPTY;
 		//Se pwd Ã¨ uguale a stringa vuota
 		if (e.getPassword().equals(AuthenticationUtility.generateHashString("")))
-			return Errors.PASSWORD_EMPTY;
+			return ValidationStatus.PASSWORD_EMPTY;
 		
 		//due user con stesso username -> TODO: equals
 		if(elements.contains(e))
-			return Errors.USER_PRESENT;
-		return Errors.CORRECT;
+			return ValidationStatus.USER_PRESENT;
+		return ValidationStatus.CORRECT;
 		
-		//TODO comunicare in che tipo di errore si è capitati (password, nome, o unicità nome)
+		//TODO comunicare in che tipo di errore si ï¿½ capitati (password, nome, o unicitï¿½ nome)
 	}
 
 	@Override

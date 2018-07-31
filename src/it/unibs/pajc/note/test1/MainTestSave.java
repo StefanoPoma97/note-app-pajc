@@ -27,7 +27,7 @@ public class MainTestSave {
 				notes=data.getNotes();
 				users=data.getUsers();
 			} catch (ClassCastException e) {
-				System.err.println("Il file non può essere letto");
+				System.err.println("Il file non puï¿½ essere letto");
 			} 
 			finally {
 				if(data != null) {
@@ -42,7 +42,7 @@ public class MainTestSave {
 			data=new Database();
 		}
 		
-		Note n = new Note("atomici");
+		Note n = new Note("atomico");
 		notes.add(n);
 		System.out.println(notes.toString());
 		// salva file
@@ -67,7 +67,7 @@ public class MainTestSave {
 //				notes = data.getNotes();
 //				users = data.getUsers();
 //			} catch (ClassCastException e) {
-//				System.err.println("Il file non può essere letto");
+//				System.err.println("Il file non puï¿½ essere letto");
 //			} 
 //			finally {
 //				if(notes != null && users != null) {
