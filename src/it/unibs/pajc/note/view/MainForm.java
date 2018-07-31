@@ -13,9 +13,9 @@ import java.awt.BorderLayout;
 public class MainForm {
 
 	private JFrame frame;
-	
-	private String in= null;
-	private User user=null;
+
+	private String in = null;
+	private User user = null;
 
 	/**
 	 * Launch the application.
@@ -47,22 +47,16 @@ public class MainForm {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		LoginView loginView = new LoginView();
 		frame.getContentPane().add(loginView, BorderLayout.CENTER);
-		
-		
-		
-		
-		
-		
-		
+
 		loginView.addActionList(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				in=loginView.getAction();
-				user= loginView.getUser();
-				System.out.println("main : arrivato stringa "+in);
-				System.out.println("main : arrivato utente "+user.toString());
+				in = loginView.getAction();
+				user = loginView.getUser();
+				System.out.println("main : arrivato stringa " + in);
+//				System.out.println("main : arrivato utente " + user.toString());
 			}
 		});
 	}

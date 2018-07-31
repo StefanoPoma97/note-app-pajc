@@ -49,7 +49,7 @@ public class User extends Identifiable implements Serializable {
 	@Override
 	public String toString() {
 
-		return this.name;
+		return this.name + "\n" + getPassword();
 	}
 	
 	@Override

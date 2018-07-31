@@ -46,6 +46,7 @@ public class LoginView extends JPanel {
 		fireList(e);
 		user= new User (textFieldName.getText(), textFieldPass.getText());
 		System.out.println("ho creato l'utente");
+		System.out.println(user);
 	}
 	
 	public void CreateAccount (ActionEvent e)
@@ -112,7 +113,8 @@ public class LoginView extends JPanel {
 		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("riciamo il metodo login");
+				System.out.println(e);
+				System.out.println("richiamo il metodo login");
 				Login(e);
 				System.out.println("out = login");
 				out="login";
@@ -128,7 +130,7 @@ public class LoginView extends JPanel {
 				
 			}
 		});
-		
+
 		
 
 	}
