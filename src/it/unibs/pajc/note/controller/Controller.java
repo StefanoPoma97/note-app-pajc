@@ -3,6 +3,7 @@ package it.unibs.pajc.note.controller;
 import java.util.List;
 
 import it.unibs.pajc.note.model.Identifiable;
+import it.unibs.pajc.note.status.ValidationError;
 
 public abstract class Controller<E extends Identifiable> {
 
@@ -13,11 +14,11 @@ public abstract class Controller<E extends Identifiable> {
 	public abstract List<E> index();
 
 	/**
-	 * Crea un nuovo elemento
+	 * Crea un nuovo elemento, lo aggiunge
 	 * @return Se l'elemento è stato creato
 	 */
 	// Magari ritornare uno stato
-	public abstract boolean create();
+	public abstract ValidationError create(E e);
 
 	/**
 	 * Mostra un elemento specifico in base all'id
@@ -28,7 +29,7 @@ public abstract class Controller<E extends Identifiable> {
 
 	
 	// Decidere se ritornare uno stato o la nota modificata
-	public abstract E update(int id);
+	public abstract ValidationError update(int id);
 
 	// Magari ritornare uno stato
 	public abstract boolean destroy(int id);

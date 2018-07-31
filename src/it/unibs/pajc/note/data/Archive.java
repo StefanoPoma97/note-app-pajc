@@ -87,6 +87,26 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 		return elements.removeAll(getWhere(pred));
 	}
 	
+	/**
+	 * metodo che aggiorna una nota. concretamente salva l'ID, elimina la nota
+	 * richimando validate verifica che sia valida e poi la aggiunge settando il
+	 * vecchio ID
+	 * 
+	 * @param note
+	 * @param index
+	 * @return Errors
+	 */
+	public ValidationError update(E e, int index) {
+		int id = elements.get(index).getID();
+		elements.remove(index);
+		ValidationError updateStatus = validate(e);
+		if(updateStatus == ValidationError.CORRECT) {
+			e.setID(id);
+			elements.add(e);
+		}
+		return updateStatus;
+	}
+	
 	
 	public List<E> all() {
 		return elements;
