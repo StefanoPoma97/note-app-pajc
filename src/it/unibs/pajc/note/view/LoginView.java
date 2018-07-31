@@ -13,13 +13,12 @@ import javax.swing.JButton;
 public class LoginView extends JPanel {
 	
 	//stringa per comunicare informazioni al main form
-	private String out;
+	private String out=null;
 	//user creato o per il login
-	private User user = null;
+	private User user;
 	
 	private JTextField textFieldName;
-	private JTextField textFieldPass;
-	
+	private JTextField textFieldPass;	
 	
 	private ArrayList<ActionListener> subscriberOnList = new ArrayList<>();
 	
@@ -28,6 +27,7 @@ public class LoginView extends JPanel {
 	{
 		subscriberOnList.add(l);
 	}	
+	
 	
 	//fire della lista 
 	private void fireList (ActionEvent e)
@@ -44,29 +44,35 @@ public class LoginView extends JPanel {
 	{
 		System.out.println("richiamo il metodo fire");
 		fireList(e);
-		user= new User (textFieldName.getText(), textFieldPass.getText());
-		System.out.println("ho creato l'utente");
+		//user= new User (textFieldName.getText(), textFieldPass.getText());
+		setVisible(false);
 	}
 	
 	public void CreateAccount (ActionEvent e)
 	{
 		System.out.println("richiamo il metodo fire");
 		fireList(e);
-		user= new User (textFieldName.getText(), textFieldPass.getText());
-		System.out.println("ho creato l'utente");
+		System.out.println("aggiornato la lista");
 	}
 	
+	public String getNome(){
+		return textFieldName.getText();
+	}
+	
+	public String getPass(){
+		return textFieldPass.getText();
+	}
 	public User getUser(){
 		return user;
 	}
 	
-	public String getAction(){
+	public String getAction() {
 		return out;
 	}
 	
 
 	
-	public LoginView() {
+	public LoginView(MainForm main) {
 		setLayout(null);
 		
 		textFieldName = new JTextField();
@@ -112,19 +118,21 @@ public class LoginView extends JPanel {
 		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("riciamo il metodo login");
-				Login(e);
-				System.out.println("out = login");
-				out="login";
+//				System.out.println("riciamo il metodo login");
+//				Login(e);
+//				System.out.println("out = login");
+//				out="login";
+//				main.lo(textName.getText(), textPassword.getText(), "login");
 			}
 		});
 		
 		btnNewAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("richiamo il metodo create");
-				CreateAccount(e);
-				System.out.println("out = create");
-				out="create";
+//				System.out.println("richiamo il metodo create");
+//				CreateAccount(e);
+//				System.out.println("out = create");
+//				out="create";
+				main.lo(textFieldName.getText(), textFieldPass.getText(), "Create");
 				
 			}
 		});
