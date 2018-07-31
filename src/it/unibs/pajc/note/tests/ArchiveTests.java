@@ -1,4 +1,4 @@
-package it.unibs.pajc.note.test1;
+package it.unibs.pajc.note.tests;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
