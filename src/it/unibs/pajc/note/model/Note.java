@@ -1,10 +1,11 @@
 package it.unibs.pajc.note.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Set;
 
-public class Note extends Identifiable{
+public class Note extends Identifiable implements Serializable{
 
 	private String title;
 	private String body;
@@ -80,5 +81,14 @@ public class Note extends Identifiable{
 	public String toString() {
 		return title + "\t" + body;
 	}
+	
+	/**
+	 * metodo equals che si basa solo sull'ID dato che è univoco
+	 */
+//	@Override
+//	public boolean equals(Object obj) {
+//		// TODO Auto-generated method stub
+//		return super.equals(obj);
+//	}
 
 }

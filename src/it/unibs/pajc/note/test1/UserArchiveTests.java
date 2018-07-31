@@ -1,4 +1,4 @@
-package it.unibs.pajc.note.test;
+package it.unibs.pajc.note.test1;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
