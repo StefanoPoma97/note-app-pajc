@@ -23,7 +23,7 @@ public class UserArchive extends Archive<User> {
 		if (e.getName().isEmpty())
 			return ValidationError.NAME_EMPTY;
 		//Se pwd è uguale a stringa vuota
-		if (e.getPassword().equals(AuthenticationUtility.generateHashString("")))
+		if (e.getPassword().equals(AuthenticationUtility.generateHash("")))
 			return ValidationError.PASSWORD_EMPTY;
 		
 		//due user con stesso username -> TODO: equals
@@ -50,7 +50,7 @@ public class UserArchive extends Archive<User> {
 	public boolean authenticate(String username, String password) {
 		// Questo assume che ci sia un solo utente con quell'username come dovrebbe
 		// essere
-		String tmp = AuthenticationUtility.generateHashString(password);
+		String tmp = AuthenticationUtility.generateHash(password);
 		//prende dalla lista tutti gli utenti con lo stesso username (solo 1), poi confronta la password
 		User u = this.getWhere(x -> x.getName().equals(username)).get(0);
 		if (u.getPassword().equals(tmp)) {
