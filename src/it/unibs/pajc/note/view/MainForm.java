@@ -56,7 +56,7 @@ public class MainForm {
 				in = loginView.getAction();
 				user = loginView.getUser();
 				System.out.println("main : arrivato stringa " + in);
-//				System.out.println("main : arrivato utente " + user.toString());
+				System.out.println("main : arrivato utente " + user.toString());
 			}
 		});
 	}
