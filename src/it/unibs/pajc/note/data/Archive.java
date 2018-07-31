@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import it.unibs.pajc.note.model.Identifiable;
-import it.unibs.pajc.note.utility.ValidationStatus;
+import it.unibs.pajc.note.status.ValidationError;
 
 public abstract class Archive<E extends Identifiable>  implements Serializable{
 
@@ -29,12 +29,12 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 	 * @param e
 	 * @return Errors
 	 */
-	public ValidationStatus add(E e) {
+	public ValidationError add(E e) {
 
-		if (validate(e).equals(ValidationStatus.CORRECT)){
+		if (validate(e).equals(ValidationError.CORRECT)){
 			setID(e);
 			elements.add(e);
-			return ValidationStatus.CORRECT;
+			return ValidationError.CORRECT;
 		}
 		else
 			return validate(e);
@@ -48,7 +48,7 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 	 * @param e L'istanza della classe da validare
 	 * @return Errors.CORRECT se la classe � valida
 	 */
-	protected abstract ValidationStatus validate(E e);
+	protected abstract ValidationError validate(E e);
 	               
 	
 	/**

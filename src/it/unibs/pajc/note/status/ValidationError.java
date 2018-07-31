@@ -1,4 +1,4 @@
-package it.unibs.pajc.note.utility;
+package it.unibs.pajc.note.status;
 
 /**
  * Classe per la differenziazione dei possibili errori in fase di convalida di un oggetto
@@ -7,7 +7,7 @@ package it.unibs.pajc.note.utility;
  * @author Stefano Poma, danielevezz
  *
  */
-public enum ValidationStatus {
+public enum ValidationError implements Error{
 	
 	CORRECT(""),
 	NAME_EMPTY("The username is required"), 
@@ -18,7 +18,7 @@ public enum ValidationStatus {
 	
 	private String description;
 	
-	ValidationStatus(String description) {
+	ValidationError(String description) {
 		this.description = description;
 	}
 	
