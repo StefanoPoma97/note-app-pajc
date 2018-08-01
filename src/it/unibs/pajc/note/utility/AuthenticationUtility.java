@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class AuthenticationUtility {
 
-	public static String hashToString(byte[] hash) {
+	private static String hashToString(byte[] hash) {
 	    StringBuffer hexString = new StringBuffer();
 	    for (int i = 0; i < hash.length; i++) {
 	    String hex = Integer.toHexString(0xff & hash[i]);
@@ -22,7 +22,7 @@ public class AuthenticationUtility {
 	    return hexString.toString();
 	}
 	
-	public static byte[] generateHash(String text) {
+	public static String generateHash(String text) {
 		MessageDigest digest = null;
 		try {
 			digest = MessageDigest.getInstance("SHA-256");
@@ -30,11 +30,11 @@ public class AuthenticationUtility {
 			System.err.println("No such algorithm");
 		}
 		
-		return digest.digest(text.getBytes(StandardCharsets.UTF_8));
+		return hashToString(digest.digest(text.getBytes(StandardCharsets.UTF_8)));
 	}
 	
-	public static String generateHashString(String text) {
-		return hashToString(generateHash(text));
-	}
+//	public static String generateHashString(String text) {
+//		return hashToString(generateHash(text));
+//	}
 
 }

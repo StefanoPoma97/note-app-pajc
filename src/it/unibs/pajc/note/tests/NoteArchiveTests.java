@@ -1,4 +1,4 @@
-package it.unibs.pajc.note.test1;
+package it.unibs.pajc.note.tests;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
