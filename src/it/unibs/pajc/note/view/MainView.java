@@ -1,32 +1,17 @@
 package it.unibs.pajc.note.view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.GridLayout;
+
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
 
 import it.unibs.pajc.note.controller.UserController;
-import it.unibs.pajc.note.data.UserArchive;
-import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
-import java.awt.BorderLayout;
-import javax.swing.JPanel;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import net.miginfocom.swing.MigLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-import java.awt.CardLayout;
-import java.awt.GridLayout;
 
 public class MainView {
 
@@ -45,7 +30,7 @@ public class MainView {
 	
 	/**
 	 * Metodo utilizzato nel LoginView che permette di passare nome password 
-	 * restituisce true se il login è possibile
+	 * restituisce true se il login ï¿½ possibile
 	 * @param _name
 	 * @param _pass
 	 */
@@ -100,7 +85,7 @@ public class MainView {
 		contentPanel.add(loginV);
 		loginV.setLayout(new BorderLayout(0, 0));
 						
-		//pannello per messaggi di utilità
+		//pannello per messaggi di utilitï¿½
 		JPanel contentMessage = new JPanel();
 		contentMessage.setBorder(new LineBorder(new Color(0, 0, 0)));
 		frame.getContentPane().add(contentMessage, BorderLayout.SOUTH);
