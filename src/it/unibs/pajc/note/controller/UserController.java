@@ -13,7 +13,29 @@ public class UserController extends Controller<User> {
 	
 	public UserController() {
 		users = new UserArchive();
+		//solo per test
+		users.add(new User ("paolo","merazza"));
+		users.add(new User ("utente1","pass1"));
 	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param password
+	 * @return
+	 */
+	public Boolean login(String name, String password){
+		System.out.println("info arrivate: nome= "+name+ " pass= "+password);
+		Boolean validate = users.authenticate(name, password);
+		if (validate){
+			System.out.println("valido");
+		}
+		else{
+			System.out.println("non valido");
+		}
+		return validate;
+	}
+	
 	
 	@Override
 	public void setArchive(Archive<User> e) {
@@ -32,6 +54,7 @@ public class UserController extends Controller<User> {
 	}
 	
 	public ValidationError create(String username, String password) {
+		System.out.println("info arrivate: nome= "+username+ " pass= "+password);
 		User u = new User(username, password);
 		return users.add(u);
 	}

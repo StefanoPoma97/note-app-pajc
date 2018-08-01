@@ -96,9 +96,8 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 	 * @param index
 	 * @return Errors
 	 */
-	public ValidationError update(E e, int index) {
-		int id = elements.get(index).getID();
-		elements.remove(index);
+	public ValidationError update(E e, int id) {
+		remove(x->x.getID()==id);
 		ValidationError updateStatus = validate(e);
 		if(updateStatus == ValidationError.CORRECT) {
 			e.setID(id);

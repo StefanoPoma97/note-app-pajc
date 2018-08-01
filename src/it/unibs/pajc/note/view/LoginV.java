@@ -10,6 +10,7 @@ import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
 
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
@@ -53,8 +54,12 @@ public class LoginV extends JPanel {
 			l.actionPerformed(e);
 		}
 	}
+	
 
 	
+	private void showMessage(String in){
+		JOptionPane.showMessageDialog(null, in);
+	}
 	
 
 
@@ -66,13 +71,13 @@ public class LoginV extends JPanel {
 		textFieldPass.setColumns(10);
 										
 		JFormattedTextField textPassword = new JFormattedTextField();
-		textPassword.setBounds(140, 106, 52, 20);
+		textPassword.setBounds(126, 106, 66, 20);
 		textPassword.setText("Password");
 		textPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		textPassword.setEditable(false);
 								
 		JButton btnNewAccount = new JButton("New Account");
-		btnNewAccount.setBounds(126, 172, 95, 23);
+		btnNewAccount.setBounds(126, 172, 95, 36);
 										
 		
 						
@@ -82,13 +87,13 @@ public class LoginV extends JPanel {
 		textFieldName.setColumns(10);
 				
 		JFormattedTextField textName = new JFormattedTextField();
-		textName.setBounds(159, 57, 33, 20);
+		textName.setBounds(126, 57, 66, 20);
 		textName.setHorizontalAlignment(SwingConstants.CENTER);
 		textName.setEditable(false);
 		textName.setText("Name");
 		
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds(256, 172, 57, 23);
+		btnLogin.setBounds(256, 172, 57, 36);
 		setLayout(null);
 		add(textFieldPass);
 		add(textPassword);
@@ -106,6 +111,8 @@ public class LoginV extends JPanel {
 					setVisible(false);
 				}
 				else{
+					//TODO creare archivio errori
+					showMessage("Login errato");
 					textFieldName.setText("");
 					textFieldPass.setText("");
 				}						
@@ -115,6 +122,14 @@ public class LoginV extends JPanel {
 		btnNewAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 						ValidationError validate= view.create(textFieldName.getText(), textFieldPass.getText());
+						if (validate.equals(ValidationError.CORRECT))
+							setVisible(false);
+						else{
+							textFieldName.setText("");
+							textFieldPass.setText("");
+							showMessage(validate.toString());
+						}
+						
 				
 			}
 		});

@@ -35,44 +35,28 @@ public class MainView {
 	//stringhe utili per passare info con il loginView
 	private String name= null;
 	private String password=null;
-	private String action=null;
+	private UserController userController=new UserController();
+//	private NoteController noteController=null;
 	private JTextArea textArea;
 	private LoginV loginV;
-	
-	
-	//instanze di classi utili al controllo (poi da dividere tra client e server)
-	private UserArchive users=new UserArchive();
+
 	
 	
 	
 	/**
-	 * Metodo utilizzato nel LoginView che permette di passare nome password e tipo di azione
-	 * per poter poi fare i controlli
+	 * Metodo utilizzato nel LoginView che permette di passare nome password 
+	 * restituisce true se il login è possibile
 	 * @param _name
 	 * @param _pass
-	 * @param _action
 	 */
 	public Boolean login(String _name, String _pass){
-		name=_name;
-		password=_pass;
-		System.out.println("info arrivate: nome= "+name+ " pass= "+password+" action= "+action);
-		Boolean validate = users.authenticate(name, password);
-		if (validate){
-			System.out.println("valido");
-		}
-		else{
-			System.out.println("non valido");
-		}
-		return validate;
+		return userController.login(_name, _pass);
 	}
 	
 	
-	public ValidationError create(String _name, String _pass){
-		name=_name;
-		password=_pass;
-		System.out.println("info arrivate: nome= "+name+ " pass= "+password+" action= "+action);
-		ValidationError validate = users.add(new User(name, password));
-		return validate;
+	public ValidationError create(String name, String pass){
+		
+		return userController.create(name, pass);
 	}
 
 	
@@ -110,7 +94,7 @@ public class MainView {
 		
 		JPanel contentPanel = new JPanel();
 		frame.getContentPane().add(contentPanel);
-		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
+		contentPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		loginV = new LoginV(this);
 		contentPanel.add(loginV);
@@ -126,9 +110,7 @@ public class MainView {
 		contentMessage.add(textArea);
 		
 		
-		//solo per test
-		users.add(new User ("paolo","merazza"));
-		users.add(new User ("utente1","pass1"));
+		
 		
 		
 		
