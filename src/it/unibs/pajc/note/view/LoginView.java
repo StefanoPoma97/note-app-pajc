@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.SwingConstants;
-
 import it.unibs.pajc.note.status.ValidationError;
 
 public class LoginView extends JPanel {
@@ -27,22 +25,66 @@ public class LoginView extends JPanel {
 	private JFormattedTextField textName;
 	private JFormattedTextField textPassword;
 
-	
+	/**
+	 * metodo per far apparire messaggio di errore o segnalazione
+	 * @param in stringa
+	 */
 	private void showMessage(String in){
 		JOptionPane.showMessageDialog(null, in);
 	}
 	
 	/**
+	 * metodo per far apparire messaggio di errore o segnalazione
+	 * @param in ValidateError
+	 */
+	private void showMessage(ValidationError in){
+		JOptionPane.showMessageDialog(null, in.toString());
+	}
+	
+	
+	/**
 	 * Create the panel.
 	 */
-	//costruttore
-	public LoginView(mainTest view) {
-		this.build(view);
+	//costruttore è necessario che riceva il MainView
+	public LoginView(MainView view) {
+		this.build();
+		
+		//ACTION LISTENER
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean validate= view.login(textFieldName.getText(), textFieldPassword.getText());
+				if (validate){
+					setVisible(false);
+				}
+				else{
+					//TODO creare archivio errori
+					showMessage("Login errato");
+					textFieldName.setText("");
+					textFieldPassword.setText("");
+				}						
+			}
+		});
+
+		btnCreateAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+						ValidationError validate= view.create(textFieldName.getText(), textFieldPassword.getText());
+						if (validate.equals(ValidationError.CORRECT))
+							setVisible(false);
+						else{
+							textFieldName.setText("");
+							textFieldPassword.setText("");
+							showMessage(validate.toString());
+						}
+			}
+		});
 		
 		
 	}
 	
-	private void build(mainTest view) {
+	/**
+	 * Metodo per costruire l'interfaccia grafica
+	 */
+	private void build() {
 
 		this.setLayout(new GridBagLayout());
 		
@@ -117,41 +159,7 @@ public class LoginView extends JPanel {
 //	gc.insets = new Insets(10, 10, 10, 10);
 //	gc.anchor = GridBagConstraints.CENTER;
 	this.add(this.btnLogin, gc);
-	
-		
-	//ACTION LISTENER
-			btnLogin.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					boolean validate= view.login(textFieldName.getText(), textFieldPassword.getText());
-					if (validate){
-						setVisible(false);
-					}
-					else{
-						//TODO creare archivio errori
-						showMessage("Login errato");
-						textFieldName.setText("");
-						textFieldPassword.setText("");
-					}						
-				}
-			});
 
-			btnCreateAccount.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-							ValidationError validate= view.create(textFieldName.getText(), textFieldPassword.getText());
-							if (validate.equals(ValidationError.CORRECT))
-								setVisible(false);
-							else{
-								textFieldName.setText("");
-								textFieldPassword.setText("");
-								showMessage(validate.toString());
-							}
-							
-					
-				}
-			});
-
-	
-	
 	}
 
 }

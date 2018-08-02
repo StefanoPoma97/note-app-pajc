@@ -12,6 +12,7 @@ import javax.swing.border.LineBorder;
 
 import it.unibs.pajc.note.controller.UserController;
 import it.unibs.pajc.note.status.ValidationError;
+import java.awt.GridBagLayout;
 
 public class MainView {
 
@@ -22,8 +23,10 @@ public class MainView {
 	private String password=null;
 	private UserController userController=new UserController();
 //	private NoteController noteController=null;
+	
+	//componenti utilizzati
 	private JTextArea textArea;
-	private LoginV loginV;
+	private LoginView loginView;
 
 	
 	
@@ -38,7 +41,12 @@ public class MainView {
 		return userController.login(_name, _pass);
 	}
 	
-	
+	/**
+	 * metodo che permette di passare nome e password per la creazione di un nuovo account
+	 * @param name
+	 * @param pass
+	 * @return ValidationError
+	 */
 	public ValidationError create(String name, String pass){
 		
 		return userController.create(name, pass);
@@ -77,27 +85,22 @@ public class MainView {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
+		//Pannello principale
 		JPanel contentPanel = new JPanel();
 		frame.getContentPane().add(contentPanel);
 		contentPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		loginV = new LoginV(this);
-		contentPanel.add(loginV);
-		loginV.setLayout(new BorderLayout(0, 0));
+		//Login View
+		loginView = new LoginView(this);
+		contentPanel.add(loginView);
 						
-		//pannello per messaggi di utilitï¿½
+		//pannello per messaggi di utilità
 		JPanel contentMessage = new JPanel();
 		contentMessage.setBorder(new LineBorder(new Color(0, 0, 0)));
 		frame.getContentPane().add(contentMessage, BorderLayout.SOUTH);
 		contentMessage.setLayout(new BorderLayout(0, 0));
-		
 		textArea = new JTextArea();
 		contentMessage.add(textArea);
-		
-		
-		
-		
-		
-		
+
 	}
 }
