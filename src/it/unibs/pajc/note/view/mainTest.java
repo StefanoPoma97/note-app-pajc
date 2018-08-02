@@ -25,9 +25,7 @@ private JFrame frame;
 	private String name= null;
 	private String password=null;
 	private UserController userController=new UserController();
-//	private NoteController noteController=null;
-	private JTextArea textArea;
-	private LoginView loginView;
+	private Test test;
 
 	
 	
@@ -81,21 +79,8 @@ private JFrame frame;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JPanel contentPanel = new JPanel();
-		frame.getContentPane().add(contentPanel);
-		contentPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		loginView = new LoginView(this);
-		contentPanel.add(loginView);
-						
-		//pannello per messaggi di utilit�
-		JPanel contentMessage = new JPanel();
-		contentMessage.setBorder(new LineBorder(new Color(0, 0, 0)));
-		frame.getContentPane().add(contentMessage, BorderLayout.SOUTH);
-		contentMessage.setLayout(new BorderLayout(0, 0));
-		
-		textArea = new JTextArea();
-		contentMessage.add(textArea);
+		test = new Test();
+		frame.getContentPane().add(test, BorderLayout.NORTH);
 		
 		
 		

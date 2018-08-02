@@ -47,6 +47,7 @@ public class LoginView extends JPanel {
 	 */
 	//costruttore è necessario che riceva il MainView
 	public LoginView(MainView view) {
+		setPreferredSize(new Dimension(500, 500));
 		this.build();
 		
 		//ACTION LISTENER
@@ -96,21 +97,25 @@ public class LoginView extends JPanel {
 	textName.setHorizontalAlignment(SwingConstants.CENTER);
 	textName.setText("Name");
 	textName.setEditable(false);
-	this.textName.setPreferredSize(new Dimension(70, 20));
+	this.textName.setPreferredSize(new Dimension(150, 30));
+	gc.weightx=0.001;
+//	gc.weighty=0.001;
 	gc.gridx = 1;
 	gc.gridy = 0;
-	gc.insets = new Insets(0, 0, 20, 0);
-//	gc.anchor = GridBagConstraints.CENTER;
+	gc.insets = new Insets(30, 0, 10, 30);
+	gc.anchor = GridBagConstraints.LINE_END;
 	this.add(this.textName, gc);
 	
 		//col 2
 	gc = new GridBagConstraints();
 	this.textFieldName = new JTextField();
-	this.textFieldName.setPreferredSize(new Dimension(200, 30));
+	this.textFieldName.setPreferredSize(new Dimension(180, 30));
+	gc.weightx=0.001;
+//	gc.weighty=0.001;
 	gc.gridx = 2;
 	gc.gridy = 0;
-	gc.insets = new Insets(0, 0, 20, 0);
-//	gc.anchor = GridBagConstraints.CENTER;
+	gc.insets = new Insets(30, 30, 10, 0);
+	gc.anchor = GridBagConstraints.LINE_START;
 	this.add(this.textFieldName, gc);
 	
 	//row 1
@@ -121,20 +126,26 @@ public class LoginView extends JPanel {
 	textPassword.setHorizontalAlignment(SwingConstants.CENTER);
 	textPassword.setText("Password");
 	textPassword.setEditable(false);
-	this.textPassword.setPreferredSize(new Dimension(70, 20));
+	this.textPassword.setPreferredSize(new Dimension(150, 30));
+	gc.weightx=0.001;
+//	gc.weighty=0.001;
 	gc.gridx = 1;
 	gc.gridy = 1;
-	gc.insets = new Insets(0, 0, 20, 0);
+	gc.insets = new Insets(0, 0, 10, 30);
+	gc.anchor = GridBagConstraints.LINE_END;
 //	gc.anchor = GridBagConstraints.CENTER;
 	this.add(this.textPassword, gc);
 	
 		//col 2
 	gc = new GridBagConstraints();
 	this.textFieldPassword = new JTextField();
-	this.textFieldPassword.setPreferredSize(new Dimension(200, 30));
+	this.textFieldPassword.setPreferredSize(new Dimension(180, 30));
+	gc.weightx=0.001;
+//	gc.weighty=0.001;
 	gc.gridx = 2;
 	gc.gridy = 1;
-	gc.insets = new Insets(0, 0, 20, 0);
+	gc.insets = new Insets(0, 30, 10, 0);
+	gc.anchor = GridBagConstraints.LINE_START;
 //	gc.anchor = GridBagConstraints.CENTER;
 	this.add(this.textFieldPassword, gc);
 	
@@ -143,21 +154,30 @@ public class LoginView extends JPanel {
 		//col 1
 	gc = new GridBagConstraints();
 	this.btnCreateAccount = new JButton("New Account");
-//	this.textName.setPreferredSize(new Dimension(200, 20));
+	this.btnCreateAccount.setPreferredSize(new Dimension(150, 40));
+	gc.weightx=0.001;
+	gc.weighty=0.001;
 	gc.gridx = 1;
 	gc.gridy = 2;
-//	gc.insets = new Insets(10, 10, 10, 10);
-//	gc.anchor = GridBagConstraints.CENTER;
+	//aumenta in che modo(uniforme)
+//	gc.fill=GridBagConstraints.BOTH;
+	//ancoraggio
+	gc.anchor = GridBagConstraints.LINE_END;
+	gc.insets = new Insets(10, 10, 10, 40);
 	this.add(this.btnCreateAccount, gc);
 	
 		//col 2
 	gc = new GridBagConstraints();
 	this.btnLogin = new JButton("Login");
-//	this.textName.setPreferredSize(new Dimension(200, 20));
+	this.btnLogin.setPreferredSize(new Dimension(150, 40));
+	gc.weightx=0.001;
+	gc.weighty=0.001;
 	gc.gridx = 2;
 	gc.gridy = 2;
-//	gc.insets = new Insets(10, 10, 10, 10);
-//	gc.anchor = GridBagConstraints.CENTER;
+	gc.insets = new Insets(10, 10, 10, 10);
+//	gc.fill = GridBagConstraints.CENTER;
+	gc.insets = new Insets(10, 40, 10, 10);
+	gc.anchor = GridBagConstraints.LINE_START;
 	this.add(this.btnLogin, gc);
 
 	}
