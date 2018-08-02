@@ -1,65 +1,74 @@
 package it.unibs.pajc.note.view;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 public class Test extends JPanel {
+	private JLabel lFileName;
+	private JTextField tfFile;
+	private JButton fcButton;
+	private JLabel lFileError;
 
 	/**
 	 * Create the panel.
 	 */
+	//costruttore richiama il metodo build
 	public Test() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
+			this.build();
+	}
+	
+	private void build() {
+		this.setLayout(new GridBagLayout());
 		
-//		gridBagLayout.rowHeights = new int[]{50, 150, 50, 50};
-//		gridBagLayout.columnWeights = new double[]{getWidth()/4, getWidth()/4};
-//		gridBagLayout.columnWidths = new int[]{10,10,10};
-//		gridBagLayout.rowWeights = new double[]{50.0, 50.0};
-		setLayout(gridBagLayout);
+		
+		//riga1
+			//colonna1
 		GridBagConstraints gc = new GridBagConstraints();
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.YELLOW);
-//		GridBagConstraints gbc_panel = new GridBagConstraints();
-//		gbc_panel.anchor = GridBagConstraints.NORTHWEST;
-//		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gc.weightx=0.5;
-		gc.weighty=0.5;
+		this.lFileName = new JLabel("Filename:");
 		gc.gridx = 0;
 		gc.gridy = 0;
-		add(panel, gc);
+		gc.insets = new Insets(10, 10, 10, 10);
+		gc.anchor = GridBagConstraints.CENTER;
+		this.add(this.lFileName, gc);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.BLUE);
-//		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-//		gbc_panel_1.anchor = GridBagConstraints.NORTHWEST;
-//		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
+			//colonna2
+		gc = new GridBagConstraints();
+		this.tfFile = new JTextField(20);
+		this.tfFile.setEditable(false);
 		gc.gridx = 1;
 		gc.gridy = 0;
-		add(panel_1, gc);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(Color.RED);
-//		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-//		gbc_panel_2.anchor = GridBagConstraints.NORTHWEST;
-//		gbc_panel_2.insets = new Insets(0, 0, 5, 5);
-		gc.gridx = 0;
-		gc.gridy = 1;
-		add(panel_2, gc);
-		
-		JButton panel_3 = new JButton();
-		panel_3.setBackground(Color.GREEN);
-//		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
-//		gbc_panel_3.insets = new Insets(0, 0, 5, 0);
-//		gbc_panel_3.anchor = GridBagConstraints.NORTHWEST;
-		gc.gridx = 1;
-		gc.gridy = 1;
-		add(panel_3, gc);
+		gc.anchor = GridBagConstraints.CENTER;
+		this.add(this.tfFile, gc);
 
+			// Colonna 2
+		gc = new GridBagConstraints();
+		this.fcButton = new JButton("Browse");
+		gc.gridx = 2;
+		gc.gridy = 0;
+		gc.anchor = GridBagConstraints.CENTER;
+		this.add(this.fcButton, gc);
+		
+		// Row 1 - File not selected Error
+					// Col 0 - Empty
+
+					// Col 1
+		gc = new GridBagConstraints();
+		this.lFileError = new JLabel("Please select a file.");
+		this.lFileError.setForeground(Color.RED);
+		this.lFileError.setVisible(true);
+		gc.insets = new Insets(10, 10, 10, 10);
+		gc.gridx = 1;
+		gc.gridy = 1;
+		gc.gridwidth=2;
+		gc.anchor = GridBagConstraints.LINE_START;
+		this.add(this.lFileError, gc);
 	}
 
 }
