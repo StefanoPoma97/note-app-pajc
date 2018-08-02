@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -44,12 +45,14 @@ public class Test extends JPanel {
 		this.tfFile.setEditable(false);
 		gc.gridx = 1;
 		gc.gridy = 0;
+		gc.weightx=0.0;
 		gc.anchor = GridBagConstraints.CENTER;
 		this.add(this.tfFile, gc);
 
 			// Colonna 2
 		gc = new GridBagConstraints();
 		this.fcButton = new JButton("Browse");
+		this.fcButton.setPreferredSize(new Dimension(200, 50));
 		gc.gridx = 2;
 		gc.gridy = 0;
 		gc.anchor = GridBagConstraints.CENTER;
@@ -66,7 +69,10 @@ public class Test extends JPanel {
 		gc.insets = new Insets(10, 10, 10, 10);
 		gc.gridx = 1;
 		gc.gridy = 1;
+		//quante celle prende lungo x e y
 		gc.gridwidth=2;
+		//altezza e larghezza da 0.0 a 1.0
+//		gc.weighty=0.9;
 		gc.anchor = GridBagConstraints.LINE_START;
 		this.add(this.lFileError, gc);
 	}
