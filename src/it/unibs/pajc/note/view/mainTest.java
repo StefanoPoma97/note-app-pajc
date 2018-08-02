@@ -16,6 +16,7 @@ import java.awt.Color;
 
 import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
+import java.awt.FlowLayout;
 
 public class mainTest {
 
@@ -25,7 +26,6 @@ private JFrame frame;
 	private String name= null;
 	private String password=null;
 	private UserController userController=new UserController();
-	private Test test;
 
 	
 	
@@ -75,12 +75,12 @@ private JFrame frame;
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
-		test = new Test();
-		frame.getContentPane().add(test, BorderLayout.NORTH);
+		NoteView noteView = new NoteView((MainView) null);
+		frame.getContentPane().add(noteView);
 		
 		
 		
