@@ -3,28 +3,16 @@ package it.unibs.pajc.note.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
-
-import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
-import java.awt.CardLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 
 public class LoginV extends JPanel {
 	
