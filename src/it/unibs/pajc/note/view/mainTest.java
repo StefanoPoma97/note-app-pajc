@@ -2,10 +2,14 @@ package it.unibs.pajc.note.view;
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import it.unibs.pajc.note.controller.UserController;
@@ -13,10 +17,17 @@ import it.unibs.pajc.note.status.ValidationError;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 
 public class mainTest {
 
@@ -81,6 +92,7 @@ private JFrame frame;
 		
 		NoteView noteView = new NoteView((MainView) null);
 		frame.getContentPane().add(noteView);
+		
 		
 		
 		
