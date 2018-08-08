@@ -111,6 +111,10 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 		return elements;
 	}
 	
+	public void removeAll(){
+		elements = new ArrayList<E>();
+	}
+	
 	
 	
 

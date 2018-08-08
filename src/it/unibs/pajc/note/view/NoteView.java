@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
 
 import java.awt.Color;
@@ -64,13 +65,14 @@ public class NoteView extends JPanel {
 	private String[] colors = new String[] {"", "White", "Yellow", "Green","Purple"};
 	//array che conterrà solo le note visualizzabili in questo momento (non necessariamente tutto l'archivio)
 	private ArrayList <Note> notes= new ArrayList<>();
-	private Note modifyNote= null;
+	private Integer modifyID= null;
 	private JTextField textFieldTitle;
 	private JButton btnSave;
 	private JTextArea textAreaNote;
 	private JTextField textFieldTitleNote;
 	private GridBagConstraints gbc_textFieldTitleNote;
 	JLabel lbl_title = new JLabel();
+	private NoteArchive noteArchive= new NoteArchive();
 	
 
 
@@ -106,12 +108,10 @@ public class NoteView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				switch ((String)comboFilter.getSelectedItem()) {
 				case "Titolo":{
-					ArrayList<Note>notes_cp = new ArrayList<>();
+					noteArchive.removeAll();
 					for(int i=notes.size()-1; i>=0; i--){
-						notes_cp.add(notes.get(i));
+						noteArchive.add(notes.get(i));
 					}
-					notes=new ArrayList<>(notes_cp);
-					System.out.println("posizione 0 "+notes.get(0).getTitle());
 					refreshNoteList();
 					break;
 				}
@@ -129,6 +129,28 @@ public class NoteView extends JPanel {
 			}
 		});
 		
+		btnNewNote.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modifyID=null;
+				textAreaNote.setText("");
+				textFieldTitleNote.setText("");
+			}
+		});
+		
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Note note = new Note(textFieldTitleNote.getText());
+				note.setBody(textAreaNote.getText());
+				if (modifyID==null)
+					noteArchive.add(note);
+				else
+					noteArchive.update(note, modifyID);
+				
+				modifyID= null;
+				refreshNoteList();
+			}
+		});
 		
 	}
 	
@@ -140,13 +162,12 @@ public class NoteView extends JPanel {
 	private void loadInfo(){
 		labels=new String[] {"", "Riunione", "Memo", "Link"};
 		filters=new String[] {"", "Titolo", "Autore", "Like"};
-		ArrayList<Note> _list= new ArrayList<>();
 		for (int i=0; i<5; i++){
 			Note nota = new Note("titolo"+i);
 			nota.setBody("corpo della nota numero: "+i);
-			_list.add(nota);
+			noteArchive.add(nota);
 		}
-		notes=_list;	
+		notes=(ArrayList<Note>)noteArchive.all();	
 	}
 	
 	
@@ -155,16 +176,14 @@ public class NoteView extends JPanel {
 
 		contentList.removeAll();
 		contentList.revalidate();
-		
+		notes=(ArrayList<Note>)noteArchive.all();
 		contentList.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		for (int i=0; i<notes.size(); i++){
-			System.out.println("refresh posizione 0 "+notes.get(0).getTitle());
 			
 			gc = new GridBagConstraints();
 			JLabel lbl_title = new JLabel();
 			lbl_title.setText(notes.get(i).getTitle());
-			System.out.println("il nuovo titolo è "+ notes.get(i).getTitle());
 			lbl_title.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_title.setVerticalAlignment(SwingConstants.CENTER);
 			lbl_title.setPreferredSize(new Dimension(600, 20));
@@ -199,9 +218,9 @@ public class NoteView extends JPanel {
 			btn_modify.setToolTipText("Modifica");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-//					System.out.println("ho selezionato la nota "+lbl_title.getText());
 					textFieldTitleNote.setText(lbl_title.getText());
 					textAreaNote.setText(lbl_name.getText());
+					modifyID= noteArchive.getWhere(x->x.getTitle().equals(lbl_title.getText())).get(0).getID();
 				}
 			});
 			
