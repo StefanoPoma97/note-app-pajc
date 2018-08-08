@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
+import it.unibs.pajc.note.status.ValidationError;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -31,6 +32,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -75,14 +78,28 @@ public class NoteView extends JPanel {
 	private NoteArchive noteArchive= new NoteArchive();
 	
 
+	 /* metodo per far apparire messaggio di errore o segnalazione
+	 * @param in stringa
+	 */
+	private void showMessage(String in){
+		JOptionPane.showMessageDialog(null, in);
+	}
+	
+	/**
+	 * metodo per far apparire messaggio di errore o segnalazione
+	 * @param in ValidateError
+	 */
+	private void showMessage(ValidationError in){
+		JOptionPane.showMessageDialog(null, in.toString());
+	}
 
 	/**
 	 * Create the panel. (Costruttore)
 	 */
 	public NoteView(MainView view) {
 		loadInfo(view);
-		buildContent();
-		buildComponent();
+		buildContent(view);
+		buildComponent(view);
 		actionListener(view);
 		
 	}
@@ -100,8 +117,9 @@ public class NoteView extends JPanel {
 					notes=view.getMyNote();
 				}
 				else
+					//note con un particolare label
 					notes=view.getNotesByLabel(label);
-				refreshNoteList();
+				refreshNoteList(view);
 			}
 		});
 		
@@ -134,7 +152,7 @@ public class NoteView extends JPanel {
 		
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				refreshNoteList();
+				refreshNoteList(view);
 			}
 		});
 		
@@ -147,7 +165,7 @@ public class NoteView extends JPanel {
 					for(int i=notes.size()-1; i>=0; i--){
 						noteArchive.add(notes.get(i));
 					}
-					refreshNoteList();
+					refreshNoteList(view);
 					break;
 				}
 				case "Dats":
@@ -181,14 +199,24 @@ public class NoteView extends JPanel {
 				
 				Note note = new Note(textFieldTitleNote.getText());
 				note.setBody(textAreaNote.getText());
-				if (modifyID==null)
-					noteArchive.add(note);
-				else
-					noteArchive.update(note, modifyID);
+				ValidationError validate;
+				System.out.println("ID che sto modificando "+modifyID);
+				if (modifyID==null){
+					validate = view.addNote(note);
+					System.out.println("nota aggiunta");
+					notes=view.getMyNote();
+		
+				}
+					
+				else{
+					System.out.println("entro nel ELSE");
+					validate=view.update(note, modifyID);
+					System.out.println("nota aggiornata");
+					notes=view.getMyNote();
+					modifyID= null;
+				}
 				
-				modifyID= null;
-				notes= (ArrayList<Note>)noteArchive.all();
-				refreshNoteList();
+				refreshNoteList(view);
 			}
 		});
 		
@@ -218,7 +246,7 @@ public class NoteView extends JPanel {
 	/**
 	 * appoggiandosi al arraylist notes crea la lista
 	 */
-	private void refreshNoteList(){
+	private void refreshNoteList(MainView view){
 
 		contentList.removeAll();
 		contentList.revalidate();
@@ -265,13 +293,15 @@ public class NoteView extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					textFieldTitleNote.setText(lbl_title.getText());
 					textAreaNote.setText(lbl_name.getText());
-					modifyID= noteArchive.getWhere(x->x.getTitle().equals(lbl_title.getText())).get(0).getID();
+					modifyID= view.getIDbyTitle(lbl_title.getText());
+					System.out.println("ID Della nota selezionata:  "+modifyID);
 				}
 			});
 			
 		}
 		contentList.repaint();
 		repaint();
+		System.out.println("refresh");
 		
 	}
 	
@@ -314,7 +344,7 @@ public class NoteView extends JPanel {
 	/**
 	 * metodo per creare i vari componenti
 	 */
-	private void buildComponent(){
+	private void buildComponent(MainView view){
 		//bottoni vari
 		btnRefresh = new JButton("Refresh");
 		btnNewNote = new JButton("+");
@@ -348,7 +378,7 @@ public class NoteView extends JPanel {
 		contentModify.add(btnSave);
 		
 		//lista note
-		refreshNoteList();
+		refreshNoteList(view);
 		
 		//modifica nota
 		createModifyNote();
@@ -363,7 +393,7 @@ public class NoteView extends JPanel {
 	/**
 	 * metodo per la creazione dell'interfazzia utilizzando il GridBagLayout
 	 */
-	private void buildContent(){
+	private void buildContent(MainView view){
 		//setta il tipo di layout da utilizzare
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		this.setLayout(gridBagLayout);

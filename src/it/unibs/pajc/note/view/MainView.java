@@ -84,6 +84,7 @@ public class MainView {
 	}
 
 	public ArrayList<Note> getMyNote(){
+		System.out.println("entro nel main con utente "+utente);
 		return noteController.getMyNote(utente);
 	}
 	
@@ -95,8 +96,19 @@ public class MainView {
 		return noteController.getNotesByLabel(label);
 	}
 	
+	public ValidationError addNote (Note n){
+		n.setAutor(utente);
+		return noteController.addNote(n);
+	}
 	
+	public ValidationError update(Note n, int ID){
+		n.setAutor(utente);
+		return noteController.update(n, ID);
+	}
 	
+	public int getIDbyTitle(String title){
+		return noteController.getIDbyTitle(title);
+	}
 	
 	
 	

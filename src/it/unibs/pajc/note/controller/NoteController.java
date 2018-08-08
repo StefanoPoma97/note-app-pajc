@@ -32,6 +32,7 @@ public class NoteController extends Controller<Note>{
 	}
 	
 	public ArrayList<Note> getMyNote(User us){
+		System.out.println("sto cercando lista con utente"+us);
 		ArrayList<Note> notes=(ArrayList<Note>)noteArchive.getWhere(x->x.getAuthor().equals(us));
 		if (notes.isEmpty())
 			System.out.println("mie note vuoto");
@@ -50,6 +51,24 @@ public class NoteController extends Controller<Note>{
 		return (ArrayList<Note>)noteArchive.getWhere(x-> x.getLabels().contains(label));
 	}
 	
+	/**
+	 * aggiunge una nuova nota
+	 * @param note
+	 * @return
+	 */
+	public ValidationError addNote(Note note){
+		return noteArchive.add(note);
+		
+	}
+	
+	public ValidationError update (Note note, int id){
+		return noteArchive.update(note, id);
+	}
+	
+	
+	public int getIDbyTitle(String title){
+		return noteArchive.getWhere(x->x.getTitle().equals(title)).get(0).getID();
+	}
 	
 	public ValidationError create(String title) {
 		System.out.println("info arrivate: titolo= " + title);
