@@ -153,6 +153,9 @@ public class NoteView extends JPanel {
 
 	private void refreshNoteList(){
 
+		contentList.removeAll();
+		contentList.revalidate();
+		
 		contentList.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		for (int i=0; i<notes.size(); i++){
@@ -203,7 +206,8 @@ public class NoteView extends JPanel {
 			});
 			
 		}
-		
+		contentList.repaint();
+		repaint();
 		
 	}
 	
