@@ -34,6 +34,7 @@ import java.awt.GridLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JTextField;
 
 
 public class NoteView extends JPanel {
@@ -64,6 +65,12 @@ public class NoteView extends JPanel {
 	//array che conterrà solo le note visualizzabili in questo momento (non necessariamente tutto l'archivio)
 	private ArrayList <Note> notes= new ArrayList<>();
 	private Note modifyNote= null;
+	private JTextField textFieldTitle;
+	private JButton btnSave;
+	private JTextArea textAreaNote;
+	private JTextField textFieldTitleNote;
+	private GridBagConstraints gbc_textFieldTitleNote;
+	JLabel lbl_title = new JLabel();
 	
 
 
@@ -85,25 +92,44 @@ public class NoteView extends JPanel {
 		//Action Listener
 		comboColors.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				switch ((String)comboColors.getSelectedItem()) {
-				case "White":
-					contentNote.setBackground(Color.WHITE);
+				
+						}
+		});
+		
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				refreshNoteList();
+			}
+		});
+		
+		comboFilter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				switch ((String)comboFilter.getSelectedItem()) {
+				case "Titolo":{
+					ArrayList<Note>notes_cp = new ArrayList<>();
+					for(int i=notes.size()-1; i>=0; i--){
+						notes_cp.add(notes.get(i));
+					}
+					notes=new ArrayList<>(notes_cp);
+					System.out.println("posizione 0 "+notes.get(0).getTitle());
+					refreshNoteList();
 					break;
-				case "Yellow":
-					contentNote.setBackground(Color.YELLOW);
+				}
+				case "Autore":
+					comboFilter.setBackground(Color.YELLOW);
 					break;
-				case "Green":
-					contentNote.setBackground(Color.GREEN);
+				case "Like":
+					comboFilter.setBackground(Color.GREEN);
 					break;
-				case "Purple":
-					contentNote.setBackground(Color.MAGENTA);
-					break;
+				
 					
 					default:
 						break;
 							}
-						}
+			}
 		});
+		
+		
 	}
 	
 	/**
@@ -115,7 +141,7 @@ public class NoteView extends JPanel {
 		labels=new String[] {"", "Riunione", "Memo", "Link"};
 		filters=new String[] {"", "Titolo", "Autore", "Like"};
 		ArrayList<Note> _list= new ArrayList<>();
-		for (int i=0; i<50; i++){
+		for (int i=0; i<5; i++){
 			Note nota = new Note("titolo"+i);
 			nota.setBody("corpo della nota numero: "+i);
 			_list.add(nota);
@@ -130,9 +156,12 @@ public class NoteView extends JPanel {
 		contentList.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		for (int i=0; i<notes.size(); i++){
+			System.out.println("refresh posizione 0 "+notes.get(0).getTitle());
 			
 			gc = new GridBagConstraints();
-			JLabel lbl_title = new JLabel(notes.get(i).getTitle());
+			JLabel lbl_title = new JLabel();
+			lbl_title.setText(notes.get(i).getTitle());
+			System.out.println("il nuovo titolo è "+ notes.get(i).getTitle());
 			lbl_title.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_title.setVerticalAlignment(SwingConstants.CENTER);
 			lbl_title.setPreferredSize(new Dimension(600, 20));
@@ -144,7 +173,8 @@ public class NoteView extends JPanel {
 			
 			//TODO trovare un modo per non far comparire tutto il testo ma solo TOT caratteri
 			gc = new GridBagConstraints();
-			JLabel lbl_name = new JLabel(notes.get(i).getBody());
+			JLabel lbl_name = new JLabel();
+			lbl_name.setText(notes.get(i).getBody());
 			lbl_name.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_name.setVerticalAlignment(SwingConstants.CENTER);
 			lbl_name.setPreferredSize(new Dimension(600, 20));
@@ -166,7 +196,9 @@ public class NoteView extends JPanel {
 			btn_modify.setToolTipText("Modifica");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("ho selezionato la nota "+lbl_title.getText());
+//					System.out.println("ho selezionato la nota "+lbl_title.getText());
+					textFieldTitleNote.setText(lbl_title.getText());
+					textAreaNote.setText(lbl_name.getText());
 				}
 			});
 			
@@ -175,10 +207,44 @@ public class NoteView extends JPanel {
 		
 	}
 	
+	private void createModifyNote(){
+		contentNote.setLayout(new GridBagLayout());
+		GridBagConstraints gc = new GridBagConstraints();
+			
+			gbc_textFieldTitleNote = new GridBagConstraints();
+			textFieldTitleNote = new JTextField();
+			textFieldTitleNote.setHorizontalAlignment(SwingConstants.LEFT);
+//			textFieldTitle.setVerticalAlignment(SwingConstants.CENTER);
+			textFieldTitleNote.setText(notes.get(0).getTitle());
+			textFieldTitleNote.setPreferredSize(new Dimension(100, 30));
+			gbc_textFieldTitleNote.weightx=1;
+			gbc_textFieldTitleNote.gridx = 0;
+			gbc_textFieldTitleNote.gridy = 0;
+			gbc_textFieldTitleNote.fill=GridBagConstraints.HORIZONTAL;
+			gbc_textFieldTitleNote.anchor= GridBagConstraints.LINE_START;
+			gbc_textFieldTitleNote.insets = new Insets(10, 10, 10, 10);
+			contentNote.add(textFieldTitleNote,gbc_textFieldTitleNote);
+			
+			gc = new GridBagConstraints();
+			textAreaNote = new JTextArea();
+			textAreaNote.setText(notes.get(0).getBody());
+			JScrollPane scrollPaneNote= new JScrollPane(textAreaNote);
+			gc.weightx=1;
+			gc.weighty=1;
+			gc.gridx = 0;
+			gc.gridy = 1;
+			gc.fill=GridBagConstraints.BOTH;
+			gc.anchor= GridBagConstraints.LINE_START;
+			gc.insets = new Insets(10, 10, 10, 10);
+			contentNote.add(scrollPaneNote,gc);
+			
+	}
+	
 	/**
 	 * metodo per creare i vari componenti
 	 */
 	private void buildComponent(){
+		//bottoni vari
 		btnRefresh = new JButton("Refresh");
 		btnNewNote = new JButton("+");
 		comboLabels = new JComboBox();
@@ -206,7 +272,16 @@ public class NoteView extends JPanel {
 		comboColors.setModel(new DefaultComboBoxModel(colors));
 		comboLabels.setToolTipText("");
 		contentModify.add(comboColors);
+		
+		btnSave = new JButton("save");
+		contentModify.add(btnSave);
+		
+		//lista note
 		refreshNoteList();
+		
+		//modifica nota
+		createModifyNote();
+		
 		
 		
 		
@@ -273,7 +348,7 @@ public class NoteView extends JPanel {
 		gc_3.insets = new Insets(0, 0, 5, 0);
 		this.contentNote = new JPanel();
 		contentNote.setBackground(new Color(240, 230, 140));
-		contentNote.setLayout(null);
+//		contentNote.setLayout(null);
 		gc_3.weightx=1;
 		gc_3.weighty=1.0;
 		gc_3.gridx = 1;
@@ -305,5 +380,4 @@ public class NoteView extends JPanel {
 		
 		
 	}
-
 }
