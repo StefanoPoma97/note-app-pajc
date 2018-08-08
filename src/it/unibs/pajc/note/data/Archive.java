@@ -115,7 +115,9 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 		elements = new ArrayList<E>();
 	}
 	
-	
+	public void setElements(List<E> _elements){
+		elements=_elements;
+	}
 	
 
 	

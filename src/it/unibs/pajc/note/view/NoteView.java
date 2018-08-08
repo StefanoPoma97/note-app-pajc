@@ -92,9 +92,43 @@ public class NoteView extends JPanel {
 	 */
 	private void actionListener(){
 		//Action Listener
+		
+		comboLabels.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String label = (String)comboLabels.getSelectedItem();
+				if (label==""){
+					notes= (ArrayList<Note>)noteArchive.all();
+				}
+				else
+					notes=(ArrayList<Note>)noteArchive.getWhere(x-> x.getLabels().contains(label));
+				refreshNoteList();
+			}
+		});
+		
 		comboColors.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				switch ((String)comboColors.getSelectedItem()) {
+				case "White":{
+					textAreaNote.setBackground(Color.white);
+					textFieldTitleNote.setBackground(Color.white);
+					break;
+				}
+				case "Yellow":
+					textAreaNote.setBackground(Color.yellow);
+					textFieldTitleNote.setBackground(Color.yellow);
+					break;
+				case "Green":
+					textAreaNote.setBackground(Color.green);
+					textFieldTitleNote.setBackground(Color.green);
+					break;
+				case "Purple":
+					textAreaNote.setBackground(Color.magenta);
+					textFieldTitleNote.setBackground(Color.magenta);
+					break;
 				
+					default:
+						break;
+							}
 						}
 		});
 		
@@ -107,6 +141,7 @@ public class NoteView extends JPanel {
 		comboFilter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				switch ((String)comboFilter.getSelectedItem()) {
+				//TODO implementare ordinamento alfabetico per titolo
 				case "Titolo":{
 					noteArchive.removeAll();
 					for(int i=notes.size()-1; i>=0; i--){
@@ -115,11 +150,15 @@ public class NoteView extends JPanel {
 					refreshNoteList();
 					break;
 				}
-				case "Autore":
-					comboFilter.setBackground(Color.YELLOW);
+				case "Dats":
+					
 					break;
+					//TODO implementare ordinamento per numero Like
 				case "Like":
-					comboFilter.setBackground(Color.GREEN);
+					
+					break;
+				case "Pinned":
+					
 					break;
 				
 					
@@ -148,6 +187,7 @@ public class NoteView extends JPanel {
 					noteArchive.update(note, modifyID);
 				
 				modifyID= null;
+				notes= (ArrayList<Note>)noteArchive.all();
 				refreshNoteList();
 			}
 		});
@@ -160,11 +200,15 @@ public class NoteView extends JPanel {
 	 * al server tutte le info necessarie
 	 */
 	private void loadInfo(){
-		labels=new String[] {"", "Riunione", "Memo", "Link"};
-		filters=new String[] {"", "Titolo", "Autore", "Like"};
+		labels=new String[] {"", "Riunione", "Memo"};
+		filters=new String[] {"", "Titolo", "Data", "Like", "Pinned"};
 		for (int i=0; i<5; i++){
 			Note nota = new Note("titolo"+i);
 			nota.setBody("corpo della nota numero: "+i);
+			if(i==0)
+			nota.addLabel("Riunione");
+			if (i==1)
+				nota.addLabel("Memo");
 			noteArchive.add(nota);
 		}
 		notes=(ArrayList<Note>)noteArchive.all();	
@@ -176,7 +220,7 @@ public class NoteView extends JPanel {
 
 		contentList.removeAll();
 		contentList.revalidate();
-		notes=(ArrayList<Note>)noteArchive.all();
+//		notes=(ArrayList<Note>)noteArchive.all();
 		contentList.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		for (int i=0; i<notes.size(); i++){

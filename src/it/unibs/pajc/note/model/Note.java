@@ -1,6 +1,7 @@
 package it.unibs.pajc.note.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class Note extends Identifiable implements Serializable{
 	private boolean isPublic;
 	private User author;
 	private Set<Tag> tags;
+	private ArrayList<String> labels= new ArrayList<>();
 
 	public Note(String _title) {
 		this.title = _title;
@@ -26,6 +28,18 @@ public class Note extends Identifiable implements Serializable{
 
 	public void addTag(Tag newTag) {
 		tags.add(newTag);
+	}
+
+	public ArrayList<String> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(ArrayList<String> labels) {
+		this.labels = labels;
+	}
+
+	public void addLabel(String lb){
+		labels.add(lb);
 	}
 
 

@@ -15,8 +15,7 @@ public class UserController extends Controller<User> {
 	}
 
 	public Boolean login(String name, String password) {
-		System.out.println("info arrivate: nome= " + name + " pass= " + password);
-		
+		System.out.println("info arrivate per il Login: nome= " + name + " pass= " + password);
 		UserArchive users = (UserArchive) archive;
 		
 		Boolean validate = users.authenticate(name, password);
@@ -29,7 +28,7 @@ public class UserController extends Controller<User> {
 	}
 
 	public ValidationError create(String username, String password) {
-		System.out.println("info arrivate: nome= " + username + " pass= " + password);
+		System.out.println("info arrivate per creazione account: nome= " + username + " pass= " + password);
 		User u = new User(username, password);
 		return archive.add(u);
 	}
