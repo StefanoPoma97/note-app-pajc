@@ -80,27 +80,27 @@ public class NoteView extends JPanel {
 	 * Create the panel. (Costruttore)
 	 */
 	public NoteView(MainView view) {
-		loadInfo();
+		loadInfo(view);
 		buildContent();
 		buildComponent();
-		actionListener();
+		actionListener(view);
 		
 	}
 	
 	/**
 	 * metodo per specificare gli actionListener di tutti i componenti
 	 */
-	private void actionListener(){
+	private void actionListener(MainView view){
 		//Action Listener
 		
 		comboLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String label = (String)comboLabels.getSelectedItem();
-				if (label==""){
-					notes= (ArrayList<Note>)noteArchive.all();
+				if (label==""){ //tutte le note
+					notes=view.getMyNote();
 				}
 				else
-					notes=(ArrayList<Note>)noteArchive.getWhere(x-> x.getLabels().contains(label));
+					notes=view.getNotesByLabel(label);
 				refreshNoteList();
 			}
 		});
@@ -199,28 +199,29 @@ public class NoteView extends JPanel {
 	 * si appoggerà a NoteController che a sua volta tramite la classe Client richiederà
 	 * al server tutte le info necessarie
 	 */
-	private void loadInfo(){
-		labels=new String[] {"", "Riunione", "Memo"};
-		filters=new String[] {"", "Titolo", "Data", "Like", "Pinned"};
-		for (int i=0; i<5; i++){
-			Note nota = new Note("titolo"+i);
-			nota.setBody("corpo della nota numero: "+i);
-			if(i==0)
-			nota.addLabel("Riunione");
-			if (i==1)
-				nota.addLabel("Memo");
-			noteArchive.add(nota);
-		}
-		notes=(ArrayList<Note>)noteArchive.all();	
+	private void loadInfo(MainView view){
+		//carico le mie note
+		notes=view.getMyNote();
+		
+		//carico le mie labels
+		ArrayList<String> _labels = new ArrayList<>();
+		_labels=view.getMyLabel();
+		_labels.add(0, "");
+		labels=_labels.toArray(new String[_labels.size()]);
+		
+		//carico i filtri
+		filters=new String[] {"", "Titolo", "Data", "Like", "Pinned"};	
 	}
 	
 	
 
+	/**
+	 * appoggiandosi al arraylist notes crea la lista
+	 */
 	private void refreshNoteList(){
 
 		contentList.removeAll();
 		contentList.revalidate();
-//		notes=(ArrayList<Note>)noteArchive.all();
 		contentList.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		for (int i=0; i<notes.size(); i++){
@@ -274,6 +275,9 @@ public class NoteView extends JPanel {
 		
 	}
 	
+	/**
+	 * crea l'area di modifica per la nota selezionata
+	 */
 	private void createModifyNote(){
 		contentNote.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();

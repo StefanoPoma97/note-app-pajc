@@ -49,7 +49,15 @@ public class LoginView extends JPanel {
 	public LoginView(MainView view) {
 		setPreferredSize(new Dimension(500, 500));
 		this.build();
-		
+		this.actionListener(view);
+
+	}
+	
+	/**
+	 * metodo per settare tutti gli actionListener necessari
+	 * @param view
+	 */
+	private void actionListener(MainView view){
 		//ACTION LISTENER
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -69,8 +77,11 @@ public class LoginView extends JPanel {
 		btnCreateAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 						ValidationError validate= view.create(textFieldName.getText(), textFieldPassword.getText());
-						if (validate.equals(ValidationError.CORRECT))
+						if (validate.equals(ValidationError.CORRECT)){
 							setVisible(false);
+						}
+							
+						
 						else{
 							textFieldName.setText("");
 							textFieldPassword.setText("");
@@ -78,8 +89,6 @@ public class LoginView extends JPanel {
 						}
 			}
 		});
-		
-		
 	}
 	
 	/**

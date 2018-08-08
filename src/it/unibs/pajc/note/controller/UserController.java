@@ -3,17 +3,25 @@ package it.unibs.pajc.note.controller;
 import it.unibs.pajc.note.data.UserArchive;
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
-
 public class UserController extends Controller<User> {
 
 
+	/**
+	 * costruttore
+	 */
 	public UserController() {
+		//questo è solo per test, in realtà avrà un istanza di Client che connettendosi al server avrà accesso all'archivio
 		archive = new UserArchive();
-		// solo per test
 		archive.add(new User("paolo", "merazza"));
 		archive.add(new User("utente1", "pass1"));
 	}
 
+	/**
+	 * metodo per verificare un login
+	 * @param name
+	 * @param password
+	 * @return un boolean (valido o non valido)
+	 */
 	public Boolean login(String name, String password) {
 		System.out.println("info arrivate per il Login: nome= " + name + " pass= " + password);
 		UserArchive users = (UserArchive) archive;
@@ -27,6 +35,12 @@ public class UserController extends Controller<User> {
 		return validate;
 	}
 
+	/**
+	 * metodo per creare un nuovo account
+	 * @param username
+	 * @param password
+	 * @return ValidateError
+	 */
 	public ValidationError create(String username, String password) {
 		System.out.println("info arrivate per creazione account: nome= " + username + " pass= " + password);
 		User u = new User(username, password);

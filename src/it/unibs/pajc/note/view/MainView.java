@@ -2,15 +2,24 @@ package it.unibs.pajc.note.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.util.ArrayList;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import it.unibs.pajc.note.controller.NoteController;
 import it.unibs.pajc.note.controller.UserController;
+import it.unibs.pajc.note.model.Note;
+import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
 import java.awt.GridBagLayout;
 
@@ -18,19 +27,29 @@ public class MainView {
 
 	private JFrame frame;
 	
-	//stringhe utili per passare info con il loginView
+	//Login View
+	private LoginView loginView;
 	private String name= null;
 	private String password=null;
+	private User utente=null;
 	private UserController userController=new UserController();
-//	private NoteController noteController=null;
+	
+	//Note View
+	private NoteView noteView=null;
+	private String title= null;
+	private String body= null;
+	private Integer modifyID= null;
+	private NoteController noteController=new NoteController();
 	
 	//componenti utilizzati
 	private JTextArea textArea;
-	private LoginView loginView;
+	private JPanel contentPanel;
+	
+	
 
 	
 	
-	
+	//Metodi per LoginView
 	/**
 	 * Metodo utilizzato nel LoginView che permette di passare nome password 
 	 * restituisce true se il login ï¿½ possibile
@@ -38,7 +57,14 @@ public class MainView {
 	 * @param _pass
 	 */
 	public Boolean login(String _name, String _pass){
-		return userController.login(_name, _pass);
+		Boolean validate = userController.login(_name, _pass);
+		if (validate){
+			utente= new User(_name, _pass);
+			initializeNoteView();
+			System.out.println("salvato utente: "+utente);
+		}
+			
+		return validate;
 	}
 	
 	/**
@@ -48,10 +74,31 @@ public class MainView {
 	 * @return ValidationError
 	 */
 	public ValidationError create(String name, String pass){
-		
-		return userController.create(name, pass);
+		ValidationError validate = userController.create(name, pass);
+		if (validate.equals(ValidationError.CORRECT)){
+			utente= new User(name, pass);
+			initializeNoteView();
+			System.out.println("salvato utente: "+utente);
+		}
+		return validate;
 	}
 
+	public ArrayList<Note> getMyNote(){
+		return noteController.getMyNote(utente);
+	}
+	
+	public ArrayList<String> getMyLabel(){
+		return noteController.getMyLabel(utente);
+	}
+	
+	public ArrayList<Note> getNotesByLabel(String label){
+		return noteController.getNotesByLabel(label);
+	}
+	
+	
+	
+	
+	
 	
 	/**
 	 * Launch the application.
@@ -86,21 +133,33 @@ public class MainView {
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		//Pannello principale
-		JPanel contentPanel = new JPanel();
+		contentPanel = new JPanel();
 		frame.getContentPane().add(contentPanel);
-		contentPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		contentPanel.setLayout(new GridBagLayout());
 		
-		//Login View
+		//GridBgLayout per il pannello principale
 		loginView = new LoginView(this);
-		contentPanel.add(loginView);
-						
-		//pannello per messaggi di utilità
-		JPanel contentMessage = new JPanel();
-		contentMessage.setBorder(new LineBorder(new Color(0, 0, 0)));
-		frame.getContentPane().add(contentMessage, BorderLayout.SOUTH);
-		contentMessage.setLayout(new BorderLayout(0, 0));
-		textArea = new JTextArea();
-		contentMessage.add(textArea);
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.weightx=1;
+		gc.weighty=1;
+		gc.gridx = 0;
+		gc.gridy = 0;
+		gc.fill= GridBagConstraints.BOTH;
+		contentPanel.add(loginView, gc);
+
 
 	}
+	
+	private void initializeNoteView(){
+		noteView = new NoteView(this);
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.weightx=1;
+		gc.weighty=1;
+		gc.gridx = 0;
+		gc.gridy = 0;
+		gc.fill= GridBagConstraints.BOTH;
+		contentPanel.add(noteView, gc);
+	}
 }
+
+
