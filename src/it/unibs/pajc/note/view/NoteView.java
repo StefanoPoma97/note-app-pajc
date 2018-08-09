@@ -203,17 +203,30 @@ public class NoteView extends JPanel {
 				System.out.println("ID che sto modificando "+modifyID);
 				if (modifyID==null){
 					validate = view.addNote(note);
+					if (validate.equals(ValidationError.TITLE_EMPTY)){
+						showMessage(validate);
+						return;
+					}
 					System.out.println("nota aggiunta");
 					notes=view.getMyNote();
+					textFieldTitleNote.setText("Select one note...");
+					textAreaNote.setText("");
 		
 				}
 					
 				else{
 					System.out.println("entro nel ELSE");
 					validate=view.update(note, modifyID);
+					if (validate.equals(ValidationError.TITLE_EMPTY)){
+						showMessage(validate);
+						return;
+					}
 					System.out.println("nota aggiornata");
 					notes=view.getMyNote();
 					modifyID= null;
+					textFieldTitleNote.setText("Select one note...");
+					textAreaNote.setText("");
+		
 				}
 				
 				refreshNoteList(view);
@@ -256,10 +269,26 @@ public class NoteView extends JPanel {
 			
 			gc = new GridBagConstraints();
 			JLabel lbl_title = new JLabel();
-			lbl_title.setText(notes.get(i).getTitle());
+			//titolo con una lunghezza massima
+			String titolo="12345678901";
+			StringBuffer str= new StringBuffer();
+			int count=0;
+			for (char c : titolo.toCharArray()) {
+			  if(count<15){
+				  str.append(c);
+			  }
+			  else{
+				  str.append("...");
+				  break;
+			  }
+			  count++;
+			}
+			
+			
+			lbl_title.setText(str.toString());
 			lbl_title.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_title.setVerticalAlignment(SwingConstants.CENTER);
-			lbl_title.setPreferredSize(new Dimension(600, 20));
+			lbl_title.setPreferredSize(new Dimension(100, 20));
 			gc.gridx = 0;
 			gc.gridy = i;
 			gc.fill=GridBagConstraints.BOTH;
@@ -269,10 +298,24 @@ public class NoteView extends JPanel {
 			//TODO trovare un modo per non far comparire tutto il testo ma solo TOT caratteri
 			gc = new GridBagConstraints();
 			JLabel lbl_name = new JLabel();
-			lbl_name.setText(notes.get(i).getBody());
+			
+			String corpo=notes.get(i).getBody();
+			str= new StringBuffer();
+			count=0;
+			for (char c : corpo.toCharArray()) {
+			  if(count<20){
+				  str.append(c);
+			  }
+			  else{
+				  str.append("...");
+				  break;
+			  }
+			  count++;
+			}
+			lbl_name.setText(str.toString());
 			lbl_name.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_name.setVerticalAlignment(SwingConstants.CENTER);
-			lbl_name.setPreferredSize(new Dimension(600, 20));
+			lbl_name.setPreferredSize(new Dimension(300, 20));
 			gc.gridx = 1;
 			gc.gridy = i;
 			gc.insets = new Insets(10, 10, 10, 10);
@@ -285,6 +328,7 @@ public class NoteView extends JPanel {
 			
 			gc.gridx = 2;
 			gc.gridy = i;
+			gc.weightx=0;
 			gc.insets = new Insets(10, 10, 10, 10);
 			gc.fill=GridBagConstraints.BOTH;
 			contentList.add(btn_modify,gc);
@@ -299,7 +343,10 @@ public class NoteView extends JPanel {
 			});
 			
 		}
+		
 		contentList.repaint();
+		textFieldTitleNote.setText("Select one note...");
+		textAreaNote.setText("");
 		repaint();
 		System.out.println("refresh");
 		
@@ -316,7 +363,7 @@ public class NoteView extends JPanel {
 			textFieldTitleNote = new JTextField();
 			textFieldTitleNote.setHorizontalAlignment(SwingConstants.LEFT);
 //			textFieldTitle.setVerticalAlignment(SwingConstants.CENTER);
-			textFieldTitleNote.setText(notes.get(0).getTitle());
+			textFieldTitleNote.setText("Select one note...");
 			textFieldTitleNote.setPreferredSize(new Dimension(100, 30));
 			gbc_textFieldTitleNote.weightx=1;
 			gbc_textFieldTitleNote.gridx = 0;
@@ -328,7 +375,7 @@ public class NoteView extends JPanel {
 			
 			gc = new GridBagConstraints();
 			textAreaNote = new JTextArea();
-			textAreaNote.setText(notes.get(0).getBody());
+			textAreaNote.setText("");
 			JScrollPane scrollPaneNote= new JScrollPane(textAreaNote);
 			gc.weightx=1;
 			gc.weighty=1;
@@ -377,12 +424,13 @@ public class NoteView extends JPanel {
 		btnSave = new JButton("save");
 		contentModify.add(btnSave);
 		
-		//lista note
-		refreshNoteList(view);
+		
 		
 		//modifica nota
 		createModifyNote();
 		
+		//lista note
+		refreshNoteList(view);
 		
 		
 		
