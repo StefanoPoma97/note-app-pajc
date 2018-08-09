@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Set;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ import javax.swing.border.LineBorder;
 import it.unibs.pajc.note.controller.NoteController;
 import it.unibs.pajc.note.controller.UserController;
 import it.unibs.pajc.note.model.Note;
+import it.unibs.pajc.note.model.Tag;
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
 import java.awt.GridBagLayout;
@@ -89,11 +91,19 @@ public class MainView {
 	}
 	
 	public ArrayList<String> getMyLabel(){
-		return noteController.getMyLabel(utente);
+		return userController.getLabelsByUser(utente);
+	}
+	
+//	public Set<Tag> getMyLabel(){
+//		return userController.getLabelsByUser(utente);
+//	}
+	
+	public boolean addLabel(String label){
+		return userController.addLabel(label, utente);
 	}
 	
 	public ArrayList<Note> getNotesByLabel(String label){
-		return noteController.getNotesByLabel(label);
+		return noteController.getNotesByLabel(label, utente);
 	}
 	
 	public ValidationError addNote (Note n){

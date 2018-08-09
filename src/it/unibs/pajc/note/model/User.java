@@ -1,6 +1,7 @@
 package it.unibs.pajc.note.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ public class User extends Identifiable implements Serializable {
 	private String password;
 	//ha senso che sia un HashSet?
 	private Set<Tag> personalTag = new HashSet<Tag>();
+	private ArrayList<String> labels= new ArrayList<>();
 
 	public User(String name, String password) {
 		this.name = name;
@@ -39,6 +41,7 @@ public class User extends Identifiable implements Serializable {
 
 	//TODO null pointer eccezione!
 	public void addTag(Tag newTag) {
+		if(!personalTag.contains(newTag))
 		personalTag.add(newTag);
 	}
 
@@ -46,6 +49,20 @@ public class User extends Identifiable implements Serializable {
 		return personalTag;
 	}
 
+	public ArrayList<String> getLabel(){
+		return labels;
+	}
+	
+	public boolean addLabel(String lb){
+		if(labels.contains(lb)){
+			return false;
+		}
+		else{
+			labels.add(lb);
+			return true;
+		}
+	}
+	
 	@Override
 	public String toString() {
 

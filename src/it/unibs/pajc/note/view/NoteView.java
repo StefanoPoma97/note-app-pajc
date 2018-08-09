@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
@@ -13,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
+import it.unibs.pajc.note.model.Tag;
 import it.unibs.pajc.note.status.ValidationError;
 
 import java.awt.Color;
@@ -39,6 +42,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTextField;
+import java.awt.Font;
 
 
 public class NoteView extends JPanel {
@@ -77,6 +81,11 @@ public class NoteView extends JPanel {
 	JLabel lbl_title = new JLabel();
 	private NoteArchive noteArchive= new NoteArchive();
 	
+	private JTextField textFieldNewLabel;
+	private JButton btnAddLabel;
+	
+	private ArrayList<String> temporanyLabels = new ArrayList<>();
+	
 
 	 /* metodo per far apparire messaggio di errore o segnalazione
 	 * @param in stringa
@@ -110,18 +119,7 @@ public class NoteView extends JPanel {
 	private void actionListener(MainView view){
 		//Action Listener
 		
-		comboLabels.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String label = (String)comboLabels.getSelectedItem();
-				if (label==""){ //tutte le note
-					notes=view.getMyNote();
-				}
-				else
-					//note con un particolare label
-					notes=view.getNotesByLabel(label);
-				refreshNoteList(view);
-			}
-		});
+		
 		
 		comboColors.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -178,9 +176,10 @@ public class NoteView extends JPanel {
 				case "Pinned":
 					
 					break;
-				
+				case "Filters":
+					break;
 					
-					default:
+					default :
 						break;
 							}
 			}
@@ -199,6 +198,7 @@ public class NoteView extends JPanel {
 				
 				Note note = new Note(textFieldTitleNote.getText());
 				note.setBody(textAreaNote.getText());
+				note.addLabels(temporanyLabels);
 				ValidationError validate;
 				System.out.println("ID che sto modificando "+modifyID);
 				if (modifyID==null){
@@ -211,6 +211,9 @@ public class NoteView extends JPanel {
 					notes=view.getMyNote();
 					textFieldTitleNote.setText("Select one note...");
 					textAreaNote.setText("");
+					temporanyLabels=null;
+					refreshButton(view);
+					repaint();
 		
 				}
 					
@@ -226,10 +229,33 @@ public class NoteView extends JPanel {
 					modifyID= null;
 					textFieldTitleNote.setText("Select one note...");
 					textAreaNote.setText("");
+					temporanyLabels=null;
+					refreshButton(view);
+					repaint();
 		
 				}
 				
 				refreshNoteList(view);
+			}
+		});
+		
+		btnAddLabel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (textFieldNewLabel.getText().isEmpty()){
+					
+					showMessage("Label is empty");
+				}
+				else{
+					if (view.addLabel(textFieldNewLabel.getText())){
+						System.out.println("Label aggiunta la utente e salvata nelle temporanee");
+						temporanyLabels.add(textFieldNewLabel.getText());
+						System.out.println(temporanyLabels);
+					}
+					
+//					refreshButton(view);
+//					repaint();
+				}
+				
 			}
 		});
 		
@@ -245,13 +271,21 @@ public class NoteView extends JPanel {
 		notes=view.getMyNote();
 		
 		//carico le mie labels
-		ArrayList<String> _labels = new ArrayList<>();
-		_labels=view.getMyLabel();
-		_labels.add(0, "");
-		labels=_labels.toArray(new String[_labels.size()]);
+//		 HashSet<Tag> _labels = new  HashSet<Tag>();
+//		_labels=(HashSet<Tag>)view.getMyLabel();
+//		System.out.println(_labels);
+//		Tag ar []= _labels.toArray(new Tag[_labels.size()]);
+//		labels= (String[])Arrays.stream(ar)
+//				.map(x->x.toString())
+//				.toArray(size -> new String[size]);
+		
+		ArrayList<String> _labels= new ArrayList<>();
+		_labels= view.getMyLabel();
+		labels= _labels.toArray(new String [_labels.size()]);
+		
 		
 		//carico i filtri
-		filters=new String[] {"", "Titolo", "Data", "Like", "Pinned"};	
+		filters=new String[] {"Filters", "Titolo", "Data", "Like", "Pinned"};	
 	}
 	
 	
@@ -270,7 +304,7 @@ public class NoteView extends JPanel {
 			gc = new GridBagConstraints();
 			JLabel lbl_title = new JLabel();
 			//titolo con una lunghezza massima
-			String titolo="12345678901";
+			String titolo=notes.get(i).getTitle();
 			StringBuffer str= new StringBuffer();
 			int count=0;
 			for (char c : titolo.toCharArray()) {
@@ -295,7 +329,6 @@ public class NoteView extends JPanel {
 			gc.insets = new Insets(10, 10, 10, 10);
 			contentList.add(lbl_title,gc);
 			
-			//TODO trovare un modo per non far comparire tutto il testo ma solo TOT caratteri
 			gc = new GridBagConstraints();
 			JLabel lbl_name = new JLabel();
 			
@@ -368,6 +401,7 @@ public class NoteView extends JPanel {
 			gbc_textFieldTitleNote.weightx=1;
 			gbc_textFieldTitleNote.gridx = 0;
 			gbc_textFieldTitleNote.gridy = 0;
+			gbc_textFieldTitleNote.gridwidth=2;
 			gbc_textFieldTitleNote.fill=GridBagConstraints.HORIZONTAL;
 			gbc_textFieldTitleNote.anchor= GridBagConstraints.LINE_START;
 			gbc_textFieldTitleNote.insets = new Insets(10, 10, 10, 10);
@@ -381,10 +415,41 @@ public class NoteView extends JPanel {
 			gc.weighty=1;
 			gc.gridx = 0;
 			gc.gridy = 1;
+			gc.gridwidth=2;
 			gc.fill=GridBagConstraints.BOTH;
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 10, 10);
 			contentNote.add(scrollPaneNote,gc);
+			
+			gc = new GridBagConstraints();
+			textFieldNewLabel = new JTextField();
+			textFieldNewLabel.setText("");
+			textFieldNewLabel.setPreferredSize(new Dimension(100, 30));
+			gc.weightx=0;
+			gc.weighty=0;
+			gc.gridx = 0;
+			gc.gridy = 2;
+			gc.gridwidth=1;
+			gc.anchor= GridBagConstraints.LINE_START;
+			gc.insets = new Insets(10, 10, 10, 10);
+			contentNote.add(textFieldNewLabel,gc);
+			
+			gc = new GridBagConstraints();
+			btnAddLabel = new JButton();
+			btnAddLabel.setFont(new Font("Tahoma", Font.PLAIN, 9));
+			btnAddLabel.setToolTipText("");
+			btnAddLabel.setText("add new label");
+			btnAddLabel.setName("");
+			btnAddLabel.setPreferredSize(new Dimension(80, 30));
+			gc.weightx=0;
+			gc.weighty=0;
+			gc.gridx = 1;
+			gc.gridy = 2;
+			gc.gridwidth=1;
+			gc.anchor= GridBagConstraints.LINE_START;
+			gc.insets = new Insets(10, 10, 10, 10);
+			contentNote.add(btnAddLabel,gc);
+			
 			
 	}
 	
@@ -393,21 +458,6 @@ public class NoteView extends JPanel {
 	 */
 	private void buildComponent(MainView view){
 		//bottoni vari
-		btnRefresh = new JButton("Refresh");
-		btnNewNote = new JButton("+");
-		comboLabels = new JComboBox();
-		comboLabels.setModel(new DefaultComboBoxModel(labels));
-		comboLabels.setToolTipText("");
-		comboFilter = new JComboBox();
-		comboFilter.setModel(new DefaultComboBoxModel(filters));
-		comboFilter.setToolTipText("");
-		
-		contentButton.add(btnNewNote);
-		contentButton.add(btnRefresh);
-		contentButton.add(comboLabels);
-		contentButton.add(comboFilter);
-		
-		
 		btnExplore = new JButton("Esplora");
 		contentInfo.add(btnExplore);
 		
@@ -415,16 +465,14 @@ public class NoteView extends JPanel {
 		contentModify.add(btnPin);
 		chckbxPublic = new JCheckBox("Public");
 		contentModify.add(chckbxPublic);
-		comboColors = new JComboBox();
-		
-		comboColors.setModel(new DefaultComboBoxModel(colors));
-		comboLabels.setToolTipText("");
-		contentModify.add(comboColors);
-		
 		btnSave = new JButton("save");
 		contentModify.add(btnSave);
+		comboColors = new JComboBox();
+		comboColors.setModel(new DefaultComboBoxModel(colors));
+		contentModify.add(comboColors);
 		
 		
+		refreshButton(view);
 		
 		//modifica nota
 		createModifyNote();
@@ -435,6 +483,45 @@ public class NoteView extends JPanel {
 		
 		
 		
+		
+	}
+	
+	private void refreshButton (MainView view){
+		
+		contentButton.removeAll();
+		contentButton.revalidate();
+		
+		btnRefresh = new JButton("Refresh");
+		btnNewNote = new JButton("+");	
+		contentButton.add(btnNewNote);
+		contentButton.add(btnRefresh);
+		
+		ArrayList<String> _labels= new ArrayList<>();
+		_labels= view.getMyLabel();
+		labels= _labels.toArray(new String [_labels.size()]);
+		comboLabels = new JComboBox();
+		comboLabels.setModel(new DefaultComboBoxModel(labels));
+		comboLabels.setToolTipText("");
+		comboLabels.setSelectedItem("Labels");
+		comboFilter = new JComboBox();
+		comboFilter.setModel(new DefaultComboBoxModel(filters));
+		comboFilter.setToolTipText("");
+		contentButton.add(comboLabels);
+		contentButton.add(comboFilter);
+		
+		comboLabels.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String label = (String)comboLabels.getSelectedItem();
+				if (label=="Labels"){ //tutte le note
+					notes=view.getMyNote();
+				}
+				else
+					//note con un particolare label
+					notes=view.getNotesByLabel(label);
+				refreshNoteList(view);
+			}
+		});
+		contentButton.repaint();
 		
 	}
 	

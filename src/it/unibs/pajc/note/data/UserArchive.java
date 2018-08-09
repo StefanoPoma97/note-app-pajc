@@ -1,5 +1,9 @@
 package it.unibs.pajc.note.data;
 
+import java.util.ArrayList;
+import java.util.Set;
+
+import it.unibs.pajc.note.model.Tag;
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
 import it.unibs.pajc.note.utility.AuthenticationUtility;
@@ -62,5 +66,25 @@ public class UserArchive extends Archive<User> {
 			return false;
 	}
 	
+	public Set<Tag> getTagsByUser(User us){
+		return getWhere(x->x.getID()==us.getID()).get(0).getPersonalTag();
+	}
+	
+	public void addTag(Tag tag, User us){
+		getWhere(x->x.getID()==us.getID()).get(0).addTag(tag);
+		System.out.println("label aggiunta con successo");
+		System.out.println(getWhere(x->x.getID()==us.getID()).get(0).getPersonalTag());
+	}
+	
+	public ArrayList<String> getlabelsByUser(User u){
+		return getWhere(x->x.getID()==u.getID()).get(0).getLabel();
+	}
+	
+	public boolean addLabel (String label, User us){
+		boolean out= getWhere(x->x.getID()==us.getID()).get(0).addLabel(label);
+		System.out.println("label aggiunta con successo");
+		System.out.println(getWhere(x->x.getID()==us.getID()).get(0).getLabel());
+		return out;
+	}
 
 }

@@ -38,10 +38,30 @@ public class Note extends Identifiable implements Serializable{
 		this.labels = labels;
 	}
 
-	public void addLabel(String lb){
-		labels.add(lb);
+	public boolean addLabel(String lb){
+		if(labels.contains(lb)){
+			return false;
+		}
+		else{
+			labels.add(lb);
+			return true;
+		}
+
 	}
 
+	public ArrayList<String> getLabel (){
+		return labels;
+	}
+	
+	public void addLabels(ArrayList<String> la) {
+		System.out.println("STO AGGIUNGENDO LABELS "+la);
+		for(int i=0; i<la.size(); i++){
+			labels.add(la.get(i));
+			System.out.println("STO AGGIUNGENDO: "+la.get(i));
+			
+		}
+		System.out.println("aggiunta con successo labels alla nota");
+	}
 
 	public void setTitle(String title) {
 		this.title = title;
