@@ -106,6 +106,10 @@ public class MainView {
 		return noteController.getNotesByLabel(label, utente);
 	}
 	
+	public ArrayList<String> getLabelsByNote(String title){
+		return noteController.getLabelsByNote(title, utente);
+	}
+	
 	public ValidationError addNote (Note n){
 		n.setAutor(utente);
 		return noteController.addNote(n);

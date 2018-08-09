@@ -54,11 +54,9 @@ public class Note extends Identifiable implements Serializable{
 	}
 	
 	public void addLabels(ArrayList<String> la) {
-		System.out.println("STO AGGIUNGENDO LABELS "+la);
-		for(int i=0; i<la.size(); i++){
-			labels.add(la.get(i));
-			System.out.println("STO AGGIUNGENDO: "+la.get(i));
-			
+		for(String str: la){
+			labels.add(str);
+			System.out.println("STO AGGIUNGENDO: "+str);
 		}
 		System.out.println("aggiunta con successo labels alla nota");
 	}

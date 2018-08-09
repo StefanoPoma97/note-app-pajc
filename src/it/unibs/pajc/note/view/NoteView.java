@@ -85,6 +85,8 @@ public class NoteView extends JPanel {
 	private JButton btnAddLabel;
 	
 	private ArrayList<String> temporanyLabels = new ArrayList<>();
+	private boolean nuova=false;
+	private boolean modifica=false;
 	
 
 	 /* metodo per far apparire messaggio di errore o segnalazione
@@ -187,6 +189,9 @@ public class NoteView extends JPanel {
 		
 		btnNewNote.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				temporanyLabels= new ArrayList<>();
+				nuova=true;
+				modifica=false;
 				modifyID=null;
 				textAreaNote.setText("");
 				textFieldTitleNote.setText("");
@@ -198,6 +203,7 @@ public class NoteView extends JPanel {
 				
 				Note note = new Note(textFieldTitleNote.getText());
 				note.setBody(textAreaNote.getText());
+				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
 				note.addLabels(temporanyLabels);
 				ValidationError validate;
 				System.out.println("ID che sto modificando "+modifyID);
@@ -212,13 +218,13 @@ public class NoteView extends JPanel {
 					textFieldTitleNote.setText("Select one note...");
 					textAreaNote.setText("");
 					temporanyLabels=null;
+					nuova=false;
 					refreshButton(view);
 					repaint();
 		
 				}
 					
 				else{
-					System.out.println("entro nel ELSE");
 					validate=view.update(note, modifyID);
 					if (validate.equals(ValidationError.TITLE_EMPTY)){
 						showMessage(validate);
@@ -229,7 +235,8 @@ public class NoteView extends JPanel {
 					modifyID= null;
 					textFieldTitleNote.setText("Select one note...");
 					textAreaNote.setText("");
-					temporanyLabels=null;
+					temporanyLabels=new ArrayList<>();
+					modifica=false;
 					refreshButton(view);
 					repaint();
 		
@@ -246,14 +253,15 @@ public class NoteView extends JPanel {
 					showMessage("Label is empty");
 				}
 				else{
-					if (view.addLabel(textFieldNewLabel.getText())){
+					if(view.addLabel(textFieldNewLabel.getText()) && view.getMyLabel().size()>10){
+						showMessage("Max number of Label reach");
+					}
+					else{
 						System.out.println("Label aggiunta la utente e salvata nelle temporanee");
 						temporanyLabels.add(textFieldNewLabel.getText());
+						textFieldNewLabel.setText("");
 						System.out.println(temporanyLabels);
 					}
-					
-//					refreshButton(view);
-//					repaint();
 				}
 				
 			}
@@ -368,8 +376,13 @@ public class NoteView extends JPanel {
 			btn_modify.setToolTipText("Modifica");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					temporanyLabels= new ArrayList<>();
+					nuova=false;
+					modifica=true;
 					textFieldTitleNote.setText(lbl_title.getText());
 					textAreaNote.setText(lbl_name.getText());
+					temporanyLabels= view.getLabelsByNote(lbl_title.getText());
+					System.out.println("TEMPORANY LABEL DI QUESTA NOTA: "+temporanyLabels);
 					modifyID= view.getIDbyTitle(lbl_title.getText());
 					System.out.println("ID Della nota selezionata:  "+modifyID);
 				}

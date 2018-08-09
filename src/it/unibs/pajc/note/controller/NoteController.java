@@ -63,7 +63,12 @@ public class NoteController extends Controller<Note>{
 		return notes;
 	}
 	
-	
+public ArrayList<String> getLabelsByNote(String title, User us){
+	System.out.println("GET labes by note");
+	ArrayList<Note> out= (ArrayList<Note>)noteArchive.getWhere(x->x.getAuthor().equals(us));
+	ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getTitle().equals(title)).collect(Collectors.toList());
+	return out2.get(0).getLabel();
+	}
 
 	
 	public ArrayList<Note> getNotesByLabel(String label, User us){
@@ -100,4 +105,6 @@ public class NoteController extends Controller<Note>{
 		Note n = new Note(title);
 		return archive.add(n);
 	}
+	
+	
 }
