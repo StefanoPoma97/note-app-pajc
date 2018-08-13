@@ -1,48 +1,31 @@
 package it.unibs.pajc.note.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 
-import javax.swing.JFormattedTextField;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
-import it.unibs.pajc.note.model.Tag;
 import it.unibs.pajc.note.status.ValidationError;
-
-import java.awt.Color;
-import java.awt.Cursor;
-
-import javax.swing.JButton;
-import javax.swing.BoxLayout;
-import javax.swing.JToolBar;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JToggleButton;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.GridLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JTextField;
-import java.awt.Font;
 
 
 public class NoteView extends JPanel {
@@ -70,7 +53,7 @@ public class NoteView extends JPanel {
 	private String[] labels = new String[] {};
 	private String[] filters = new String[] {};
 	private String[] colors = new String[] {"", "White", "Yellow", "Green","Purple"};
-	//array che conterrà solo le note visualizzabili in questo momento (non necessariamente tutto l'archivio)
+	//array che conterrï¿½ solo le note visualizzabili in questo momento (non necessariamente tutto l'archivio)
 	private ArrayList <Note> notes= new ArrayList<>();
 	private Integer modifyID= null;
 	private JTextField textFieldTitle;
@@ -271,7 +254,7 @@ public class NoteView extends JPanel {
 	
 	/**
 	 * metodo per caricare tutte le informazioni per il primo avvio
-	 * si appoggerà a NoteController che a sua volta tramite la classe Client richiederà
+	 * si appoggerï¿½ a NoteController che a sua volta tramite la classe Client richiederï¿½
 	 * al server tutte le info necessarie
 	 */
 	private void loadInfo(MainView view){
