@@ -185,11 +185,17 @@ public class NoteView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				Note note = new Note(textFieldTitleNote.getText());
+				if(textFieldTitleNote.getText().toCharArray().length>15){
+					showMessage("Title max length = 15!!");
+					textFieldTitleNote.setText("");
+					return;
+				}
 				note.setBody(textAreaNote.getText());
 				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
 				note.addLabels(temporanyLabels);
 				ValidationError validate;
 				System.out.println("ID che sto modificando "+modifyID);
+				
 				if (modifyID==null){
 					validate = view.addNote(note);
 					if (validate.equals(ValidationError.TITLE_EMPTY)){
@@ -357,13 +363,14 @@ public class NoteView extends JPanel {
 			gc.fill=GridBagConstraints.BOTH;
 			contentList.add(btn_modify,gc);
 			btn_modify.setToolTipText("Modifica");
+			btn_modify.setActionCommand(corpo);
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					temporanyLabels= new ArrayList<>();
 					nuova=false;
 					modifica=true;
 					textFieldTitleNote.setText(lbl_title.getText());
-					textAreaNote.setText(lbl_name.getText());
+					textAreaNote.setText(btn_modify.getActionCommand());
 					temporanyLabels= view.getLabelsByNote(lbl_title.getText());
 					System.out.println("TEMPORANY LABEL DI QUESTA NOTA: "+temporanyLabels);
 					modifyID= view.getIDbyTitle(lbl_title.getText());
