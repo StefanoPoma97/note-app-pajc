@@ -33,8 +33,5 @@ public class AuthenticationUtility {
 		return hashToString(digest.digest(text.getBytes(StandardCharsets.UTF_8)));
 	}
 	
-//	public static String generateHashString(String text) {
-//		return hashToString(generateHash(text));
-//	}
 
 }

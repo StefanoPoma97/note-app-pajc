@@ -29,6 +29,13 @@ public class NoteArchive extends Archive<Note> {
 		return elements.toString();
 	}
 	
+	/**
+	 * dato titolo e autore restituisce true
+	 * se la nota è segnata
+	 * @param titolo
+	 * @param utente
+	 * @return
+	 */
 	public Boolean isPinned (String titolo, User utente){
 		ArrayList<Note> notes= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(utente));
 		return notes.stream()
@@ -38,6 +45,13 @@ public class NoteArchive extends Archive<Note> {
 			
 	}
 	
+	/**
+	 * dato titolo e autore restituisce true
+	 * se la nota è pubblica
+	 * @param titolo
+	 * @param utente
+	 * @return
+	 */
 	public Boolean isPublic (String titolo, User utente){
 		ArrayList<Note> notes= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(utente));
 		return notes.stream()

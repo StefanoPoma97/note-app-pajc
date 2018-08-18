@@ -64,31 +64,37 @@ public class NoteController extends Controller<Note>{
 		}
 	}
 	
+	/**
+	 * restituisce le note di un dato autore
+	 * @param us
+	 * @return
+	 */
 	public ArrayList<Note> getMyNote(User us){
-		System.out.println("sto cercando lista con utente"+us);
-		ArrayList<Note> notes=(ArrayList<Note>)noteArchive.getWhere(x->x.getAuthor().equals(us));
-		if (notes.isEmpty())
-			System.out.println("mie note vuoto");
-		else
-			System.out.println("trovate mie note" + notes.get(0).getTitle());
+		return (ArrayList<Note>)noteArchive.getWhere(x->x.getAuthor().equals(us));
 		
-		return notes;
 	}
 	
+	/**
+	 * restituisce tutte le label associate ad una determinata nota e autore
+	 * @param title
+	 * @param us
+	 * @return
+	 */
 public ArrayList<String> getLabelsByNote(String title, User us){
-	System.out.println("GET labes by note");
 	ArrayList<Note> out= (ArrayList<Note>)noteArchive.getWhere(x->x.getAuthor().equals(us));
 	ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getTitle().equals(title)).collect(Collectors.toList());
 	return out2.get(0).getLabel();
 	}
 
-	
+	/**
+	 * restituisce tutte le note associate ad una detrminata label e autore
+	 * @param label
+	 * @param us
+	 * @return
+	 */
 	public ArrayList<Note> getNotesByLabel(String label, User us){
-		System.out.println("GET note by labels");
 		ArrayList<Note> out= (ArrayList<Note>)noteArchive.getWhere(x->x.getAuthor().equals(us));
-		System.out.println(out);
 		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getLabel().contains(label)).collect(Collectors.toList());
-		System.out.println(out2);
 		return out2;
 		
 	}

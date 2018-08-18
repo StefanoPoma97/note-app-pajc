@@ -10,6 +10,11 @@ public class ServizioFile
 	private final static String MSG_NO_SCRITTURA = "ATTENZIONE: PROBLEMI CON LA SCRITTURA DEL FILE ";
 	private final static String MSG_NO_CHIUSURA ="ATTENZIONE: PROBLEMI CON LA CHIUSURA DEL FILE ";
   	
+	/**
+	 * metodo per caricare un singolo oggetto da un file
+	 * @param f
+	 * @return
+	 */
 	public static Object caricaSingoloOggetto (File f)
 	 {
 		 Object letto = null;
@@ -52,9 +57,14 @@ public class ServizioFile
 
 		 return letto;
 		  
-	 } // metodo caricaSingoloOggetto
+	 } 
 	
 	
+	/**
+	 * metodo per salvare un singolo oggetto su di un file
+	 * @param f
+	 * @param daSalvare
+	 */
 	public static void salvaSingoloOggetto (File f, Object daSalvare)
 	 {
 		 ObjectOutputStream uscita = null;
@@ -85,9 +95,9 @@ public class ServizioFile
 			 			System.out.println(MSG_NO_CHIUSURA + f.getName() );
 					}
 				}
-			} // finally
+			} 
 
-		 } // metodo salvaSingoloOggetto
+		 } 
 	
 	
 }

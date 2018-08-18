@@ -10,6 +10,11 @@ public class Database implements Serializable {
 	public Database (){
 	}
 	
+	/**
+	 * classe utile per salvare in un singolo oggetto note e utenti
+	 * @param n
+	 * @param u
+	 */
 	public Database (NoteArchive n, UserArchive u){
 		notes=n;
 		users=u;

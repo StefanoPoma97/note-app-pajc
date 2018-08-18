@@ -63,7 +63,6 @@ public class MainView {
 		if (validate){
 			utente= new User(_name, _pass);
 			initializeNoteView();
-			System.out.println("salvato utente: "+utente);
 		}
 			
 		return validate;
@@ -80,21 +79,34 @@ public class MainView {
 		if (validate.equals(ValidationError.CORRECT)){
 			utente= new User(name, pass);
 			initializeNoteView();
-			System.out.println("salvato utente: "+utente);
 		}
 		return validate;
 	}
 
+	
+	//metodi per NoteView
+	
+	/**
+	 * restituisce tutte le note associate al utente del login
+	 * @return
+	 */
 	public ArrayList<Note> getMyNote(){
-		System.out.println("entro nel main con utente "+utente);
+		
 		return noteController.getMyNote(utente);
 	}
 	
+	/**
+	 * restituisce tutte le label associate all'utente del login
+	 * @return
+	 */
 	public ArrayList<String> getMyLabel(){
 		return userController.getLabelsByUser(utente);
 	}
 	
-	
+	/**
+	 * confronta le label salvate sull'utente e quelle salvate solamente sulle note
+	 * se le label associate all'utente non sono connesse a nessuna nota vengono eliminate
+	 */
 	public void updateMyLabels(){
 		ArrayList<String> userLabels = userController.getLabelsByUser(utente);
 		System.out.println("LABEL DEL UTENTE: "+ userLabels);
@@ -111,27 +123,51 @@ public class MainView {
 		userController.updateLabel(userLabels, utente);
 		
 	}
-//	public Set<Tag> getMyLabel(){
-//		return userController.getLabelsByUser(utente);
-//	}
-	
+
+	/**
+	 * aggiunge una label all'utente del login
+	 * TODO meglio Set?
+	 * @param label
+	 * @return
+	 */
 	public boolean addLabel(String label){
 		return userController.addLabel(label, utente);
 	}
 	
+	/**
+	 * restituisce le note associate ad una label
+	 * @param label
+	 * @return
+	 */
 	public ArrayList<Note> getNotesByLabel(String label){
 		return noteController.getNotesByLabel(label, utente);
 	}
 	
+	/**
+	 * restituisce le labels associate ad una nota
+	 * @param title
+	 * @return
+	 */
 	public ArrayList<String> getLabelsByNote(String title){
 		return noteController.getLabelsByNote(title, utente);
 	}
 	
+	/**
+	 * metodo per aggiungere una nota
+	 * @param n
+	 * @return
+	 */
 	public ValidationError addNote (Note n){
 		n.setAutor(utente);
 		return noteController.addNote(n);
 	}
 	
+	/**
+	 * metodo per aggiornare una nota già essitente
+	 * @param n
+	 * @param ID
+	 * @return
+	 */
 	public ValidationError update(Note n, int ID){
 		n.setAutor(utente);
 		return noteController.update(n, ID);

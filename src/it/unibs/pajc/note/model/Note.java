@@ -39,6 +39,12 @@ public class Note extends Identifiable implements Serializable{
 		this.labels = labels;
 	}
 
+	/**
+	 * aggiunge una nuova label verificando che non sia già presente
+	 * TODO usare un Set?
+	 * @param lb
+	 * @return
+	 */
 	public boolean addLabel(String lb){
 		if(labels.contains(lb)){
 			return false;
@@ -54,6 +60,10 @@ public class Note extends Identifiable implements Serializable{
 		return labels;
 	}
 	
+	/**
+	 * aggiunge più di una label contemporaneamente
+	 * @param la
+	 */
 	public void addLabels(ArrayList<String> la) {
 		for(String str: la){
 			addLabel(str);

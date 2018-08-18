@@ -92,7 +92,7 @@ public class LoginView extends JPanel {
 	}
 	
 	/**
-	 * Metodo per costruire l'interfaccia grafica
+	 * Metodo per costruire l'interfaccia grafica relativa al Login
 	 */
 	private void build() {
 

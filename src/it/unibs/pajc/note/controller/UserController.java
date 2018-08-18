@@ -17,11 +17,6 @@ public class UserController extends Controller<User> {
 		//questo è solo per test, in realtà avrà un istanza di Client che connettendosi al server avrà accesso all'archivio
 		
 		User utente= new User("paolo", "merazza");
-//		utente.addTag(new Tag("Labels"));
-//		utente.addTag(new Tag("Riunione"));
-//		utente.addTag(new Tag("Memo"));
-//		utente.addTag(new Tag("Memo2"));
-//		utente.addTag(new Tag("Memo3"));
 		utente.addLabel("Labels");
 		utente.addLabel("Riunione");
 		utente.addLabel("Memo");
@@ -39,15 +34,10 @@ public class UserController extends Controller<User> {
 	 * @return un boolean (valido o non valido)
 	 */
 	public Boolean login(String name, String password) {
-		System.out.println("info arrivate per il Login: nome= " + name + " pass= " + password);
 		
-		Boolean validate = userArchive.authenticate(name, password);
-		if (validate) {
-			System.out.println("valido");
-		} else {
-			System.out.println("non valido");
-		}
-		return validate;
+		return userArchive.authenticate(name, password);
+
+		
 	}
 
 	/**
@@ -57,7 +47,6 @@ public class UserController extends Controller<User> {
 	 * @return ValidateError
 	 */
 	public ValidationError create(String username, String password) {
-		System.out.println("info arrivate per creazione account: nome= " + username + " pass= " + password);
 		User u = new User(username, password);
 		return userArchive.add(u);
 	}

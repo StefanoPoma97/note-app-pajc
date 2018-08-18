@@ -76,17 +76,32 @@ public class UserArchive extends Archive<User> {
 //		System.out.println(getWhere(x->x.getID()==us.getID()).get(0).getPersonalTag());
 //	}
 	
+	/**
+	 * restituisce le labels associate ad un utente
+	 * @param u
+	 * @return
+	 */
 	public ArrayList<String> getlabelsByUser(User u){
 		return getWhere(x->x.getID()==u.getID()).get(0).getLabel();
 	}
 	
+	/**
+	 * aggiunge una label ad un utente specificato
+	 * @param label
+	 * @param us
+	 * @return
+	 */
 	public boolean addLabel (String label, User us){
-		boolean out= getWhere(x->x.getID()==us.getID()).get(0).addLabel(label);
-		System.out.println("label" +label+" aggiunta con successo al utente: "+us);
-		System.out.println("elenco delle sue labels: "+getWhere(x->x.getID()==us.getID()).get(0).getLabel());
-		return out;
+		return getWhere(x->x.getID()==us.getID()).get(0).addLabel(label);
+		
 	}
 	
+	/**
+	 * permette di aggiornare (sostituire) tutte le labels 
+	 * associate ad un utente specificato
+	 * @param str
+	 * @param us
+	 */
 	public void updateLabel(ArrayList<String>str, User us){
 		getWhere(x->x.getID()==us.getID()).get(0).updateLabel(str);
 	}

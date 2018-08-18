@@ -123,15 +123,11 @@ public class NoteView extends JPanel {
 		filters=new String[] {"Filters", "Titolo", "Data", "Like", "Pinned"};	
 	}
 	
-	
-	/**
-	 * metodo per specificare gli actionListener di tutti i componenti
-	 */
 
 
 	
 	/**
-	 * metodo per creare i vari componenti
+	 * metodo per creare i vari componenti e le funzioni
 	 */
 	private void buildComponent(MainView view){
 		
@@ -149,7 +145,9 @@ public class NoteView extends JPanel {
 	
 	
 	/**
-	 * appoggiandosi al arraylist notes crea la lista
+	 * metodo che aggiorna e scrive la lista delle nostre note
+	 * aggiunge actionlistener al bottone per modificare la singola nota
+	 * TODO implementare una Scroll bar funzionante
 	 */
 	private void refreshNoteList(MainView view){
 
@@ -162,10 +160,10 @@ public class NoteView extends JPanel {
 			
 			gc = new GridBagConstraints();
 			JLabel lbl_title = new JLabel();
-			//titolo con una lunghezza massima
 			String titolo=notes.get(i).getTitle();
 			StringBuffer str= new StringBuffer();
 			int count=0;
+			//per ragioni di semplicità il titolo non può contenere più di 15 caratteri
 			for (char c : titolo.toCharArray()) {
 			  if(count<15){
 				  str.append(c);
@@ -191,6 +189,7 @@ public class NoteView extends JPanel {
 			gc = new GridBagConstraints();
 			JLabel lbl_name = new JLabel();
 			
+			//per ragioni di semplicità il corpo, nella isualizzazione ad elenco, non può contenere più di 20 caratteri
 			String corpo=notes.get(i).getBody();
 			str= new StringBuffer();
 			count=0;
@@ -241,9 +240,7 @@ public class NoteView extends JPanel {
 					textFieldTitleNote.setText(lbl_title.getText());
 					textAreaNote.setText(btn_modify.getActionCommand());
 					temporanyLabels= view.getLabelsByNote(lbl_title.getText());
-					System.out.println("TEMPORANY LABEL DI QUESTA NOTA: "+temporanyLabels);
 					modifyID= view.getIDbyTitle(lbl_title.getText());
-					System.out.println("ID Della nota selezionata:  "+modifyID);
 					refreshLabelPanel(view);
 				}
 			});
@@ -258,9 +255,14 @@ public class NoteView extends JPanel {
 		
 	}
 	
+	/**
+	 * metodo per aggiornare il pannello relativo alle label associate alla nota che stiamo modificando
+	 * @param view
+	 */
 	private void refreshLabelPanel(MainView view){
 		panelLabels.removeAll();
 		panelLabels.revalidate();
+		//TODO implementare una scroll bar funzionante
 //		JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
 //		panelLabels.add(scrollPaneLabel);
 		actualLabels=temporanyLabels;
@@ -268,7 +270,6 @@ public class NoteView extends JPanel {
 		hs.addAll(actualLabels);
 		actualLabels.clear();
 		actualLabels.addAll(hs);
-		System.out.println("QUESTE SONO LE ACTUAL LABELS "+actualLabels);
 		for (int i=0; i<actualLabels.size(); i++){
 			JButton btnNewButton = new JButton(actualLabels.get(i));
 			btnNewButton.setActionCommand(actualLabels.get(i));
@@ -291,11 +292,6 @@ public class NoteView extends JPanel {
 			});
 			panelLabels.add(btnNewButton);
 		}
-		
-//		for (int i=0; i<temporanyLabels.size()-1; i++){
-//			JButton lbl= new JButton(temporanyLabels.get(i));
-//			panelLabels.add(lbl);
-//		}
 		
 		panelLabels.repaint();
 	}
@@ -428,11 +424,11 @@ public class NoteView extends JPanel {
 						}
 						else{
 								if (textFieldNewLabel.getText().isEmpty()){
-									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
-									System.out.println("TEMPORANY PRIMA "+temporanyLabels);
+//									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
+//									System.out.println("TEMPORANY PRIMA "+temporanyLabels);
 									temporanyLabels.add(comboLabelsAdd.getSelectedItem().toString());
 									refreshLabelPanel(view);
-									System.out.println("TEMPORANY DOPO "+temporanyLabels);
+//									System.out.println("TEMPORANY DOPO "+temporanyLabels);
 									textFieldNewLabel.setText("");
 									comboLabelsAdd.setSelectedItem("Labels");
 									System.out.println(temporanyLabels);
@@ -456,6 +452,10 @@ public class NoteView extends JPanel {
 			contentNote.repaint();
 	}
 	
+	/**
+	 * aggiorna il pannello contenente i bottodi di modifica alla nota selezionata
+	 * @param view
+	 */
 	private void refreshButtonModify(MainView view){
 		contentModify.removeAll();
 		contentModify.revalidate();
@@ -514,10 +514,10 @@ public class NoteView extends JPanel {
 					return;
 				}
 				note.setBody(textAreaNote.getText());
-				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
+//				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
 				note.addLabels(temporanyLabels);
 				ValidationError validate;
-				System.out.println("ID che sto modificando "+modifyID);
+//				System.out.println("ID che sto modificando "+modifyID);
 				note.setPin(btnPin.getBackground().equals(Color.RED));
 				note.setPublic(chckbxPublic.isSelected());
 				
@@ -603,6 +603,10 @@ public class NoteView extends JPanel {
 		contentModify.repaint();
 	}
 	
+	/**
+	 * aggiorna il pannello contenente i bottoni di navigazione
+	 * @param view
+	 */
 	private void refreshButton (MainView view){
 		
 		contentButton.removeAll();
@@ -610,6 +614,7 @@ public class NoteView extends JPanel {
 		
 		loadInfo(view);
 		
+		//TODO rendere più carina la visualizzazione con le immagini
 		  try {
 			  ImageIcon addIcon = new ImageIcon("RefreshButton.png");
 			  Image im= addIcon.getImage();
@@ -707,13 +712,13 @@ public class NoteView extends JPanel {
 		comboLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String label = (String)comboLabels.getSelectedItem();
-				if (label=="Labels"){ //tutte le note
+				if (label=="Labels"){ 
 					notes=view.getMyNote();
 					temporanyLabels= new ArrayList<>();
 
 				}
 				else{
-					//note con un particolare label
+					
 					notes=view.getNotesByLabel(label);
 					temporanyLabels= new ArrayList<>();
 				}
@@ -730,7 +735,7 @@ public class NoteView extends JPanel {
 	}
 	
 	/**
-	 * metodo per la creazione dell'interfazzia utilizzando il GridBagLayout
+	 * metodo per la creazione dell'interfaccia utilizzando il GridBagLayout
 	 */
 	private void buildContent(MainView view){
 		//setta il tipo di layout da utilizzare
