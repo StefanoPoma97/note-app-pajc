@@ -69,4 +69,8 @@ public class UserController extends Controller<User> {
 	public boolean addLabel (String label, User us){
 		return userArchive.addLabel(label, us);
 	}
+	
+	public void updateLabel(ArrayList<String> str, User us){
+		userArchive.updateLabel(str, us);
+	}
 }

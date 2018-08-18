@@ -78,5 +78,10 @@ public class User extends Identifiable implements Serializable {
 		else
 			return false;
 	}
+	
+	public void updateLabel(ArrayList<String> str){
+		labels=str;
+		
+	}
 
 }

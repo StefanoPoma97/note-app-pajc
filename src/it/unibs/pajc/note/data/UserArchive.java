@@ -86,5 +86,9 @@ public class UserArchive extends Archive<User> {
 		System.out.println("elenco delle sue labels: "+getWhere(x->x.getID()==us.getID()).get(0).getLabel());
 		return out;
 	}
+	
+	public void updateLabel(ArrayList<String>str, User us){
+		getWhere(x->x.getID()==us.getID()).get(0).updateLabel(str);
+	}
 
 }

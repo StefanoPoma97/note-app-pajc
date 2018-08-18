@@ -20,6 +20,8 @@ public class NoteController extends Controller<Note>{
 		User u1= new User("utente1", "pass1");
 		u1.addTag(new Tag("Riunione"));
 		u1.addTag(new Tag("Memo"));
+		u1.addTag(new Tag("Memo2"));
+		u1.addTag(new Tag("Memo3"));
 		u.addTag(new Tag("Riunione"));
 		u.addTag(new Tag("Memo"));
 		//costruttore solo per test, in realtà si appoggia alla classe client che poi gli da informazioni su archivio note
@@ -33,6 +35,15 @@ public class NoteController extends Controller<Note>{
 			if (i==1){
 				nota.addLabel("Memo");
 			}
+			if (i==2){
+				nota.addLabel("Memo2");
+			}
+			
+			if (i==3){
+				nota.addLabel("Memo3");
+			}
+			
+			
 				
 			noteArchive.add(nota);
 		}

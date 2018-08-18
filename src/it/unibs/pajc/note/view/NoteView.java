@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -26,6 +27,7 @@ import javax.swing.SwingConstants;
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.status.ValidationError;
+import java.awt.BorderLayout;
 
 
 public class NoteView extends JPanel {
@@ -50,6 +52,7 @@ public class NoteView extends JPanel {
 	private JComboBox comboLabels;
 	private JCheckBox chckbxPublic;
 	private JComboBox comboColors;
+	private JPanel panelLabels;
 	
 	private String[] labels = new String[] {};
 	private String[] filters = new String[] {};
@@ -69,6 +72,7 @@ public class NoteView extends JPanel {
 	private JButton btnAddLabel;
 	
 	private ArrayList<String> temporanyLabels = new ArrayList<>();
+	private ArrayList<String> actualLabels = new ArrayList<>();
 	private boolean nuova=false;
 	private boolean modifica=false;
 	
@@ -228,6 +232,7 @@ public class NoteView extends JPanel {
 					System.out.println("TEMPORANY LABEL DI QUESTA NOTA: "+temporanyLabels);
 					modifyID= view.getIDbyTitle(lbl_title.getText());
 					System.out.println("ID Della nota selezionata:  "+modifyID);
+					refreshLabelPanel(view);
 				}
 			});
 			
@@ -239,6 +244,44 @@ public class NoteView extends JPanel {
 		repaint();
 		System.out.println("refresh");
 		
+	}
+	
+	private void refreshLabelPanel(MainView view){
+		panelLabels.removeAll();
+		panelLabels.revalidate();
+//		JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
+//		panelLabels.add(scrollPaneLabel);
+		actualLabels=temporanyLabels;
+		System.out.println("QUESTE SONO LE ACTUAL LABELS "+actualLabels);
+		for (int i=0; i<actualLabels.size(); i++){
+			JButton btnNewButton = new JButton(actualLabels.get(i));
+			btnNewButton.setActionCommand(actualLabels.get(i));
+			btnNewButton.setPreferredSize(new Dimension(80, 15));
+			btnNewButton.setContentAreaFilled(false);
+			btnNewButton.setBorder(BorderFactory.createEmptyBorder());
+			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int dialogButton = JOptionPane.YES_NO_OPTION;
+					int dialogResult = JOptionPane.showConfirmDialog(null, "Vuoi eliminare la seguente label: "+btnNewButton.getActionCommand(), "Avviso",dialogButton);
+					if(dialogResult == 0) {
+					  temporanyLabels.remove(btnNewButton.getActionCommand());
+					  actualLabels= new ArrayList<>();
+					  refreshLabelPanel(view);
+					} else {
+					  System.out.println("No Option");
+					} 
+				}
+			});
+			panelLabels.add(btnNewButton);
+		}
+		
+//		for (int i=0; i<temporanyLabels.size()-1; i++){
+//			JButton lbl= new JButton(temporanyLabels.get(i));
+//			panelLabels.add(lbl);
+//		}
+		
+		panelLabels.repaint();
 	}
 	
 	/**
@@ -281,10 +324,26 @@ public class NoteView extends JPanel {
 			gc.gridwidth=3;
 			gc.fill=GridBagConstraints.BOTH;
 			gc.anchor= GridBagConstraints.LINE_START;
-			gc.insets = new Insets(10, 10, 10, 10);
+			gc.insets = new Insets(10, 10, 5, 10);
 			contentNote.add(scrollPaneNote,gc);
 			
 		//row 2
+			//col 0-3
+			gc = new GridBagConstraints();
+			panelLabels = new JPanel();
+			panelLabels.setPreferredSize(new Dimension(500, 20));
+//			JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
+			panelLabels.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			gc.weightx=1;
+			gc.weighty=0;
+			gc.gridx = 0;
+			gc.gridy = 2;
+			gc.gridwidth=3;
+			gc.fill=GridBagConstraints.HORIZONTAL;
+			gc.anchor= GridBagConstraints.LINE_START;
+			gc.insets = new Insets(5, 10, 5, 10);
+			contentNote.add(panelLabels,gc);
+		//row 3
 			//col 0
 			gc = new GridBagConstraints();
 			comboLabelsAdd = new JComboBox();
@@ -294,7 +353,7 @@ public class NoteView extends JPanel {
 			gc.weightx=0;
 			gc.weighty=0;
 			gc.gridx = 0;
-			gc.gridy = 2;
+			gc.gridy = 3;
 			gc.gridwidth=1;
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 10, 10);
@@ -308,13 +367,13 @@ public class NoteView extends JPanel {
 			gc.weightx=0;
 			gc.weighty=0;
 			gc.gridx = 1;
-			gc.gridy = 2;
+			gc.gridy = 3;
 			gc.gridwidth=1;
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 10, 10);
 			contentNote.add(textFieldNewLabel,gc);
 			
-			//col 3
+			//col 2
 			gc = new GridBagConstraints();
 			btnAddLabel = new JButton();
 			btnAddLabel.setFont(new Font("Tahoma", Font.PLAIN, 9));
@@ -325,7 +384,7 @@ public class NoteView extends JPanel {
 			gc.weightx=0;
 			gc.weighty=0;
 			gc.gridx = 2;
-			gc.gridy = 2;
+			gc.gridy = 3;
 			gc.gridwidth=1;
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 10, 10);
@@ -333,6 +392,9 @@ public class NoteView extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					if(textFieldTitleNote.getText().equals("Select one note...")){
 						showMessage("prima seleziona una nota");
+						comboLabelsAdd.setSelectedItem("Labels");
+						textFieldNewLabel.setText("");
+						return;
 					}
 					if (textFieldNewLabel.getText().isEmpty() && comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
 						
@@ -341,6 +403,8 @@ public class NoteView extends JPanel {
 					
 					if (!textFieldNewLabel.getText().isEmpty() && !comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
 						showMessage("slezionare una sola label");
+						comboLabelsAdd.setSelectedItem("Labels");
+						textFieldNewLabel.setText("");
 					}
 					else{
 						if(view.getMyLabel().size()>10){
@@ -351,14 +415,17 @@ public class NoteView extends JPanel {
 									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
 									System.out.println("TEMPORANY PRIMA "+temporanyLabels);
 									temporanyLabels.add(comboLabelsAdd.getSelectedItem().toString());
+									refreshLabelPanel(view);
 									System.out.println("TEMPORANY DOPO "+temporanyLabels);
 									textFieldNewLabel.setText("");
+									comboLabelsAdd.setSelectedItem("Labels");
 									System.out.println(temporanyLabels);
 								}
 								else{
 									view.addLabel(textFieldNewLabel.getText());
 									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
 									temporanyLabels.add(textFieldNewLabel.getText());
+									refreshLabelPanel(view);
 									textFieldNewLabel.setText("");
 									System.out.println(temporanyLabels);
 								}
@@ -411,8 +478,10 @@ public class NoteView extends JPanel {
 					notes=view.getMyNote();
 					textFieldTitleNote.setText("Select one note...");
 					textAreaNote.setText("");
-					temporanyLabels=null;
+					temporanyLabels=new ArrayList<>();
+					actualLabels=new ArrayList<>();
 					nuova=false;
+					view.updateMyLabels();
 					createModifyNote(view);
 					refreshButton(view);
 					repaint();
@@ -430,8 +499,10 @@ public class NoteView extends JPanel {
 					modifyID= null;
 					textFieldTitleNote.setText("Select one note...");
 					textAreaNote.setText("");
+					actualLabels=new ArrayList<>();
 					temporanyLabels=new ArrayList<>();
 					modifica=false;
+					view.updateMyLabels();
 					createModifyNote(view);
 					refreshButton(view);
 					repaint();
@@ -484,6 +555,7 @@ public class NoteView extends JPanel {
 		btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				refreshLabelPanel(view);
 				refreshNoteList(view);
 			}
 		});
@@ -492,6 +564,8 @@ public class NoteView extends JPanel {
 		btnNewNote.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				temporanyLabels= new ArrayList<>();
+				actualLabels= new ArrayList<>();
+				refreshLabelPanel(view);
 				nuova=true;
 				modifica=false;
 				modifyID=null;
@@ -551,10 +625,14 @@ public class NoteView extends JPanel {
 				String label = (String)comboLabels.getSelectedItem();
 				if (label=="Labels"){ //tutte le note
 					notes=view.getMyNote();
+					temporanyLabels= new ArrayList<>();
 				}
-				else
+				else{
 					//note con un particolare label
 					notes=view.getNotesByLabel(label);
+					temporanyLabels= new ArrayList<>();
+				}
+				refreshLabelPanel(view);	
 				refreshNoteList(view);
 			}
 		});

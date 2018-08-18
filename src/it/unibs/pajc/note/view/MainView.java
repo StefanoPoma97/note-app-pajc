@@ -94,6 +94,22 @@ public class MainView {
 		return userController.getLabelsByUser(utente);
 	}
 	
+	
+	public void updateMyLabels(){
+		ArrayList<String> userLabels = userController.getLabelsByUser(utente);
+		System.out.println("LABEL DEL UTENTE: "+ userLabels);
+		ArrayList<String> noteLabels = new ArrayList<>();
+		for (Note nota: noteController.getMyNote(utente)){
+			noteLabels.addAll(noteController.getLabelsByNote(nota.getTitle(), utente));
+		}
+		System.out.println("LABEL DELLE NOTE: "+noteLabels);
+		ArrayList<String> userLabels_cp= new ArrayList<>(userLabels);
+		userLabels_cp.removeAll(noteLabels);
+		userLabels.removeAll(userLabels_cp);
+		System.out.println("NUOVE LABEL: "+userLabels);
+		userController.updateLabel(userLabels, utente);
+		
+	}
 //	public Set<Tag> getMyLabel(){
 //		return userController.getLabelsByUser(utente);
 //	}
