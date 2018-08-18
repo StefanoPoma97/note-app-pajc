@@ -31,6 +31,7 @@ public class NoteController extends Controller<Note>{
 			nota.setAutor(u);
 			if(i==0){
 				nota.addLabel("Riunione");
+				nota.setPin(true);
 			}
 			if (i==1){
 				nota.addLabel("Memo");
@@ -117,5 +118,14 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 		return archive.add(n);
 	}
 	
+	public Boolean isPinned(String titolo, User utente){
+		return noteArchive.isPinned(titolo, utente);
+		
+	}
+	
+	public Boolean isPublic(String titolo, User utente){
+		return noteArchive.isPublic(titolo, utente);
+		
+	}
 	
 }

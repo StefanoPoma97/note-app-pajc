@@ -106,6 +106,7 @@ public class MainView {
 		ArrayList<String> userLabels_cp= new ArrayList<>(userLabels);
 		userLabels_cp.removeAll(noteLabels);
 		userLabels.removeAll(userLabels_cp);
+		userLabels.add(0, "Labels");
 		System.out.println("NUOVE LABEL: "+userLabels);
 		userController.updateLabel(userLabels, utente);
 		
@@ -138,6 +139,14 @@ public class MainView {
 	
 	public int getIDbyTitle(String title){
 		return noteController.getIDbyTitle(title);
+	}
+	
+	public Boolean isPinned(String titolo){
+		return noteController.isPinned(titolo, utente);
+	}
+	
+	public Boolean isPublic(String titolo){
+		return noteController.isPublic(titolo, utente);
 	}
 	
 	

@@ -13,6 +13,7 @@ public class Note extends Identifiable implements Serializable{
 	private Calendar createdAt;
 	private Calendar updatedAt;
 	private boolean isPublic;
+	private boolean pin=false;
 	private User author;
 	private Set<Tag> tags;
 	private ArrayList<String> labels= new ArrayList<>();
@@ -112,6 +113,14 @@ public class Note extends Identifiable implements Serializable{
 	@Override
 	public String toString() {
 		return title + "\t" + body;
+	}
+	
+	public void setPin(Boolean _pin){
+		pin=_pin;
+	}
+	
+	public Boolean getPin(){
+		return pin;
 	}
 	
 	/**

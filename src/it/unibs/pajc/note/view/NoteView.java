@@ -10,6 +10,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -226,6 +228,13 @@ public class NoteView extends JPanel {
 					temporanyLabels= new ArrayList<>();
 					nuova=false;
 					modifica=true;
+					if (view.isPinned(lbl_title.getText()))
+						btnPin.setBackground(Color.RED);
+					else
+						btnPin.setBackground(new JButton().getBackground());
+					
+					chckbxPublic.setSelected(view.isPublic(lbl_title.getText()));
+					
 					textFieldTitleNote.setText(lbl_title.getText());
 					textAreaNote.setText(btn_modify.getActionCommand());
 					temporanyLabels= view.getLabelsByNote(lbl_title.getText());
@@ -252,6 +261,10 @@ public class NoteView extends JPanel {
 //		JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
 //		panelLabels.add(scrollPaneLabel);
 		actualLabels=temporanyLabels;
+		Set<String> hs = new HashSet<>();
+		hs.addAll(actualLabels);
+		actualLabels.clear();
+		actualLabels.addAll(hs);
 		System.out.println("QUESTE SONO LE ACTUAL LABELS "+actualLabels);
 		for (int i=0; i<actualLabels.size(); i++){
 			JButton btnNewButton = new JButton(actualLabels.get(i));
@@ -448,11 +461,24 @@ public class NoteView extends JPanel {
 		contentInfo.add(btnExplore);
 		
 		btnPin = new JButton("Pin");
+		btnPin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (modifica || nuova){
+					if (btnPin.getBackground().equals(Color.RED))
+						btnPin.setBackground(new JButton().getBackground());
+					else
+						btnPin.setBackground(Color.RED);
+				}
+				
+			}
+		});
 		contentModify.add(btnPin);
+		
 		chckbxPublic = new JCheckBox("Public");
 		contentModify.add(chckbxPublic);
+		
+		
 		btnSave = new JButton("save");
-
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -467,6 +493,8 @@ public class NoteView extends JPanel {
 				note.addLabels(temporanyLabels);
 				ValidationError validate;
 				System.out.println("ID che sto modificando "+modifyID);
+				note.setPin(btnPin.getBackground().equals(Color.RED));
+				note.setPublic(chckbxPublic.isSelected());
 				
 				if (modifyID==null){
 					validate = view.addNote(note);
@@ -481,6 +509,8 @@ public class NoteView extends JPanel {
 					temporanyLabels=new ArrayList<>();
 					actualLabels=new ArrayList<>();
 					nuova=false;
+					btnPin.setBackground(new JButton().getBackground());
+					chckbxPublic.setSelected(false);
 					view.updateMyLabels();
 					createModifyNote(view);
 					refreshButton(view);
@@ -502,6 +532,8 @@ public class NoteView extends JPanel {
 					actualLabels=new ArrayList<>();
 					temporanyLabels=new ArrayList<>();
 					modifica=false;
+					btnPin.setBackground(new JButton().getBackground());
+					chckbxPublic.setSelected(false);
 					view.updateMyLabels();
 					createModifyNote(view);
 					refreshButton(view);
@@ -566,6 +598,8 @@ public class NoteView extends JPanel {
 				temporanyLabels= new ArrayList<>();
 				actualLabels= new ArrayList<>();
 				refreshLabelPanel(view);
+				btnPin.setBackground(new JButton().getBackground());
+				chckbxPublic.setSelected(false);
 				nuova=true;
 				modifica=false;
 				modifyID=null;
@@ -626,12 +660,17 @@ public class NoteView extends JPanel {
 				if (label=="Labels"){ //tutte le note
 					notes=view.getMyNote();
 					temporanyLabels= new ArrayList<>();
+
 				}
 				else{
 					//note con un particolare label
 					notes=view.getNotesByLabel(label);
 					temporanyLabels= new ArrayList<>();
 				}
+				modifica=false;
+				nuova=false;
+				btnPin.setBackground(new JButton().getBackground());
+				chckbxPublic.setSelected(false);
 				refreshLabelPanel(view);	
 				refreshNoteList(view);
 			}
