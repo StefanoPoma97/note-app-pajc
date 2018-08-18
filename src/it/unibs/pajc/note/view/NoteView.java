@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -30,6 +32,7 @@ import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.status.ValidationError;
 import java.awt.BorderLayout;
+import javax.swing.ImageIcon;
 
 
 public class NoteView extends JPanel {
@@ -460,7 +463,18 @@ public class NoteView extends JPanel {
 		btnExplore = new JButton("Esplora");
 		contentInfo.add(btnExplore);
 		
-		btnPin = new JButton("Pin");
+		 try {
+			  ImageIcon addIcon = new ImageIcon("PinButton.png");
+			  Image im= addIcon.getImage();
+			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+			  btnPin = new JButton(new ImageIcon(newimg));
+			  btnPin.setContentAreaFilled(true);
+			  btnPin.setMargin(new Insets(0, 0, 0, 0));
+			  btnPin.setBorder(null);
+//				btnNewNote.setBorder(BorderFactory.createEmptyBorder());
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  } 
 		btnPin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (modifica || nuova){
@@ -478,7 +492,18 @@ public class NoteView extends JPanel {
 		contentModify.add(chckbxPublic);
 		
 		
-		btnSave = new JButton("save");
+		 try {
+			  ImageIcon addIcon = new ImageIcon("SaveButton.png");
+			  Image im= addIcon.getImage();
+			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+			  btnSave = new JButton(new ImageIcon(newimg));
+			  btnSave.setContentAreaFilled(true);
+			  btnSave.setMargin(new Insets(0, 0, 0, 0));
+			  btnSave.setBorder(null);
+//				btnNewNote.setBorder(BorderFactory.createEmptyBorder());
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  } 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -584,7 +609,19 @@ public class NoteView extends JPanel {
 		contentButton.revalidate();
 		
 		loadInfo(view);
-		btnRefresh = new JButton("Refresh");
+		
+		  try {
+			  ImageIcon addIcon = new ImageIcon("RefreshButton.png");
+			  Image im= addIcon.getImage();
+			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+			  btnRefresh = new JButton(new ImageIcon(newimg));
+			  btnRefresh.setContentAreaFilled(false);
+			  btnRefresh.setMargin(new Insets(0, 0, 0, 0));
+			  btnRefresh.setBorder(null);
+//				btnNewNote.setBorder(BorderFactory.createEmptyBorder());
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  } 
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				refreshLabelPanel(view);
@@ -592,7 +629,20 @@ public class NoteView extends JPanel {
 			}
 		});
 		
-		btnNewNote = new JButton("+");	
+		
+		  try {
+			  ImageIcon addIcon = new ImageIcon("AddButton.png");
+			  Image im= addIcon.getImage();
+			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+			  btnNewNote = new JButton(new ImageIcon(newimg));
+			  btnNewNote.setContentAreaFilled(false);
+			  btnNewNote.setMargin(new Insets(0, 0, 0, 0));
+			  btnNewNote.setBorder(null);
+//				btnNewNote.setBorder(BorderFactory.createEmptyBorder());
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  } 
+		  
 		btnNewNote.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				temporanyLabels= new ArrayList<>();
