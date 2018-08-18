@@ -45,6 +45,7 @@ public class NoteView extends JPanel {
 	private JButton btnNewNote;
 	private JButton btnExplore;
 	private JButton btnPin;
+	private JComboBox comboLabelsAdd;
 	private JComboBox comboFilter;
 	private JComboBox comboLabels;
 	private JCheckBox chckbxPublic;
@@ -94,168 +95,6 @@ public class NoteView extends JPanel {
 		loadInfo(view);
 		buildContent(view);
 		buildComponent(view);
-		actionListener(view);
-		
-	}
-	
-	/**
-	 * metodo per specificare gli actionListener di tutti i componenti
-	 */
-	private void actionListener(MainView view){
-		//Action Listener
-		
-		
-		
-		comboColors.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				switch ((String)comboColors.getSelectedItem()) {
-				case "White":{
-					textAreaNote.setBackground(Color.white);
-					textFieldTitleNote.setBackground(Color.white);
-					break;
-				}
-				case "Yellow":
-					textAreaNote.setBackground(Color.yellow);
-					textFieldTitleNote.setBackground(Color.yellow);
-					break;
-				case "Green":
-					textAreaNote.setBackground(Color.green);
-					textFieldTitleNote.setBackground(Color.green);
-					break;
-				case "Purple":
-					textAreaNote.setBackground(Color.magenta);
-					textFieldTitleNote.setBackground(Color.magenta);
-					break;
-				
-					default:
-						break;
-							}
-						}
-		});
-		
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				refreshNoteList(view);
-			}
-		});
-		
-		comboFilter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				switch ((String)comboFilter.getSelectedItem()) {
-				//TODO implementare ordinamento alfabetico per titolo
-				case "Titolo":{
-					noteArchive.removeAll();
-					for(int i=notes.size()-1; i>=0; i--){
-						noteArchive.add(notes.get(i));
-					}
-					refreshNoteList(view);
-					break;
-				}
-				case "Dats":
-					
-					break;
-					//TODO implementare ordinamento per numero Like
-				case "Like":
-					
-					break;
-				case "Pinned":
-					
-					break;
-				case "Filters":
-					break;
-					
-					default :
-						break;
-							}
-			}
-		});
-		
-		btnNewNote.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				temporanyLabels= new ArrayList<>();
-				nuova=true;
-				modifica=false;
-				modifyID=null;
-				textAreaNote.setText("");
-				textFieldTitleNote.setText("");
-			}
-		});
-		
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				Note note = new Note(textFieldTitleNote.getText());
-				if(textFieldTitleNote.getText().toCharArray().length>15){
-					showMessage("Title max length = 15!!");
-					textFieldTitleNote.setText("");
-					return;
-				}
-				note.setBody(textAreaNote.getText());
-				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
-				note.addLabels(temporanyLabels);
-				ValidationError validate;
-				System.out.println("ID che sto modificando "+modifyID);
-				
-				if (modifyID==null){
-					validate = view.addNote(note);
-					if (validate.equals(ValidationError.TITLE_EMPTY)){
-						showMessage(validate);
-						return;
-					}
-					System.out.println("nota aggiunta");
-					notes=view.getMyNote();
-					textFieldTitleNote.setText("Select one note...");
-					textAreaNote.setText("");
-					temporanyLabels=null;
-					nuova=false;
-					refreshButton(view);
-					repaint();
-		
-				}
-					
-				else{
-					validate=view.update(note, modifyID);
-					if (validate.equals(ValidationError.TITLE_EMPTY)){
-						showMessage(validate);
-						return;
-					}
-					System.out.println("nota aggiornata");
-					notes=view.getMyNote();
-					modifyID= null;
-					textFieldTitleNote.setText("Select one note...");
-					textAreaNote.setText("");
-					temporanyLabels=new ArrayList<>();
-					modifica=false;
-					refreshButton(view);
-					repaint();
-		
-				}
-				
-				refreshNoteList(view);
-			}
-		});
-		
-		btnAddLabel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (textFieldNewLabel.getText().isEmpty()){
-					
-					showMessage("Label is empty");
-				}
-				else{
-					if(view.addLabel(textFieldNewLabel.getText()) && view.getMyLabel().size()>10){
-						showMessage("Max number of Label reach");
-					}
-					else{
-						System.out.println("Label aggiunta la utente e salvata nelle temporanee");
-						temporanyLabels.add(textFieldNewLabel.getText());
-						textFieldNewLabel.setText("");
-						System.out.println(temporanyLabels);
-					}
-				}
-				
-			}
-		});
-		
 	}
 	
 	/**
@@ -267,26 +106,39 @@ public class NoteView extends JPanel {
 		//carico le mie note
 		notes=view.getMyNote();
 		
-		//carico le mie labels
-//		 HashSet<Tag> _labels = new  HashSet<Tag>();
-//		_labels=(HashSet<Tag>)view.getMyLabel();
-//		System.out.println(_labels);
-//		Tag ar []= _labels.toArray(new Tag[_labels.size()]);
-//		labels= (String[])Arrays.stream(ar)
-//				.map(x->x.toString())
-//				.toArray(size -> new String[size]);
-		
 		ArrayList<String> _labels= new ArrayList<>();
 		_labels= view.getMyLabel();
 		labels= _labels.toArray(new String [_labels.size()]);
-		
 		
 		//carico i filtri
 		filters=new String[] {"Filters", "Titolo", "Data", "Like", "Pinned"};	
 	}
 	
 	
+	/**
+	 * metodo per specificare gli actionListener di tutti i componenti
+	 */
 
+
+	
+	/**
+	 * metodo per creare i vari componenti
+	 */
+	private void buildComponent(MainView view){
+		
+		refreshButtonModify(view);
+
+		refreshButton(view);
+		
+		//modifica nota
+		createModifyNote(view);
+		
+		//lista note
+		refreshNoteList(view);
+	
+	}
+	
+	
 	/**
 	 * appoggiandosi al arraylist notes crea la lista
 	 */
@@ -294,6 +146,7 @@ public class NoteView extends JPanel {
 
 		contentList.removeAll();
 		contentList.revalidate();
+		
 		contentList.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		for (int i=0; i<notes.size(); i++){
@@ -391,25 +244,32 @@ public class NoteView extends JPanel {
 	/**
 	 * crea l'area di modifica per la nota selezionata
 	 */
-	private void createModifyNote(){
+	private void createModifyNote(MainView view){
+		contentNote.removeAll();
+		contentNote.revalidate();
+		
+		loadInfo(view);
 		contentNote.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 			
+		//row 0
+			//col 0-3
 			gbc_textFieldTitleNote = new GridBagConstraints();
 			textFieldTitleNote = new JTextField();
 			textFieldTitleNote.setHorizontalAlignment(SwingConstants.LEFT);
-//			textFieldTitle.setVerticalAlignment(SwingConstants.CENTER);
 			textFieldTitleNote.setText("Select one note...");
 			textFieldTitleNote.setPreferredSize(new Dimension(100, 30));
 			gbc_textFieldTitleNote.weightx=1;
 			gbc_textFieldTitleNote.gridx = 0;
 			gbc_textFieldTitleNote.gridy = 0;
-			gbc_textFieldTitleNote.gridwidth=2;
+			gbc_textFieldTitleNote.gridwidth=3;
 			gbc_textFieldTitleNote.fill=GridBagConstraints.HORIZONTAL;
 			gbc_textFieldTitleNote.anchor= GridBagConstraints.LINE_START;
 			gbc_textFieldTitleNote.insets = new Insets(10, 10, 10, 10);
 			contentNote.add(textFieldTitleNote,gbc_textFieldTitleNote);
 			
+		//row 1
+			//col 0-3
 			gc = new GridBagConstraints();
 			textAreaNote = new JTextArea();
 			textAreaNote.setText("");
@@ -418,16 +278,19 @@ public class NoteView extends JPanel {
 			gc.weighty=1;
 			gc.gridx = 0;
 			gc.gridy = 1;
-			gc.gridwidth=2;
+			gc.gridwidth=3;
 			gc.fill=GridBagConstraints.BOTH;
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 10, 10);
 			contentNote.add(scrollPaneNote,gc);
 			
+		//row 2
+			//col 0
 			gc = new GridBagConstraints();
-			textFieldNewLabel = new JTextField();
-			textFieldNewLabel.setText("");
-			textFieldNewLabel.setPreferredSize(new Dimension(100, 30));
+			comboLabelsAdd = new JComboBox();
+			comboLabelsAdd.setModel(new DefaultComboBoxModel(labels));
+			comboLabelsAdd.setToolTipText("");
+			comboLabelsAdd.setSelectedItem("Labels");
 			gc.weightx=0;
 			gc.weighty=0;
 			gc.gridx = 0;
@@ -435,8 +298,23 @@ public class NoteView extends JPanel {
 			gc.gridwidth=1;
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 10, 10);
+			contentNote.add(comboLabelsAdd,gc);
+			
+			//col 1
+			gc = new GridBagConstraints();
+			textFieldNewLabel = new JTextField();
+			textFieldNewLabel.setText("");
+			textFieldNewLabel.setPreferredSize(new Dimension(100, 30));
+			gc.weightx=0;
+			gc.weighty=0;
+			gc.gridx = 1;
+			gc.gridy = 2;
+			gc.gridwidth=1;
+			gc.anchor= GridBagConstraints.LINE_START;
+			gc.insets = new Insets(10, 10, 10, 10);
 			contentNote.add(textFieldNewLabel,gc);
 			
+			//col 3
 			gc = new GridBagConstraints();
 			btnAddLabel = new JButton();
 			btnAddLabel.setFont(new Font("Tahoma", Font.PLAIN, 9));
@@ -446,21 +324,59 @@ public class NoteView extends JPanel {
 			btnAddLabel.setPreferredSize(new Dimension(80, 30));
 			gc.weightx=0;
 			gc.weighty=0;
-			gc.gridx = 1;
+			gc.gridx = 2;
 			gc.gridy = 2;
 			gc.gridwidth=1;
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 10, 10);
+			btnAddLabel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if(textFieldTitleNote.getText().equals("Select one note...")){
+						showMessage("prima seleziona una nota");
+					}
+					if (textFieldNewLabel.getText().isEmpty() && comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
+						
+						showMessage("Label is empty");
+					}
+					
+					if (!textFieldNewLabel.getText().isEmpty() && !comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
+						showMessage("slezionare una sola label");
+					}
+					else{
+						if(view.getMyLabel().size()>10){
+							showMessage("Max number of Label reach");
+						}
+						else{
+								if (textFieldNewLabel.getText().isEmpty()){
+									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
+									System.out.println("TEMPORANY PRIMA "+temporanyLabels);
+									temporanyLabels.add(comboLabelsAdd.getSelectedItem().toString());
+									System.out.println("TEMPORANY DOPO "+temporanyLabels);
+									textFieldNewLabel.setText("");
+									System.out.println(temporanyLabels);
+								}
+								else{
+									view.addLabel(textFieldNewLabel.getText());
+									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
+									temporanyLabels.add(textFieldNewLabel.getText());
+									textFieldNewLabel.setText("");
+									System.out.println(temporanyLabels);
+								}
+							
+						}
+					}
+					
+				}
+			});
 			contentNote.add(btnAddLabel,gc);
 			
-			
+			contentNote.repaint();
 	}
 	
-	/**
-	 * metodo per creare i vari componenti
-	 */
-	private void buildComponent(MainView view){
-		//bottoni vari
+	private void refreshButtonModify(MainView view){
+		contentModify.removeAll();
+		contentModify.revalidate();
+		
 		btnExplore = new JButton("Esplora");
 		contentInfo.add(btnExplore);
 		
@@ -469,24 +385,94 @@ public class NoteView extends JPanel {
 		chckbxPublic = new JCheckBox("Public");
 		contentModify.add(chckbxPublic);
 		btnSave = new JButton("save");
+
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Note note = new Note(textFieldTitleNote.getText());
+				if(textFieldTitleNote.getText().toCharArray().length>15){
+					showMessage("Title max length = 15!!");
+					textFieldTitleNote.setText("");
+					return;
+				}
+				note.setBody(textAreaNote.getText());
+				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
+				note.addLabels(temporanyLabels);
+				ValidationError validate;
+				System.out.println("ID che sto modificando "+modifyID);
+				
+				if (modifyID==null){
+					validate = view.addNote(note);
+					if (validate.equals(ValidationError.TITLE_EMPTY)){
+						showMessage(validate);
+						return;
+					}
+					System.out.println("nota aggiunta");
+					notes=view.getMyNote();
+					textFieldTitleNote.setText("Select one note...");
+					textAreaNote.setText("");
+					temporanyLabels=null;
+					nuova=false;
+					createModifyNote(view);
+					refreshButton(view);
+					repaint();
+		
+				}
+					
+				else{
+					validate=view.update(note, modifyID);
+					if (validate.equals(ValidationError.TITLE_EMPTY)){
+						showMessage(validate);
+						return;
+					}
+					System.out.println("nota aggiornata");
+					notes=view.getMyNote();
+					modifyID= null;
+					textFieldTitleNote.setText("Select one note...");
+					textAreaNote.setText("");
+					temporanyLabels=new ArrayList<>();
+					modifica=false;
+					createModifyNote(view);
+					refreshButton(view);
+					repaint();
+		
+				}
+				
+				refreshNoteList(view);
+			}
+		});
 		contentModify.add(btnSave);
 		comboColors = new JComboBox();
 		comboColors.setModel(new DefaultComboBoxModel(colors));
+		comboColors.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				switch ((String)comboColors.getSelectedItem()) {
+				case "White":{
+					textAreaNote.setBackground(Color.white);
+					textFieldTitleNote.setBackground(Color.white);
+					break;
+				}
+				case "Yellow":
+					textAreaNote.setBackground(Color.yellow);
+					textFieldTitleNote.setBackground(Color.yellow);
+					break;
+				case "Green":
+					textAreaNote.setBackground(Color.green);
+					textFieldTitleNote.setBackground(Color.green);
+					break;
+				case "Purple":
+					textAreaNote.setBackground(Color.magenta);
+					textFieldTitleNote.setBackground(Color.magenta);
+					break;
+				
+					default:
+						break;
+							}
+						}
+		});
 		contentModify.add(comboColors);
 		
-		
-		refreshButton(view);
-		
-		//modifica nota
-		createModifyNote();
-		
-		//lista note
-		refreshNoteList(view);
-		
-		
-		
-		
-		
+		contentModify.repaint();
 	}
 	
 	private void refreshButton (MainView view){
@@ -494,14 +480,31 @@ public class NoteView extends JPanel {
 		contentButton.removeAll();
 		contentButton.revalidate();
 		
+		loadInfo(view);
 		btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				refreshNoteList(view);
+			}
+		});
+		
 		btnNewNote = new JButton("+");	
+		btnNewNote.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				temporanyLabels= new ArrayList<>();
+				nuova=true;
+				modifica=false;
+				modifyID=null;
+				textAreaNote.setText("");
+				textFieldTitleNote.setText("");
+			}
+		});
 		contentButton.add(btnNewNote);
 		contentButton.add(btnRefresh);
 		
-		ArrayList<String> _labels= new ArrayList<>();
-		_labels= view.getMyLabel();
-		labels= _labels.toArray(new String [_labels.size()]);
+//		ArrayList<String> _labels= new ArrayList<>();
+//		_labels= view.getMyLabel();
+//		labels= _labels.toArray(new String [_labels.size()]);
 		comboLabels = new JComboBox();
 		comboLabels.setModel(new DefaultComboBoxModel(labels));
 		comboLabels.setToolTipText("");
@@ -509,6 +512,37 @@ public class NoteView extends JPanel {
 		comboFilter = new JComboBox();
 		comboFilter.setModel(new DefaultComboBoxModel(filters));
 		comboFilter.setToolTipText("");
+		comboFilter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				switch ((String)comboFilter.getSelectedItem()) {
+				//TODO implementare ordinamento alfabetico per titolo
+				case "Titolo":{
+					noteArchive.removeAll();
+					for(int i=notes.size()-1; i>=0; i--){
+						noteArchive.add(notes.get(i));
+					}
+					refreshNoteList(view);
+					break;
+				}
+				case "Dats":
+					
+					break;
+					//TODO implementare ordinamento per numero Like
+				case "Like":
+					
+					break;
+				case "Pinned":
+					
+					break;
+				case "Filters":
+					break;
+					
+					default :
+						break;
+							}
+			}
+		});
+		
 		contentButton.add(comboLabels);
 		contentButton.add(comboFilter);
 		
