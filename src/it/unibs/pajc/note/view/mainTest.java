@@ -90,8 +90,9 @@ private JFrame frame;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
-		NoteView noteView = new NoteView((MainView) null);
-		frame.getContentPane().add(noteView);
+		PanelScroll panelScroll = new PanelScroll(frame);
+		frame.getContentPane().add(panelScroll);
+//		frame.add(new JScrollPane(panelScroll));
 		
 		
 		
