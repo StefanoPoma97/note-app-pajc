@@ -33,6 +33,8 @@ import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.status.ValidationError;
 import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class NoteView extends JPanel {
@@ -82,19 +84,41 @@ public class NoteView extends JPanel {
 	private boolean modifica=false;
 	
 
-	 /* metodo per far apparire messaggio di errore o segnalazione
+	 /* metodo per far apparire messaggio di errore 
 	 * @param in stringa
 	 */
-	private void showMessage(String in){
-		JOptionPane.showMessageDialog(null, in);
+	private void showErrorMessage(String in){
+		JOptionPane.showMessageDialog(this,
+			    in,
+			    "Error",
+			    JOptionPane.ERROR_MESSAGE);
 	}
 	
 	/**
-	 * metodo per far apparire messaggio di errore o segnalazione
+	 * metodo per far apparire messaggio di errore 
 	 * @param in ValidateError
 	 */
-	private void showMessage(ValidationError in){
+	private void showErrorMessage(ValidationError in){
+		JOptionPane.showMessageDialog(this,
+			    in.toString(),
+			    "Error",
+			    JOptionPane.ERROR_MESSAGE);
+	}
+
+	/**
+	 * metodo per far apparire un messaggio di segnalazione
+	 * @param in
+	 */
+	private void showInfoMessage(ValidationError in){
 		JOptionPane.showMessageDialog(null, in.toString());
+	}
+	
+	/**
+	 * metodo per far apparire un messaggio di segnalazione
+	 * @param in
+	 */
+	private void showInfoMessage(String in){
+		JOptionPane.showMessageDialog(null, in);
 	}
 
 	/**
@@ -225,6 +249,18 @@ public class NoteView extends JPanel {
 			contentList.add(btn_modify,gc);
 			btn_modify.setToolTipText("Modifica");
 			btn_modify.setActionCommand(corpo);
+			btn_modify.setEnabled(false);
+			btn_modify.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btn_modify.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btn_modify.setEnabled(false);
+				}
+			});
+			btn_modify.setToolTipText("Modify this note");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					temporanyLabels= new ArrayList<>();
@@ -277,6 +313,18 @@ public class NoteView extends JPanel {
 			btnNewButton.setContentAreaFilled(false);
 			btnNewButton.setBorder(BorderFactory.createEmptyBorder());
 			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
+			btnNewButton.setEnabled(false);
+			btnNewButton.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnNewButton.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnNewButton.setEnabled(false);
+				}
+			});
+			btnNewButton.setToolTipText("Remove this label");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -362,6 +410,18 @@ public class NoteView extends JPanel {
 			comboLabelsAdd.setModel(new DefaultComboBoxModel(labels));
 			comboLabelsAdd.setToolTipText("");
 			comboLabelsAdd.setSelectedItem("Labels");
+			comboLabelsAdd.setEnabled(false);
+			comboLabelsAdd.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					comboLabelsAdd.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					comboLabelsAdd.setEnabled(false);
+				}
+			});
+			comboLabelsAdd.setToolTipText("Chose label to add");
 			gc.weightx=0;
 			gc.weighty=0;
 			gc.gridx = 0;
@@ -392,6 +452,18 @@ public class NoteView extends JPanel {
 			btnAddLabel.setToolTipText("");
 			btnAddLabel.setText("add new label");
 			btnAddLabel.setName("");
+			btnAddLabel.setEnabled(false);
+			btnAddLabel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnAddLabel.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnAddLabel.setEnabled(false);
+				}
+			});
+			btnAddLabel.setToolTipText("Add selected label");
 			btnAddLabel.setPreferredSize(new Dimension(80, 30));
 			gc.weightx=0;
 			gc.weighty=0;
@@ -403,24 +475,24 @@ public class NoteView extends JPanel {
 			btnAddLabel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(textFieldTitleNote.getText().equals("Select one note...")){
-						showMessage("prima seleziona una nota");
+						showInfoMessage("prima seleziona una nota");
 						comboLabelsAdd.setSelectedItem("Labels");
 						textFieldNewLabel.setText("");
 						return;
 					}
 					if (textFieldNewLabel.getText().isEmpty() && comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
 						
-						showMessage("Label is empty");
+						showInfoMessage("Label is empty");
 					}
 					
 					if (!textFieldNewLabel.getText().isEmpty() && !comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
-						showMessage("slezionare una sola label");
+						showInfoMessage("slezionare una sola label");
 						comboLabelsAdd.setSelectedItem("Labels");
 						textFieldNewLabel.setText("");
 					}
 					else{
 						if(view.getMyLabel().size()>10){
-							showMessage("Max number of Label reach");
+							showErrorMessage("Max number of Label reach");
 						}
 						else{
 								if (textFieldNewLabel.getText().isEmpty()){
@@ -461,6 +533,18 @@ public class NoteView extends JPanel {
 		contentModify.revalidate();
 		
 		btnExplore = new JButton("Esplora");
+		btnExplore.setEnabled(false);
+		btnExplore.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnExplore.setEnabled(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnExplore.setEnabled(false);
+			}
+		});
+		btnExplore.setToolTipText("Explore section");
 		contentInfo.add(btnExplore);
 		
 		 try {
@@ -475,6 +559,18 @@ public class NoteView extends JPanel {
 		  } catch (Exception ex) {
 		    System.out.println(ex);
 		  } 
+		 btnPin.setEnabled(false);
+		 btnPin.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnPin.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnPin.setEnabled(false);
+				}
+			});
+		 btnPin.setToolTipText("Pinned the note");
 		btnPin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (modifica || nuova){
@@ -489,6 +585,18 @@ public class NoteView extends JPanel {
 		contentModify.add(btnPin);
 		
 		chckbxPublic = new JCheckBox("Public");
+		chckbxPublic.setEnabled(false);
+		chckbxPublic.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				chckbxPublic.setEnabled(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				chckbxPublic.setEnabled(false);
+			}
+		});
+		chckbxPublic.setToolTipText("The note will be public");
 		contentModify.add(chckbxPublic);
 		
 		
@@ -504,12 +612,24 @@ public class NoteView extends JPanel {
 		  } catch (Exception ex) {
 		    System.out.println(ex);
 		  } 
+		 btnSave.setEnabled(false);
+		 btnSave.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnSave.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnSave.setEnabled(false);
+				}
+			});
+		 btnSave.setToolTipText("Save the note");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				Note note = new Note(textFieldTitleNote.getText());
 				if(textFieldTitleNote.getText().toCharArray().length>15){
-					showMessage("Title max length = 15!!");
+					showErrorMessage("Title max length = 15!!");
 					textFieldTitleNote.setText("");
 					return;
 				}
@@ -524,7 +644,7 @@ public class NoteView extends JPanel {
 				if (modifyID==null){
 					validate = view.addNote(note);
 					if (validate.equals(ValidationError.TITLE_EMPTY)){
-						showMessage(validate);
+						showInfoMessage(validate);
 						return;
 					}
 					System.out.println("nota aggiunta");
@@ -546,7 +666,7 @@ public class NoteView extends JPanel {
 				else{
 					validate=view.update(note, modifyID);
 					if (validate.equals(ValidationError.TITLE_EMPTY)){
-						showMessage(validate);
+						showInfoMessage(validate);
 						return;
 					}
 					System.out.println("nota aggiornata");
@@ -572,25 +692,41 @@ public class NoteView extends JPanel {
 		contentModify.add(btnSave);
 		comboColors = new JComboBox();
 		comboColors.setModel(new DefaultComboBoxModel(colors));
+		comboColors.setEnabled(false);
+		comboColors.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					comboColors.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+//					comboColors.setEnabled(false);
+				}
+			});
+		comboColors.setToolTipText("Change background color");
 		comboColors.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				switch ((String)comboColors.getSelectedItem()) {
 				case "White":{
 					textAreaNote.setBackground(Color.white);
 					textFieldTitleNote.setBackground(Color.white);
+					comboColors.setEnabled(false);
 					break;
 				}
 				case "Yellow":
 					textAreaNote.setBackground(Color.yellow);
 					textFieldTitleNote.setBackground(Color.yellow);
+					comboColors.setEnabled(false);
 					break;
 				case "Green":
 					textAreaNote.setBackground(Color.green);
 					textFieldTitleNote.setBackground(Color.green);
+					comboColors.setEnabled(false);
 					break;
 				case "Purple":
 					textAreaNote.setBackground(Color.magenta);
 					textFieldTitleNote.setBackground(Color.magenta);
+					comboColors.setEnabled(false);
 					break;
 				
 					default:
@@ -627,6 +763,18 @@ public class NoteView extends JPanel {
 		  } catch (Exception ex) {
 		    System.out.println(ex);
 		  } 
+		  btnRefresh.setEnabled(false);
+		  btnRefresh.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+						btnRefresh.setEnabled(true);
+					}
+					@Override
+					public void mouseExited(MouseEvent e) {
+						btnRefresh.setEnabled(false);
+					}
+				});
+		  btnRefresh.setToolTipText("Refresh your list");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				refreshLabelPanel(view);
@@ -647,7 +795,18 @@ public class NoteView extends JPanel {
 		  } catch (Exception ex) {
 		    System.out.println(ex);
 		  } 
-		  
+		  btnNewNote.setEnabled(false);
+		  btnNewNote.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+						btnNewNote.setEnabled(true);
+					}
+					@Override
+					public void mouseExited(MouseEvent e) {
+						btnNewNote.setEnabled(false);
+					}
+				});
+		  btnNewNote.setToolTipText("Create a new note");
 		btnNewNote.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				temporanyLabels= new ArrayList<>();
@@ -675,6 +834,18 @@ public class NoteView extends JPanel {
 		comboFilter = new JComboBox();
 		comboFilter.setModel(new DefaultComboBoxModel(filters));
 		comboFilter.setToolTipText("");
+		comboFilter.setEnabled(false);
+		comboFilter.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+						comboFilter.setEnabled(true);
+					}
+					@Override
+					public void mouseExited(MouseEvent e) {
+//						comboFilter.setEnabled(false);
+					}
+				});
+		comboFilter.setToolTipText("Filter your list");
 		comboFilter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				switch ((String)comboFilter.getSelectedItem()) {
@@ -685,22 +856,25 @@ public class NoteView extends JPanel {
 						noteArchive.add(notes.get(i));
 					}
 					refreshNoteList(view);
+					comboFilter.setEnabled(false);
 					break;
 				}
 				case "Dats":
-					
+					comboFilter.setEnabled(false);
 					break;
 					//TODO implementare ordinamento per numero Like
 				case "Like":
-					
+					comboFilter.setEnabled(false);
 					break;
 				case "Pinned":
-					
+					comboFilter.setEnabled(false);
 					break;
 				case "Filters":
+					comboFilter.setEnabled(false);
 					break;
 					
 					default :
+						comboFilter.setEnabled(false);
 						break;
 							}
 			}
@@ -708,7 +882,18 @@ public class NoteView extends JPanel {
 		
 		contentButton.add(comboLabels);
 		contentButton.add(comboFilter);
-		
+		comboLabels.setEnabled(false);
+		comboLabels.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+						comboLabels.setEnabled(true);
+					}
+					@Override
+					public void mouseExited(MouseEvent e) {
+//						comboLabels.setEnabled(false);
+					}
+				});
+		comboLabels.setToolTipText("filter by labels");
 		comboLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String label = (String)comboLabels.getSelectedItem();
@@ -726,6 +911,7 @@ public class NoteView extends JPanel {
 				nuova=false;
 				btnPin.setBackground(new JButton().getBackground());
 				chckbxPublic.setSelected(false);
+				comboLabels.setEnabled(false);
 				refreshLabelPanel(view);	
 				refreshNoteList(view);
 			}

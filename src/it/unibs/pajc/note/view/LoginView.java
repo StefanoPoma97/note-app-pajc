@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.SwingConstants;
 import it.unibs.pajc.note.status.ValidationError;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginView extends JPanel {
 	
@@ -25,21 +27,43 @@ public class LoginView extends JPanel {
 	private JFormattedTextField textName;
 	private JFormattedTextField textPassword;
 
-	/**
-	 * metodo per far apparire messaggio di errore o segnalazione
-	 * @param in stringa
-	 */
-	private void showMessage(String in){
-		JOptionPane.showMessageDialog(null, in);
-	}
-	
-	/**
-	 * metodo per far apparire messaggio di errore o segnalazione
-	 * @param in ValidateError
-	 */
-	private void showMessage(ValidationError in){
-		JOptionPane.showMessageDialog(null, in.toString());
-	}
+	 /* metodo per far apparire messaggio di errore 
+		 * @param in stringa
+		 */
+		private void showErrorMessage(String in){
+			JOptionPane.showMessageDialog(this,
+				    in,
+				    "Error",
+				    JOptionPane.ERROR_MESSAGE);
+		}
+		
+		/**
+		 * metodo per far apparire messaggio di errore 
+		 * @param in ValidateError
+		 */
+		private void showErrorMessage(ValidationError in){
+			JOptionPane.showMessageDialog(this,
+				    in.toString(),
+				    "Error",
+				    JOptionPane.ERROR_MESSAGE);
+		}
+
+		/**
+		 * metodo per far apparire un messaggio di segnalazione
+		 * @param in
+		 */
+		private void showInfoMessage(ValidationError in){
+			JOptionPane.showMessageDialog(null, in.toString());
+		}
+		
+		/**
+		 * metodo per far apparire un messaggio di segnalazione
+		 * @param in
+		 */
+		private void showInfoMessage(String in){
+			JOptionPane.showMessageDialog(null, in);
+		}
+
 	
 	
 	/**
@@ -67,7 +91,7 @@ public class LoginView extends JPanel {
 				}
 				else{
 					//TODO creare archivio errori
-					showMessage("Login errato");
+					showErrorMessage("Login errato");
 					textFieldName.setText("");
 					textFieldPassword.setText("");
 				}						
@@ -85,7 +109,7 @@ public class LoginView extends JPanel {
 						else{
 							textFieldName.setText("");
 							textFieldPassword.setText("");
-							showMessage(validate.toString());
+							showInfoMessage(validate.toString());
 						}
 			}
 		});
@@ -163,6 +187,18 @@ public class LoginView extends JPanel {
 		//col 1
 	gc = new GridBagConstraints();
 	this.btnCreateAccount = new JButton("New Account");
+	btnCreateAccount.setEnabled(false);
+	btnCreateAccount.addMouseListener(new MouseAdapter() {
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			if (!textFieldName.getText().isEmpty() && !textFieldPassword.getText().isEmpty())
+				btnCreateAccount.setEnabled(true);
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+			btnCreateAccount.setEnabled(false);
+		}
+	});
 	this.btnCreateAccount.setPreferredSize(new Dimension(150, 40));
 	gc.weightx=0.001;
 	gc.weighty=0.001;
@@ -178,6 +214,18 @@ public class LoginView extends JPanel {
 		//col 2
 	gc = new GridBagConstraints();
 	this.btnLogin = new JButton("Login");
+	btnLogin.setEnabled(false);
+	btnLogin.addMouseListener(new MouseAdapter() {
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			if (!textFieldName.getText().isEmpty() && !textFieldPassword.getText().isEmpty())
+				btnLogin.setEnabled(true);
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+			btnLogin.setEnabled(false);
+		}
+	});
 	this.btnLogin.setPreferredSize(new Dimension(150, 40));
 	gc.weightx=0.001;
 	gc.weighty=0.001;
