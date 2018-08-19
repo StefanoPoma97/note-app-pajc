@@ -58,7 +58,7 @@ public class NoteView extends JPanel {
 	private JComboBox comboFilter;
 	private JComboBox comboLabels;
 	private JCheckBox chckbxPublic;
-	private JComboBox comboColors;
+	private JButton comboColors;
 	private JPanel panelLabels;
 	
 	private String[] labels = new String[] {};
@@ -82,6 +82,7 @@ public class NoteView extends JPanel {
 	private ArrayList<String> actualLabels = new ArrayList<>();
 	private boolean nuova=false;
 	private boolean modifica=false;
+	private Object[] colours={};
 	
 
 	 /* metodo per far apparire messaggio di errore 
@@ -524,6 +525,45 @@ public class NoteView extends JPanel {
 			contentNote.repaint();
 	}
 	
+	
+	private void createColors(){
+//		ArrayList<Object> colour = new ArrayList<>();
+//		JButton btnColor=null;
+//		 try {
+//			  ImageIcon addIcon = new ImageIcon("White.png");
+//			  Image im= addIcon.getImage();
+//			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+//			  btnColor = new JButton(new ImageIcon(newimg));
+//			  btnColor.setMargin(new Insets(0, 0, 0, 0));
+//			  btnColor.setBorder(null);
+//			  btnColor.setOpaque(true);
+//			  btnColor.setBorderPainted(false);
+//			  btnColor.setContentAreaFilled(false);
+//			  btnColor.setFocusPainted(false);
+//			  btnColor.setOpaque(false);
+//		  } catch (Exception ex) {
+//		    System.out.println(ex);
+//		  } 
+//		colour.add(btnColor);
+//		 try {
+//			  ImageIcon addIcon = new ImageIcon("Yellow.png");
+//			  Image im= addIcon.getImage();
+//			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+//			  btnColor = new JButton(new ImageIcon(newimg));
+//			  btnColor.setMargin(new Insets(0, 0, 0, 0));
+//			  btnColor.setBorder(null);
+//			  btnColor.setOpaque(true);
+//			  btnColor.setBorderPainted(false);
+//			  btnColor.setContentAreaFilled(false);
+//			  btnColor.setFocusPainted(false);
+//			  btnColor.setOpaque(false);
+//		  } catch (Exception ex) {
+//		    System.out.println(ex);
+//		  } 
+//		colour.add(btnColor);
+//		colours = colour.toArray();
+		
+	}
 	/**
 	 * aggiorna il pannello contenente i bottodi di modifica alla nota selezionata
 	 * @param view
@@ -532,12 +572,21 @@ public class NoteView extends JPanel {
 		contentModify.removeAll();
 		contentModify.revalidate();
 		
+//		createColors();
+		
 		btnExplore = new JButton("Esplora");
+		btnExplore.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+	
+
+			}
+		});
 		btnExplore.setEnabled(false);
 		btnExplore.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				btnExplore.setEnabled(true);
+				
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -555,7 +604,8 @@ public class NoteView extends JPanel {
 			  btnPin.setContentAreaFilled(true);
 			  btnPin.setMargin(new Insets(0, 0, 0, 0));
 			  btnPin.setBorder(null);
-//				btnNewNote.setBorder(BorderFactory.createEmptyBorder());
+			 
+
 		  } catch (Exception ex) {
 		    System.out.println(ex);
 		  } 
@@ -608,6 +658,7 @@ public class NoteView extends JPanel {
 			  btnSave.setContentAreaFilled(true);
 			  btnSave.setMargin(new Insets(0, 0, 0, 0));
 			  btnSave.setBorder(null);
+			  btnSave.setOpaque(true);
 //				btnNewNote.setBorder(BorderFactory.createEmptyBorder());
 		  } catch (Exception ex) {
 		    System.out.println(ex);
@@ -690,8 +741,24 @@ public class NoteView extends JPanel {
 			}
 		});
 		contentModify.add(btnSave);
-		comboColors = new JComboBox();
-		comboColors.setModel(new DefaultComboBoxModel(colors));
+		
+		
+
+	
+
+		 try {
+			  ImageIcon addIcon = new ImageIcon("Colors.png");
+			  Image im= addIcon.getImage();
+			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+			  comboColors = new JButton(new ImageIcon(newimg));
+			  comboColors.setContentAreaFilled(true);
+			  comboColors.setMargin(new Insets(0, 0, 0, 0));
+			  comboColors.setBorder(null);
+			  comboColors.setOpaque(true);
+//				btnNewNote.setBorder(BorderFactory.createEmptyBorder());
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  } 
 		comboColors.setEnabled(false);
 		comboColors.addMouseListener(new MouseAdapter() {
 				@Override
@@ -700,30 +767,38 @@ public class NoteView extends JPanel {
 				}
 				@Override
 				public void mouseExited(MouseEvent e) {
-//					comboColors.setEnabled(false);
+					comboColors.setEnabled(false);
 				}
 			});
 		comboColors.setToolTipText("Change background color");
+		Object [] colours={"White", "Yellow", "Green", "Magenta"};
 		comboColors.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				switch ((String)comboColors.getSelectedItem()) {
-				case "White":{
+				switch (	JOptionPane.showOptionDialog(null,
+						    "Which colour do you like?",
+						    "Choose a colour",
+						    JOptionPane.YES_NO_CANCEL_OPTION,
+						    JOptionPane.QUESTION_MESSAGE,
+						    null,
+						    colours,
+						    colours[0])) {
+				case 0:{
 					textAreaNote.setBackground(Color.white);
 					textFieldTitleNote.setBackground(Color.white);
 					comboColors.setEnabled(false);
 					break;
 				}
-				case "Yellow":
+				case 1:
 					textAreaNote.setBackground(Color.yellow);
 					textFieldTitleNote.setBackground(Color.yellow);
 					comboColors.setEnabled(false);
 					break;
-				case "Green":
+				case 2:
 					textAreaNote.setBackground(Color.green);
 					textFieldTitleNote.setBackground(Color.green);
 					comboColors.setEnabled(false);
 					break;
-				case "Purple":
+				case 3:
 					textAreaNote.setBackground(Color.magenta);
 					textFieldTitleNote.setBackground(Color.magenta);
 					comboColors.setEnabled(false);
