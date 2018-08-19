@@ -134,4 +134,21 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 		
 	}
 	
+	public ArrayList<Note> FilterByTitle(User u){
+		return noteArchive.FilterByTitle(u);
+	}
+	
+	public ArrayList<Note> FilterByPin(User u){
+		return noteArchive.FilterByPin(u);
+	}
+	
+	public ArrayList<Note> FilterByLike(User u){
+		return noteArchive.FilterByLike(u);
+	}
+	
+	public ArrayList<Note> FilterByData(User u){
+		return noteArchive.FilterByData(u);
+	}
+	
+	
 }

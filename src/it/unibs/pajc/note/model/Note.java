@@ -17,6 +17,7 @@ public class Note extends Identifiable implements Serializable{
 	private User author;
 	private Set<Tag> tags;
 	private ArrayList<String> labels= new ArrayList<>();
+	private int likes=0;
 
 	public Note(String _title) {
 		this.title = _title;
@@ -132,6 +133,15 @@ public class Note extends Identifiable implements Serializable{
 	public Boolean getPin(){
 		return pin;
 	}
+	
+	public void addLike(){
+		likes++;
+	}
+	
+	public int getLike(){
+		return likes;
+	}
+	
 	
 	/**
 	 * metodo equals che si basa solo sull'ID dato che è univoco

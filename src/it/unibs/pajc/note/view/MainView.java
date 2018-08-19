@@ -185,6 +185,21 @@ public class MainView {
 		return noteController.isPublic(titolo, utente);
 	}
 	
+	public ArrayList<Note> FilterByTitle(){
+		return noteController.FilterByTitle(utente);
+	}
+	
+	public ArrayList<Note> FilterByPin(){
+		return noteController.FilterByPin(utente);
+	}
+	
+	public ArrayList<Note> FilterByLike(){
+		return noteController.FilterByLike(utente);
+	}
+	
+	public ArrayList<Note> FilterByData(){
+		return noteController.FilterByData(utente);
+	}
 	
 	
 	/**

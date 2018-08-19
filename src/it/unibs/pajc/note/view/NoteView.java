@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -419,7 +420,7 @@ public class NoteView extends JPanel {
 				}
 				@Override
 				public void mouseExited(MouseEvent e) {
-					comboLabelsAdd.setEnabled(false);
+					
 				}
 			});
 			comboLabelsAdd.setToolTipText("Chose label to add");
@@ -464,6 +465,14 @@ public class NoteView extends JPanel {
 					btnAddLabel.setEnabled(false);
 				}
 			});
+			
+			
+			comboLabelsAdd.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					comboLabelsAdd.setEnabled(false);
+			}});
+			
+			comboLabelsAdd.setEnabled(false);
 			btnAddLabel.setToolTipText("Add selected label");
 			btnAddLabel.setPreferredSize(new Dimension(80, 30));
 			gc.weightx=0;
@@ -715,6 +724,7 @@ public class NoteView extends JPanel {
 				}
 					
 				else{
+					note.setUpdatedAt(new GregorianCalendar());
 					validate=view.update(note, modifyID);
 					if (validate.equals(ValidationError.TITLE_EMPTY)){
 						showInfoMessage(validate);
@@ -924,24 +934,27 @@ public class NoteView extends JPanel {
 		comboFilter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				switch ((String)comboFilter.getSelectedItem()) {
-				//TODO implementare ordinamento alfabetico per titolo
+				
 				case "Titolo":{
-					noteArchive.removeAll();
-					for(int i=notes.size()-1; i>=0; i--){
-						noteArchive.add(notes.get(i));
-					}
+					notes=view.FilterByTitle();
 					refreshNoteList(view);
 					comboFilter.setEnabled(false);
 					break;
 				}
-				case "Dats":
+				case "Data":
+					notes=view.FilterByData();
+					refreshNoteList(view);
 					comboFilter.setEnabled(false);
 					break;
-					//TODO implementare ordinamento per numero Like
+					
 				case "Like":
+					notes=view.FilterByLike();
+					refreshNoteList(view);
 					comboFilter.setEnabled(false);
 					break;
 				case "Pinned":
+					notes=view.FilterByPin();
+					refreshNoteList(view);
 					comboFilter.setEnabled(false);
 					break;
 				case "Filters":
