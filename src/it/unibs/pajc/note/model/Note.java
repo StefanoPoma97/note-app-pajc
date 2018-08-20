@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Note extends Identifiable implements Serializable{
@@ -18,6 +19,7 @@ public class Note extends Identifiable implements Serializable{
 	private Set<Tag> tags;
 	private ArrayList<String> labels= new ArrayList<>();
 	private int likes=0;
+	private Set<User> sharedWith = new HashSet<>();
 
 	public Note(String _title) {
 		this.title = _title;
@@ -142,6 +144,14 @@ public class Note extends Identifiable implements Serializable{
 		return likes;
 	}
 	
+	
+	public Set<User> getSharedWith (){
+		return sharedWith;
+	}
+	
+	public void addSharedUsers (User u){
+		sharedWith.add(u);
+	}
 	
 	/**
 	 * metodo equals che si basa solo sull'ID dato che è univoco

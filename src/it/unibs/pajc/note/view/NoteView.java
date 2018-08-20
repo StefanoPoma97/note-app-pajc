@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -28,14 +29,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
+import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
 import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 
 
 public class NoteView extends JPanel {
@@ -55,12 +59,14 @@ public class NoteView extends JPanel {
 	private JButton btnNewNote;
 	private JButton btnExplore;
 	private JButton btnPin;
+	private JButton btnShare;
 	private JComboBox comboLabelsAdd;
 	private JComboBox comboFilter;
 	private JComboBox comboLabels;
 	private JCheckBox chckbxPublic;
 	private JButton comboColors;
 	private JPanel panelLabels;
+	private JPanel panelShare;
 	
 	private String[] labels = new String[] {};
 	private String[] filters = new String[] {};
@@ -84,6 +90,7 @@ public class NoteView extends JPanel {
 	private boolean nuova=false;
 	private boolean modifica=false;
 	private Object[] colours={};
+	private Set<User> sharedUser= new HashSet<>();
 	
 
 	 /* metodo per far apparire messaggio di errore 
@@ -206,6 +213,16 @@ public class NoteView extends JPanel {
 			lbl_title.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_title.setVerticalAlignment(SwingConstants.CENTER);
 			lbl_title.setPreferredSize(new Dimension(100, 20));
+			lbl_title.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					lbl_title.setForeground(Color.BLUE);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					lbl_title.setForeground(new JLabel().getForeground());
+				}
+			});
 			gc.gridx = 0;
 			gc.gridy = i;
 			gc.fill=GridBagConstraints.BOTH;
@@ -220,7 +237,7 @@ public class NoteView extends JPanel {
 			str= new StringBuffer();
 			count=0;
 			for (char c : corpo.toCharArray()) {
-			  if(count<20){
+			  if(count<15){
 				  str.append(c);
 			  }
 			  else{
@@ -233,6 +250,18 @@ public class NoteView extends JPanel {
 			lbl_name.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_name.setVerticalAlignment(SwingConstants.CENTER);
 			lbl_name.setPreferredSize(new Dimension(300, 20));
+			lbl_name.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					lbl_name.setForeground(Color.BLUE);
+//					lbl_name.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					lbl_name.setForeground(new JLabel().getForeground());
+//					lbl_name.setBorder(null);
+				}
+			});
 			gc.gridx = 1;
 			gc.gridy = i;
 			gc.insets = new Insets(10, 10, 10, 10);
@@ -266,6 +295,8 @@ public class NoteView extends JPanel {
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					temporanyLabels= new ArrayList<>();
+					sharedUser= new HashSet<>();
+					System.out.println("Sharred user: "+sharedUser);
 					nuova=false;
 					modifica=true;
 					if (view.isPinned(lbl_title.getText()))
@@ -278,10 +309,73 @@ public class NoteView extends JPanel {
 					textFieldTitleNote.setText(lbl_title.getText());
 					textAreaNote.setText(btn_modify.getActionCommand());
 					temporanyLabels= view.getLabelsByNote(lbl_title.getText());
+					sharedUser= view.getSharredUser(lbl_title.getText());
+					System.out.println("Sharred USer "+sharedUser);
 					modifyID= view.getIDbyTitle(lbl_title.getText());
 					refreshLabelPanel(view);
 				}
 			});
+			
+			//
+			gc = new GridBagConstraints();
+			GregorianCalendar data = null;
+			if (notes.get(i).getUpdatedAt()==null)
+				data=(GregorianCalendar)notes.get(i).getCreatedAt();
+			else
+				data=(GregorianCalendar)notes.get(i).getUpdatedAt();
+			SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy "+" hh:mm");
+		    fmt.setCalendar(data);
+		    String dateFormatted = fmt.format(data.getTime());
+			JLabel lb_data = new JLabel(dateFormatted);
+//			lb_data.setPreferredSize(new Dimension(20, 20));
+			gc.gridx = 3;
+			gc.gridy = i;
+			gc.weightx=0;
+			gc.insets = new Insets(10, 10, 10, 10);
+			gc.fill=GridBagConstraints.BOTH;
+			contentList.add(lb_data,gc);
+			lb_data.setEnabled(false);
+			lb_data.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					lb_data.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					lb_data.setEnabled(false);
+				}
+			});
+			
+			//
+			gc = new GridBagConstraints();
+			JButton btn_pn=null;
+			 try {
+				  ImageIcon addIcon = new ImageIcon("Pinbutton.png");
+				  Image im= addIcon.getImage();
+				  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+				  btn_pn = new JButton(new ImageIcon(newimg));
+//				  btn_pn.setContentAreaFilled(false);
+				  btn_pn.setMargin(new Insets(0, 0, 0, 0));
+				  btn_pn.setBorder(null);
+//					btnNewNote.setBorder(BorderFactory.createEmptyBorder());
+				  btn_pn.setEnabled(false);
+				  if(notes.get(i).getPin())
+					  btn_pn.setBackground(Color.RED);
+					
+			  } catch (Exception ex) {
+			    System.out.println(ex);
+			  } 
+			
+//			lb_data.setPreferredSize(new Dimension(20, 20));
+			gc.gridx = 4;
+			gc.gridy = i;
+			gc.weightx=0;
+			gc.insets = new Insets(10, 10, 10, 10);
+			gc.fill=GridBagConstraints.BOTH;
+			contentList.add(btn_pn,gc);
+			
+
+			
 			
 		}
 		
@@ -292,6 +386,62 @@ public class NoteView extends JPanel {
 		System.out.println("refresh");
 		
 	}
+	
+	
+	/**
+	 * metodo per aggiornare il pannello relativo alle label associate alla nota che stiamo modificando
+	 * @param view
+	 */
+	private void refreshSharePanel(MainView view){
+		panelShare.removeAll();
+		panelShare.revalidate();
+		//TODO implementare una scroll bar funzionante
+//		JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
+//		panelLabels.add(scrollPaneLabel);
+		ArrayList<User> cp= new ArrayList<>(sharedUser);
+		for (int i=0; i<cp.size(); i++){
+			JButton btnNewButton = new JButton(cp.get(i).getName());
+			btnNewButton.setActionCommand(cp.get(i).getName());
+			btnNewButton.setPreferredSize(new Dimension(80, 15));
+			btnNewButton.setContentAreaFilled(false);
+			btnNewButton.setBorder(BorderFactory.createEmptyBorder());
+			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
+			btnNewButton.setEnabled(false);
+			btnNewButton.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnNewButton.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnNewButton.setEnabled(false);
+				}
+			});
+			btnNewButton.setToolTipText("Remove this User");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int dialogButton = JOptionPane.YES_NO_OPTION;
+					int dialogResult = JOptionPane.showConfirmDialog(null, "Vuoi eliminare il seguente utente condiviso: "+btnNewButton.getActionCommand(), "Avviso",dialogButton);
+					if(dialogResult == 0) {
+						for (User u: cp){
+							if (u.getName().equals(btnNewButton.getActionCommand()))
+								cp.remove(u);
+						}
+						System.out.println("CP "+cp);
+						sharedUser.clear();
+						sharedUser= new HashSet<>(cp);
+						refreshSharePanel(view);
+					} else {
+					  System.out.println("No Option");
+					} 
+				}
+			});
+			panelShare.add(btnNewButton);
+		}
+		
+		panelShare.repaint();
+	}
+	
 	
 	/**
 	 * metodo per aggiornare il pannello relativo alle label associate alla nota che stiamo modificando
@@ -405,7 +555,25 @@ public class NoteView extends JPanel {
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(5, 10, 5, 10);
 			contentNote.add(panelLabels,gc);
-		//row 3
+			
+			//row 3
+			//col 0-3
+			gc = new GridBagConstraints();
+			panelShare = new JPanel();
+			panelShare.setPreferredSize(new Dimension(500, 20));
+//			JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
+			panelShare.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			gc.weightx=1;
+			gc.weighty=0;
+			gc.gridx = 0;
+			gc.gridy = 3;
+			gc.gridwidth=3;
+			gc.fill=GridBagConstraints.HORIZONTAL;
+			gc.anchor= GridBagConstraints.LINE_START;
+			gc.insets = new Insets(5, 10, 5, 10);
+			contentNote.add(panelShare,gc);
+			
+		//row 4
 			//col 0
 			gc = new GridBagConstraints();
 			comboLabelsAdd = new JComboBox();
@@ -427,7 +595,7 @@ public class NoteView extends JPanel {
 			gc.weightx=0;
 			gc.weighty=0;
 			gc.gridx = 0;
-			gc.gridy = 3;
+			gc.gridy = 4;
 			gc.gridwidth=1;
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 10, 10);
@@ -441,7 +609,7 @@ public class NoteView extends JPanel {
 			gc.weightx=0;
 			gc.weighty=0;
 			gc.gridx = 1;
-			gc.gridy = 3;
+			gc.gridy = 4;
 			gc.gridwidth=1;
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 10, 10);
@@ -478,7 +646,7 @@ public class NoteView extends JPanel {
 			gc.weightx=0;
 			gc.weighty=0;
 			gc.gridx = 2;
-			gc.gridy = 3;
+			gc.gridy = 4;
 			gc.gridwidth=1;
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 10, 10);
@@ -712,6 +880,7 @@ public class NoteView extends JPanel {
 					textFieldTitleNote.setText("Select one note...");
 					textAreaNote.setText("");
 					temporanyLabels=new ArrayList<>();
+					sharedUser= new HashSet<>();
 					actualLabels=new ArrayList<>();
 					nuova=false;
 					btnPin.setBackground(new JButton().getBackground());
@@ -737,10 +906,12 @@ public class NoteView extends JPanel {
 					textAreaNote.setText("");
 					actualLabels=new ArrayList<>();
 					temporanyLabels=new ArrayList<>();
+					sharedUser= new HashSet<>();
 					modifica=false;
 					btnPin.setBackground(new JButton().getBackground());
 					chckbxPublic.setSelected(false);
 					view.updateMyLabels();
+					sharedUser= new HashSet<>();
 					createModifyNote(view);
 					refreshButton(view);
 					repaint();
@@ -821,6 +992,65 @@ public class NoteView extends JPanel {
 		});
 		contentModify.add(comboColors);
 		
+		
+		 try {
+			  ImageIcon addIcon = new ImageIcon("shareButton.png");
+			  Image im= addIcon.getImage();
+			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+			  btnShare = new JButton(new ImageIcon(newimg));
+			  btnShare.setContentAreaFilled(true);
+			  btnShare.setMargin(new Insets(0, 0, 0, 0));
+			  btnShare.setBorder(null);
+			 
+
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  } 
+		 btnShare.setEnabled(false);
+		 btnShare.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnShare.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnShare.setEnabled(false);
+				}
+			});
+		 btnShare.setToolTipText("Other users can modify your note");
+		 btnShare.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				ArrayList<User> listUser= new ArrayList<>();
+				listUser= view.getAllUsers();
+				ArrayList<String> cp= (ArrayList<String>)listUser.stream()
+						.map(x->x.getName())
+						.collect(Collectors.toList());
+				System.out.println("LISTA "+cp);
+						
+				String[] users = cp.toArray(new String[0]);
+				System.out.println("TUTTI GLI USER "+users[1]);
+			    String input = (String)JOptionPane.showInputDialog(null, "Share with...",
+			        "Choise one account", JOptionPane.QUESTION_MESSAGE, null, // Use
+			                                                                        // default
+			                                                                        // icon
+			        users, // Array of choices
+			        users[0]); // Initial choice
+			    
+			    int index = -1;
+			    for (int i=0;i<users.length;i++) {
+			        if (users[i].equals(input)) {
+			            index = i;
+			            break;
+			        }
+			    }
+			   
+			    sharedUser.add(listUser.get(index));
+			    refreshSharePanel(view);
+			 
+		}});
+		 contentModify.add(btnShare);
+		
 		contentModify.repaint();
 	}
 	
@@ -895,6 +1125,7 @@ public class NoteView extends JPanel {
 		btnNewNote.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				temporanyLabels= new ArrayList<>();
+				sharedUser= new HashSet<>();
 				actualLabels= new ArrayList<>();
 				refreshLabelPanel(view);
 				btnPin.setBackground(new JButton().getBackground());
@@ -988,12 +1219,14 @@ public class NoteView extends JPanel {
 				if (label=="Labels"){ 
 					notes=view.getMyNote();
 					temporanyLabels= new ArrayList<>();
+					sharedUser= new HashSet<>();
 
 				}
 				else{
 					
 					notes=view.getNotesByLabel(label);
 					temporanyLabels= new ArrayList<>();
+					sharedUser= new HashSet<>();
 				}
 				modifica=false;
 				nuova=false;
@@ -1053,7 +1286,7 @@ public class NoteView extends JPanel {
 		gc_2.insets = new Insets(0, 0, 5, 5);
 		gc_2.anchor = GridBagConstraints.WEST;
 		this.contentList = new JPanel();
-		this.contentList.setPreferredSize(new Dimension(300, 30));
+		this.contentList.setPreferredSize(new Dimension(430, 30));
 		gc_2.weightx=0;
 		gc_2.weighty=1.0;
 		gc_2.gridx = 0;

@@ -1,6 +1,7 @@
 package it.unibs.pajc.note.controller;
 
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibs.pajc.note.data.NoteArchive;
@@ -148,6 +149,11 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 	
 	public ArrayList<Note> FilterByData(User u){
 		return noteArchive.FilterByData(u);
+	}
+	
+	public Set<User> getSharredUser (String titolo, User u){
+		ArrayList<Note> n =getMyNote(u);
+		return  n.stream().filter(x->x.getTitle().equals(titolo)).collect(Collectors.toList()).get(0).getSharedWith();
 	}
 	
 	

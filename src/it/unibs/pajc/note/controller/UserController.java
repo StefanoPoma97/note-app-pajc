@@ -24,6 +24,8 @@ public class UserController extends Controller<User> {
 		utente.addLabel("Memo3");
 		userArchive.add(utente);
 		userArchive.add(new User("utente1", "pass1"));
+		userArchive.add(new User("utente2", "pass2"));
+		userArchive.add(new User("utente3", "pass3"));
 		
 	}
 
@@ -61,5 +63,9 @@ public class UserController extends Controller<User> {
 	
 	public void updateLabel(ArrayList<String> str, User us){
 		userArchive.updateLabel(str, us);
+	}
+	
+	public ArrayList<User> getAllUsers(User u){
+		return (ArrayList<User>)userArchive.getWhere(x->x.getID()!=u.getID());
 	}
 }

@@ -201,6 +201,13 @@ public class MainView {
 		return noteController.FilterByData(utente);
 	}
 	
+	public ArrayList<User> getAllUsers(){
+		return userController.getAllUsers(utente);
+	}
+	
+	public Set<User> getSharredUser(String title){
+		return noteController.getSharredUser(title, utente);
+	}
 	
 	/**
 	 * Launch the application.
