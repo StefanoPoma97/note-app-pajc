@@ -15,7 +15,6 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -30,7 +29,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
-
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.model.User;
@@ -42,7 +40,7 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 
 
-public class NoteView extends JPanel {
+public class ExploreView extends JPanel {
 	//Pannelli contenitivi
 	private JPanel contentList;
 	private JPanel contentButton;
@@ -133,10 +131,10 @@ public class NoteView extends JPanel {
 	/**
 	 * Create the panel. (Costruttore)
 	 */
-	public NoteView(MainView view) {
-		loadInfo(view);
+	public ExploreView(MainView view) {
+//		loadInfo(view);
 		buildContent(view);
-		buildComponent(view);
+//		buildComponent(view);
 	}
 	
 	/**
@@ -769,26 +767,26 @@ public class NoteView extends JPanel {
 		
 //		createColors();
 		
-		btnExplore = new JButton("Esplora");
+		btnExplore = new JButton("Back");
 		btnExplore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				view.exploreView();
+				
 	
 
 			}
 		});
-		btnExplore.setEnabled(false);
-		btnExplore.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				btnExplore.setEnabled(true);
-				
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				btnExplore.setEnabled(false);
-			}
-		});
+//		btnExplore.setEnabled(false);
+//		btnExplore.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseEntered(MouseEvent arg0) {
+//				btnExplore.setEnabled(true);
+//				
+//			}
+//			@Override
+//			public void mouseExited(MouseEvent e) {
+//				btnExplore.setEnabled(false);
+//			}
+//		});
 		btnExplore.setToolTipText("Explore section");
 		contentInfo.add(btnExplore);
 		

@@ -43,9 +43,13 @@ public class MainView {
 	private Integer modifyID= null;
 	private NoteController noteController=new NoteController();
 	
+	//Explore view
+	private ExploreView exploreView= null;
+	
 	//componenti utilizzati
 	private JTextArea textArea;
 	private JPanel contentPanel;
+	private ExploreView exploreView_1;
 	
 	
 
@@ -109,17 +113,14 @@ public class MainView {
 	 */
 	public void updateMyLabels(){
 		ArrayList<String> userLabels = userController.getLabelsByUser(utente);
-		System.out.println("LABEL DEL UTENTE: "+ userLabels);
 		ArrayList<String> noteLabels = new ArrayList<>();
 		for (Note nota: noteController.getMyNote(utente)){
 			noteLabels.addAll(noteController.getLabelsByNote(nota.getTitle(), utente));
 		}
-		System.out.println("LABEL DELLE NOTE: "+noteLabels);
 		ArrayList<String> userLabels_cp= new ArrayList<>(userLabels);
 		userLabels_cp.removeAll(noteLabels);
 		userLabels.removeAll(userLabels_cp);
 		userLabels.add(0, "Labels");
-		System.out.println("NUOVE LABEL: "+userLabels);
 		userController.updateLabel(userLabels, utente);
 		
 	}
@@ -209,6 +210,19 @@ public class MainView {
 		return noteController.getSharredUser(title, utente);
 	}
 	
+	
+	//metodi per Explore view
+	public void exploreView(){
+		initializeExploreView();
+		noteView.setVisible(false);
+		
+	}
+	
+	public void noteView(){
+		initializeNoteView();
+		exploreView.setVisible(false);
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -244,17 +258,22 @@ public class MainView {
 		//Pannello principale
 		contentPanel = new JPanel();
 		frame.getContentPane().add(contentPanel);
-		contentPanel.setLayout(new GridBagLayout());
+		GridBagLayout gbl_contentPanel = new GridBagLayout();
+		gbl_contentPanel.rowWeights = new double[]{0.0, 1.0};
+		gbl_contentPanel.columnWeights = new double[]{1.0};
+		contentPanel.setLayout(gbl_contentPanel);
 		
 		//GridBgLayout per il pannello principale
 		loginView = new LoginView(this);
 		GridBagConstraints gc = new GridBagConstraints();
+		gc.insets = new Insets(0, 0, 5, 0);
 		gc.weightx=1;
 		gc.weighty=1;
 		gc.gridx = 0;
 		gc.gridy = 0;
 		gc.fill= GridBagConstraints.BOTH;
 		contentPanel.add(loginView, gc);
+
 
 
 	}
@@ -268,6 +287,17 @@ public class MainView {
 		gc.gridy = 0;
 		gc.fill= GridBagConstraints.BOTH;
 		contentPanel.add(noteView, gc);
+	}
+	
+	private void initializeExploreView(){
+		exploreView = new ExploreView(this);
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.weightx=1;
+		gc.weighty=1;
+		gc.gridx = 0;
+		gc.gridy = 0;
+		gc.fill= GridBagConstraints.BOTH;
+		contentPanel.add(exploreView, gc);
 	}
 }
 
