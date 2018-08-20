@@ -1196,6 +1196,7 @@ public class NoteView extends JPanel {
 					notes=view.FilterByTitle();
 					refreshNoteList(view);
 					sharedUser= new HashSet<>();
+					refreshSharePanel(view);
 					refreshLabelPanel(view);
 					comboFilter.setEnabled(false);
 					break;
@@ -1204,6 +1205,7 @@ public class NoteView extends JPanel {
 					notes=view.FilterByData();
 					refreshNoteList(view);
 					sharedUser= new HashSet<>();
+					refreshSharePanel(view);
 					refreshLabelPanel(view);
 					comboFilter.setEnabled(false);
 					break;
@@ -1212,6 +1214,7 @@ public class NoteView extends JPanel {
 					notes=view.FilterByLike();
 					refreshNoteList(view);
 					sharedUser= new HashSet<>();
+					refreshSharePanel(view);
 					refreshLabelPanel(view);
 					comboFilter.setEnabled(false);
 					break;
@@ -1219,11 +1222,13 @@ public class NoteView extends JPanel {
 					notes=view.FilterByPin();
 					refreshNoteList(view);
 					sharedUser= new HashSet<>();
+					refreshSharePanel(view);
 					refreshLabelPanel(view);
 					comboFilter.setEnabled(false);
 					break;
 				case "Filters":
 					sharedUser= new HashSet<>();
+					refreshSharePanel(view);
 					refreshLabelPanel(view);
 					comboFilter.setEnabled(false);
 					break;
@@ -1256,6 +1261,7 @@ public class NoteView extends JPanel {
 					notes=view.getMyNote();
 					temporanyLabels= new ArrayList<>();
 					sharedUser= new HashSet<>();
+					refreshSharePanel(view);
 
 				}
 				else{
@@ -1263,6 +1269,7 @@ public class NoteView extends JPanel {
 					notes=view.getNotesByLabel(label);
 					temporanyLabels= new ArrayList<>();
 					sharedUser= new HashSet<>();
+					refreshSharePanel(view);
 				}
 				modifica=false;
 				nuova=false;

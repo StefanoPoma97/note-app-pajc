@@ -150,6 +150,10 @@ public class Note extends Identifiable implements Serializable{
 		return sharedWith;
 	}
 	
+	public ArrayList<User> getSharedWithArray (){
+		return new ArrayList<User>(sharedWith);
+	}
+	
 	public void addSharedUsers (Set<User> us){
 		sharedWith.addAll(us);
 		System.out.println("AGGIUNTI NUOVI SHARED US: "+sharedWith);

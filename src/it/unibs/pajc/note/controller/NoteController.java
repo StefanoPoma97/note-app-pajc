@@ -1,6 +1,7 @@
 package it.unibs.pajc.note.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ public class NoteController extends Controller<Note>{
 	public NoteController(){
 		User u= new User("paolo", "merazza");
 		User u1= new User("utente1", "pass1");
+		User u2= new User("autente2","pass2");
 		u1.addTag(new Tag("Riunione"));
 		u1.addTag(new Tag("Memo"));
 		u1.addTag(new Tag("Memo2"));
@@ -33,6 +35,9 @@ public class NoteController extends Controller<Note>{
 			if(i==0){
 				nota.addLabel("Riunione");
 				nota.setPin(true);
+				Set<User> set= new HashSet<>();
+				set.add(u1);
+				nota.addSharedUsers(set);
 			}
 			if (i==1){
 				nota.addLabel("Memo");
@@ -56,6 +61,29 @@ public class NoteController extends Controller<Note>{
 			nota.setAutor(u1);
 			if(i==0){
 				nota.addLabel("Riunione");
+				Set<User> set= new HashSet<>();
+				set.add(u);
+				nota.addSharedUsers(set);
+				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
+			}
+			if (i==1){
+				nota.addLabel("Memo");
+			}
+				
+			noteArchive.add(nota);
+		}
+		
+		for (int i=0; i<5; i++){
+			Note nota = new Note("titolo copiato 2 volte"+i);
+			nota.setBody("corpo della nota copia numero: "+i);
+			nota.setAutor(u2);
+			if(i==0){
+				nota.setTitle("AAAAAAAAAAAAAA");
+				nota.addLabel("Riunione");
+				Set<User> set= new HashSet<>();
+				set.add(u);
+				nota.addSharedUsers(set);
+				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
 			}
 			if (i==1){
 				nota.addLabel("Memo");
@@ -139,6 +167,10 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 		return noteArchive.FilterByTitle(u);
 	}
 	
+	public ArrayList<Note> exFilterByTitle (User u){
+		return noteArchive.exFilterByTitle(u);
+	}
+	
 	public ArrayList<Note> FilterByPin(User u){
 		return noteArchive.FilterByPin(u);
 	}
@@ -147,14 +179,35 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 		return noteArchive.FilterByLike(u);
 	}
 	
+	public ArrayList<Note> exFilterByLike(User u){
+		return noteArchive.exFilterByLike(u);
+	}
+	
 	public ArrayList<Note> FilterByData(User u){
 		return noteArchive.FilterByData(u);
+	}
+	
+	public ArrayList<Note> exFilterByData(User u){
+		return noteArchive.exFilterByData(u);
+	}
+	
+	public ArrayList<Note> exFilterByAuthor(User u){
+		return noteArchive.exFilterByAuthor(u);
 	}
 	
 	public Set<User> getSharredUser (String titolo, User u){
 		ArrayList<Note> n =getMyNote(u);
 		return  n.stream().filter(x->x.getTitle().equals(titolo)).collect(Collectors.toList()).get(0).getSharedWith();
 	}
+	
+	public ArrayList<Note> getAllNote(User u){
+		return (ArrayList<Note>)noteArchive.getWhere(x->!x.getAuthor().equals(u));
+	}
+	
+	public ArrayList<Note> shareWithMe(User u){
+		return noteArchive.shareWithMe(u);
+	}
+	
 	
 	
 }

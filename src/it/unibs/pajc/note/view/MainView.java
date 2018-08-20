@@ -223,6 +223,30 @@ public class MainView {
 		exploreView.setVisible(false);
 	}
 	
+	public ArrayList<Note> getAllNote(){
+		return noteController.getAllNote(utente);
+	}
+	
+	public ArrayList<Note> exFilterByTitle(){
+		return noteController.exFilterByTitle(utente);
+	}
+	
+	public ArrayList<Note> exFilterByData(){
+		return noteController.exFilterByData(utente);
+	}
+	
+	public ArrayList<Note> exFilterByLike(){
+		return noteController.exFilterByLike(utente);
+	}
+	
+	public ArrayList<Note> exFilterByAuthor(){
+		return noteController.exFilterByAuthor(utente);
+	}
+	
+	public ArrayList<Note> shareWithMe(){
+		return noteController.shareWithMe(utente);
+	}
+	
 	/**
 	 * Launch the application.
 	 */

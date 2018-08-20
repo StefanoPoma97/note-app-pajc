@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibs.pajc.note.model.Note;
@@ -75,6 +76,17 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	public ArrayList<Note> exFilterByTitle(User u){
+		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->!x.getAuthor().equals(u));
+		Collections.sort(out, new Comparator<Note>() {
+		    @Override
+		    public int compare(Note s1, Note s2) {
+		        return s1.getTitle().compareToIgnoreCase(s2.getTitle());
+		    }
+		});
+		return out;
+	}
+	
 	public ArrayList<Note> FilterByPin(User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(u));
 		Collections.sort(out, new Comparator<Note>() {
@@ -91,8 +103,35 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	public ArrayList<Note> exFilterByAuthor(User u){
+		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->!x.getAuthor().equals(u));
+		Collections.sort(out, new Comparator<Note>() {
+		    @Override
+		    public int compare(Note s1, Note s2) {
+		    	return s1.getAuthor().getName().compareToIgnoreCase(s2.getAuthor().getName());
+		    }
+		});
+		return out;
+	}
+	
 	public ArrayList<Note> FilterByLike(User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(u));
+		Collections.sort(out, new Comparator<Note>() {
+		    @Override
+		    public int compare(Note s1, Note s2) {
+		        if (s1.getLike() > s2.getLike())
+		        	return -1;
+		        if (s1.getLike() < s2.getLike())
+		        	return 1;
+		        else return 0;
+		        
+		    }
+		});
+		return out;
+	}
+	
+	public ArrayList<Note> exFilterByLike(User u){
+		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->!x.getAuthor().equals(u));
 		Collections.sort(out, new Comparator<Note>() {
 		    @Override
 		    public int compare(Note s1, Note s2) {
@@ -131,6 +170,40 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	public ArrayList<Note> exFilterByData(User u){
+		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->!x.getAuthor().equals(u));
+		Collections.sort(out, new Comparator<Note>() {
+		    @Override
+		    public int compare(Note s1, Note s2) {
+		    	GregorianCalendar data1 = null;
+		    	GregorianCalendar data2 = null;
+		    	if (s1.getUpdatedAt()==null)
+		    		data1=(GregorianCalendar)s1.getCreatedAt();
+		    	else
+		    		data1=(GregorianCalendar)s1.getUpdatedAt();
+		    	
+		    	if (s2.getUpdatedAt()==null)
+		    		data2=(GregorianCalendar)s2.getCreatedAt();
+		    	else
+		    		data2=(GregorianCalendar)s2.getUpdatedAt();
+		    	
+		        return -1*data1.compareTo(data2);
+		        
+		    }
+		});
+		return out;
+	}
+	
+	
+	public ArrayList<Note> shareWithMe(User u){
+		ArrayList<Note> notes=(ArrayList<Note>) getWhere(x->!x.getAuthor().equals(u));
+		ArrayList<Note> out= new ArrayList<>();
+		for (Note n: notes){
+			if(n.getSharedWithArray().contains(u))
+				out.add(n);
+		}
+		return out;
+	}
 	
 
 }
