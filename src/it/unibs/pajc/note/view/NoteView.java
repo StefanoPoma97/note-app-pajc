@@ -313,6 +313,7 @@ public class NoteView extends JPanel {
 					System.out.println("Sharred USer "+sharedUser);
 					modifyID= view.getIDbyTitle(lbl_title.getText());
 					refreshLabelPanel(view);
+					refreshSharePanel(view);
 				}
 			});
 			
@@ -398,6 +399,16 @@ public class NoteView extends JPanel {
 		//TODO implementare una scroll bar funzionante
 //		JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
 //		panelLabels.add(scrollPaneLabel);
+		JButton btnShareIcon = new JButton("Shared with:");
+		btnShareIcon.setContentAreaFilled(false);
+		btnShareIcon.setMargin(new Insets(0, 0, 0, 0));
+		btnShareIcon.setBorder(null);
+		btnShareIcon.setEnabled(false);
+		btnShareIcon.setHorizontalAlignment(SwingConstants.LEFT);
+
+		panelShare.add(btnShareIcon);
+		
+		
 		ArrayList<User> cp= new ArrayList<>(sharedUser);
 		for (int i=0; i<cp.size(); i++){
 			JButton btnNewButton = new JButton(cp.get(i).getName());
@@ -424,8 +435,12 @@ public class NoteView extends JPanel {
 					int dialogResult = JOptionPane.showConfirmDialog(null, "Vuoi eliminare il seguente utente condiviso: "+btnNewButton.getActionCommand(), "Avviso",dialogButton);
 					if(dialogResult == 0) {
 						for (User u: cp){
-							if (u.getName().equals(btnNewButton.getActionCommand()))
+							if (u.getName().equals(btnNewButton.getActionCommand())){
 								cp.remove(u);
+								break;
+							}
+								
+							
 						}
 						System.out.println("CP "+cp);
 						sharedUser.clear();
@@ -864,6 +879,7 @@ public class NoteView extends JPanel {
 				note.setBody(textAreaNote.getText());
 //				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
 				note.addLabels(temporanyLabels);
+				note.addSharedUsers(sharedUser);
 				ValidationError validate;
 //				System.out.println("ID che sto modificando "+modifyID);
 				note.setPin(btnPin.getBackground().equals(Color.RED));
@@ -1092,8 +1108,10 @@ public class NoteView extends JPanel {
 		  btnRefresh.setToolTipText("Refresh your list");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				sharedUser= new HashSet<>();
 				refreshLabelPanel(view);
 				refreshNoteList(view);
+				refreshSharePanel(view);
 			}
 		});
 		
@@ -1126,6 +1144,7 @@ public class NoteView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				temporanyLabels= new ArrayList<>();
 				sharedUser= new HashSet<>();
+				refreshLabelPanel(view);
 				actualLabels= new ArrayList<>();
 				refreshLabelPanel(view);
 				btnPin.setBackground(new JButton().getBackground());
@@ -1169,26 +1188,36 @@ public class NoteView extends JPanel {
 				case "Titolo":{
 					notes=view.FilterByTitle();
 					refreshNoteList(view);
+					sharedUser= new HashSet<>();
+					refreshLabelPanel(view);
 					comboFilter.setEnabled(false);
 					break;
 				}
 				case "Data":
 					notes=view.FilterByData();
 					refreshNoteList(view);
+					sharedUser= new HashSet<>();
+					refreshLabelPanel(view);
 					comboFilter.setEnabled(false);
 					break;
 					
 				case "Like":
 					notes=view.FilterByLike();
 					refreshNoteList(view);
+					sharedUser= new HashSet<>();
+					refreshLabelPanel(view);
 					comboFilter.setEnabled(false);
 					break;
 				case "Pinned":
 					notes=view.FilterByPin();
 					refreshNoteList(view);
+					sharedUser= new HashSet<>();
+					refreshLabelPanel(view);
 					comboFilter.setEnabled(false);
 					break;
 				case "Filters":
+					sharedUser= new HashSet<>();
+					refreshLabelPanel(view);
 					comboFilter.setEnabled(false);
 					break;
 					
@@ -1230,6 +1259,8 @@ public class NoteView extends JPanel {
 				}
 				modifica=false;
 				nuova=false;
+				sharedUser= new HashSet<>();
+				refreshLabelPanel(view);
 				btnPin.setBackground(new JButton().getBackground());
 				chckbxPublic.setSelected(false);
 				comboLabels.setEnabled(false);

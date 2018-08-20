@@ -134,6 +134,7 @@ public class Note extends Identifiable implements Serializable{
 	
 	public Boolean getPin(){
 		return pin;
+		
 	}
 	
 	public void addLike(){
@@ -149,8 +150,9 @@ public class Note extends Identifiable implements Serializable{
 		return sharedWith;
 	}
 	
-	public void addSharedUsers (User u){
-		sharedWith.add(u);
+	public void addSharedUsers (Set<User> us){
+		sharedWith.addAll(us);
+		System.out.println("AGGIUNTI NUOVI SHARED US: "+sharedWith);
 	}
 	
 	/**
