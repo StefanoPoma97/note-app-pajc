@@ -205,5 +205,16 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	public Note getNoteByTitle(String n, User u){
+		System.out.println("STO CERCANDO LA NOTA: "+n);
+		ArrayList<Note> out= shareWithMe(u);
+		System.out.println("NOTE CONDIVISE CON ME: "+out.toString());
+		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getTitle().equals(n)).collect(Collectors.toList());
+		//TODO impedire doppioni
+		if(out2.size()>1)
+			System.out.println("DOPPIONEEEE!!!!!");
+		return out2.get(0);
+	}
+	
 
 }

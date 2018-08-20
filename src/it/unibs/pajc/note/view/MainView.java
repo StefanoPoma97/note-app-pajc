@@ -174,6 +174,10 @@ public class MainView {
 		return noteController.update(n, ID);
 	}
 	
+	public ValidationError exUpdate(Note n, int ID){
+		return noteController.update(n, ID);
+	}
+	
 	public int getIDbyTitle(String title){
 		return noteController.getIDbyTitle(title);
 	}
@@ -245,6 +249,15 @@ public class MainView {
 	
 	public ArrayList<Note> shareWithMe(){
 		return noteController.shareWithMe(utente);
+	}
+	
+	public boolean isShare(Note n){
+		ArrayList<User> us= new ArrayList<>(n.getSharedWith());
+		return us.contains(utente);
+	}
+	
+	public Note getNoteByTitle(String n){
+		return noteController.getNoteByTitle(n, utente);
 	}
 	
 	/**

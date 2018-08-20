@@ -88,6 +88,7 @@ public class ExploreView extends JPanel {
 	private boolean modifica=false;
 	private Object[] colours={};
 	private Set<User> sharedUser= new HashSet<>();
+	private String modifyTitle= null;
 	
 
 	 /* metodo per far apparire messaggio di errore 
@@ -159,13 +160,14 @@ public class ExploreView extends JPanel {
 	private void buildComponent(MainView view){
 		
 		refreshButton(view);
+		createModifyNote(view);
 		refreshNoteList(view);
-//		refreshButtonModify(view);
+		refreshButtonModify(view);
 
 		
 		
 		
-//		createModifyNote(view);
+		
 		
 		
 		
@@ -182,6 +184,7 @@ public class ExploreView extends JPanel {
 
 		contentList.removeAll();
 		contentList.revalidate();
+		
 		
 		contentList.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
@@ -252,7 +255,13 @@ public class ExploreView extends JPanel {
 			
 			
 			gc = new GridBagConstraints();
-			JButton btn_modify = new JButton("M");
+			boolean isShare= view.isShare(notes.get(i));
+			JButton btn_modify= new JButton("V");
+			if(isShare)
+				btn_modify.setText("M");
+				
+				
+			
 			btn_modify.setPreferredSize(new Dimension(20, 20));
 			
 			gc.gridx = 3;
@@ -274,29 +283,30 @@ public class ExploreView extends JPanel {
 					btn_modify.setEnabled(false);
 				}
 			});
+			
 			btn_modify.setToolTipText("Modify this note");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-//					temporanyLabels= new ArrayList<>();
-//					sharedUser= new HashSet<>();
-//					System.out.println("Sharred user: "+sharedUser);
-//					nuova=false;
-//					modifica=true;
-//					if (view.isPinned(lbl_title.getText()))
-//						btnPin.setBackground(Color.RED);
-//					else
-//						btnPin.setBackground(new JButton().getBackground());
-//					
-//					chckbxPublic.setSelected(view.isPublic(lbl_title.getText()));
-//					
-//					textFieldTitleNote.setText(lbl_title.getText());
-//					textAreaNote.setText(btn_modify.getActionCommand());
-//					temporanyLabels= view.getLabelsByNote(lbl_title.getText());
-//					sharedUser= view.getSharredUser(lbl_title.getText());
-//					System.out.println("Sharred USer "+sharedUser);
-//					modifyID= view.getIDbyTitle(lbl_title.getText());
-//					refreshLabelPanel(view);
-//					refreshSharePanel(view);
+					nuova=false;
+					modifica=true;
+					modifyTitle=null;
+					modifyTitle=lbl_title.getText();
+					textFieldTitleNote.setText(lbl_title.getText());
+					textAreaNote.setText(btn_modify.getActionCommand());
+					
+				
+					textFieldTitleNote.setEditable(isShare);
+					textAreaNote.setEditable(isShare);
+					btnSave.setEnabled(false);
+					if(isShare){
+						btnSave.setEnabled(true);
+						modifyID= view.getIDbyTitle(lbl_title.getText());
+						textAreaNote.setBackground(textFieldTitleNote.getBackground());
+					}
+						
+					
+					
+						
 				}
 			});
 			
@@ -340,131 +350,6 @@ public class ExploreView extends JPanel {
 	
 	
 	/**
-	 * metodo per aggiornare il pannello relativo alle label associate alla nota che stiamo modificando
-	 * @param view
-	 */
-	private void refreshSharePanel(MainView view){
-		panelShare.removeAll();
-		panelShare.revalidate();
-		//TODO implementare una scroll bar funzionante
-//		JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
-//		panelLabels.add(scrollPaneLabel);
-		JButton btnShareIcon = new JButton("Shared with:");
-		btnShareIcon.setContentAreaFilled(false);
-		btnShareIcon.setMargin(new Insets(0, 0, 0, 0));
-		btnShareIcon.setBorder(null);
-		btnShareIcon.setEnabled(false);
-		btnShareIcon.setHorizontalAlignment(SwingConstants.LEFT);
-
-		panelShare.add(btnShareIcon);
-		
-		if (sharedUser.size()>0)
-			chckbxPublic.setSelected(true);
-			
-		
-		ArrayList<User> cp= new ArrayList<>(sharedUser);
-		for (int i=0; i<cp.size(); i++){
-			JButton btnNewButton = new JButton(cp.get(i).getName());
-			btnNewButton.setActionCommand(cp.get(i).getName());
-			btnNewButton.setPreferredSize(new Dimension(80, 15));
-			btnNewButton.setContentAreaFilled(false);
-			btnNewButton.setBorder(BorderFactory.createEmptyBorder());
-			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
-			btnNewButton.setEnabled(false);
-			btnNewButton.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					btnNewButton.setEnabled(true);
-				}
-				@Override
-				public void mouseExited(MouseEvent e) {
-					btnNewButton.setEnabled(false);
-				}
-			});
-			btnNewButton.setToolTipText("Remove this User");
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					int dialogButton = JOptionPane.YES_NO_OPTION;
-					int dialogResult = JOptionPane.showConfirmDialog(null, "Vuoi eliminare il seguente utente condiviso: "+btnNewButton.getActionCommand(), "Avviso",dialogButton);
-					if(dialogResult == 0) {
-						for (User u: cp){
-							if (u.getName().equals(btnNewButton.getActionCommand())){
-								cp.remove(u);
-								break;
-							}
-								
-							
-						}
-						System.out.println("CP "+cp);
-						sharedUser.clear();
-						sharedUser= new HashSet<>(cp);
-						refreshSharePanel(view);
-					} else {
-					  System.out.println("No Option");
-					} 
-				}
-			});
-			panelShare.add(btnNewButton);
-		}
-		
-		panelShare.repaint();
-	}
-	
-	
-	/**
-	 * metodo per aggiornare il pannello relativo alle label associate alla nota che stiamo modificando
-	 * @param view
-	 */
-	private void refreshLabelPanel(MainView view){
-		panelLabels.removeAll();
-		panelLabels.revalidate();
-		//TODO implementare una scroll bar funzionante
-//		JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
-//		panelLabels.add(scrollPaneLabel);
-		actualLabels=temporanyLabels;
-		Set<String> hs = new HashSet<>();
-		hs.addAll(actualLabels);
-		actualLabels.clear();
-		actualLabels.addAll(hs);
-		for (int i=0; i<actualLabels.size(); i++){
-			JButton btnNewButton = new JButton(actualLabels.get(i));
-			btnNewButton.setActionCommand(actualLabels.get(i));
-			btnNewButton.setPreferredSize(new Dimension(80, 15));
-			btnNewButton.setContentAreaFilled(false);
-			btnNewButton.setBorder(BorderFactory.createEmptyBorder());
-			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 9));
-			btnNewButton.setEnabled(false);
-			btnNewButton.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					btnNewButton.setEnabled(true);
-				}
-				@Override
-				public void mouseExited(MouseEvent e) {
-					btnNewButton.setEnabled(false);
-				}
-			});
-			btnNewButton.setToolTipText("Remove this label");
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					int dialogButton = JOptionPane.YES_NO_OPTION;
-					int dialogResult = JOptionPane.showConfirmDialog(null, "Vuoi eliminare la seguente label: "+btnNewButton.getActionCommand(), "Avviso",dialogButton);
-					if(dialogResult == 0) {
-					  temporanyLabels.remove(btnNewButton.getActionCommand());
-					  actualLabels= new ArrayList<>();
-					  refreshLabelPanel(view);
-					} else {
-					  System.out.println("No Option");
-					} 
-				}
-			});
-			panelLabels.add(btnNewButton);
-		}
-		
-		panelLabels.repaint();
-	}
-	
-	/**
 	 * crea l'area di modifica per la nota selezionata
 	 */
 	private void createModifyNote(MainView view){
@@ -474,7 +359,7 @@ public class ExploreView extends JPanel {
 		loadInfo(view);
 		contentNote.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
-			
+		modifyID=null;
 		//row 0
 			//col 0-3
 			gbc_textFieldTitleNote = new GridBagConstraints();
@@ -507,166 +392,6 @@ public class ExploreView extends JPanel {
 			gc.insets = new Insets(10, 10, 5, 10);
 			contentNote.add(scrollPaneNote,gc);
 			
-		//row 2
-			//col 0-3
-			gc = new GridBagConstraints();
-			panelLabels = new JPanel();
-			panelLabels.setPreferredSize(new Dimension(500, 20));
-//			JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
-			panelLabels.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-			gc.weightx=1;
-			gc.weighty=0;
-			gc.gridx = 0;
-			gc.gridy = 2;
-			gc.gridwidth=3;
-			gc.fill=GridBagConstraints.HORIZONTAL;
-			gc.anchor= GridBagConstraints.LINE_START;
-			gc.insets = new Insets(5, 10, 5, 10);
-			contentNote.add(panelLabels,gc);
-			
-			//row 3
-			//col 0-3
-			gc = new GridBagConstraints();
-			panelShare = new JPanel();
-			panelShare.setPreferredSize(new Dimension(500, 20));
-//			JScrollPane scrollPaneLabel= new JScrollPane(panelLabels);
-			panelShare.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-			gc.weightx=1;
-			gc.weighty=0;
-			gc.gridx = 0;
-			gc.gridy = 3;
-			gc.gridwidth=3;
-			gc.fill=GridBagConstraints.HORIZONTAL;
-			gc.anchor= GridBagConstraints.LINE_START;
-			gc.insets = new Insets(5, 10, 5, 10);
-			contentNote.add(panelShare,gc);
-			
-		//row 4
-			//col 0
-			gc = new GridBagConstraints();
-			comboLabelsAdd = new JComboBox();
-			comboLabelsAdd.setModel(new DefaultComboBoxModel(labels));
-			comboLabelsAdd.setToolTipText("");
-			comboLabelsAdd.setSelectedItem("Labels");
-			comboLabelsAdd.setEnabled(false);
-			comboLabelsAdd.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					comboLabelsAdd.setEnabled(true);
-				}
-				@Override
-				public void mouseExited(MouseEvent e) {
-					
-				}
-			});
-			comboLabelsAdd.setToolTipText("Chose label to add");
-			gc.weightx=0;
-			gc.weighty=0;
-			gc.gridx = 0;
-			gc.gridy = 4;
-			gc.gridwidth=1;
-			gc.anchor= GridBagConstraints.LINE_START;
-			gc.insets = new Insets(10, 10, 10, 10);
-			contentNote.add(comboLabelsAdd,gc);
-			
-			//col 1
-			gc = new GridBagConstraints();
-			textFieldNewLabel = new JTextField();
-			textFieldNewLabel.setText("");
-			textFieldNewLabel.setPreferredSize(new Dimension(100, 30));
-			gc.weightx=0;
-			gc.weighty=0;
-			gc.gridx = 1;
-			gc.gridy = 4;
-			gc.gridwidth=1;
-			gc.anchor= GridBagConstraints.LINE_START;
-			gc.insets = new Insets(10, 10, 10, 10);
-			contentNote.add(textFieldNewLabel,gc);
-			
-			//col 2
-			gc = new GridBagConstraints();
-			btnAddLabel = new JButton();
-			btnAddLabel.setFont(new Font("Tahoma", Font.PLAIN, 9));
-			btnAddLabel.setToolTipText("");
-			btnAddLabel.setText("add new label");
-			btnAddLabel.setName("");
-			btnAddLabel.setEnabled(false);
-			btnAddLabel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					btnAddLabel.setEnabled(true);
-				}
-				@Override
-				public void mouseExited(MouseEvent e) {
-					btnAddLabel.setEnabled(false);
-				}
-			});
-			
-			
-			comboLabelsAdd.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					comboLabelsAdd.setEnabled(false);
-			}});
-			
-			comboLabelsAdd.setEnabled(false);
-			btnAddLabel.setToolTipText("Add selected label");
-			btnAddLabel.setPreferredSize(new Dimension(80, 30));
-			gc.weightx=0;
-			gc.weighty=0;
-			gc.gridx = 2;
-			gc.gridy = 4;
-			gc.gridwidth=1;
-			gc.anchor= GridBagConstraints.LINE_START;
-			gc.insets = new Insets(10, 10, 10, 10);
-			btnAddLabel.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if(textFieldTitleNote.getText().equals("Select one note...")){
-						showInfoMessage("prima seleziona una nota");
-						comboLabelsAdd.setSelectedItem("Labels");
-						textFieldNewLabel.setText("");
-						return;
-					}
-					if (textFieldNewLabel.getText().isEmpty() && comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
-						
-						showInfoMessage("Label is empty");
-					}
-					
-					if (!textFieldNewLabel.getText().isEmpty() && !comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
-						showInfoMessage("slezionare una sola label");
-						comboLabelsAdd.setSelectedItem("Labels");
-						textFieldNewLabel.setText("");
-					}
-					else{
-						if(view.getMyLabel().size()>10){
-							showErrorMessage("Max number of Label reach");
-						}
-						else{
-								if (textFieldNewLabel.getText().isEmpty()){
-//									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
-//									System.out.println("TEMPORANY PRIMA "+temporanyLabels);
-									temporanyLabels.add(comboLabelsAdd.getSelectedItem().toString());
-									refreshLabelPanel(view);
-//									System.out.println("TEMPORANY DOPO "+temporanyLabels);
-									textFieldNewLabel.setText("");
-									comboLabelsAdd.setSelectedItem("Labels");
-									System.out.println(temporanyLabels);
-								}
-								else{
-									view.addLabel(textFieldNewLabel.getText());
-									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
-									temporanyLabels.add(textFieldNewLabel.getText());
-									refreshLabelPanel(view);
-									textFieldNewLabel.setText("");
-									System.out.println(temporanyLabels);
-								}
-							
-						}
-					}
-					
-				}
-			});
-			contentNote.add(btnAddLabel,gc);
-			
 			contentNote.repaint();
 	}
 	
@@ -685,7 +410,8 @@ public class ExploreView extends JPanel {
 		btnExplore = new JButton("Back");
 		btnExplore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				btnSave.setEnabled(false);
+				view.noteView();
 	
 
 			}
@@ -703,61 +429,9 @@ public class ExploreView extends JPanel {
 			}
 		});
 		btnExplore.setToolTipText("Explore section");
-		contentInfo.add(btnExplore);
+		contentModify.add(btnExplore);
 		
-		 try {
-			  ImageIcon addIcon = new ImageIcon("PinButton.png");
-			  Image im= addIcon.getImage();
-			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
-			  btnPin = new JButton(new ImageIcon(newimg));
-			  btnPin.setContentAreaFilled(true);
-			  btnPin.setMargin(new Insets(0, 0, 0, 0));
-			  btnPin.setBorder(null);
-			 
 
-		  } catch (Exception ex) {
-		    System.out.println(ex);
-		  } 
-		 btnPin.setEnabled(false);
-		 btnPin.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					btnPin.setEnabled(true);
-				}
-				@Override
-				public void mouseExited(MouseEvent e) {
-					btnPin.setEnabled(false);
-				}
-			});
-		 btnPin.setToolTipText("Pinned the note");
-		btnPin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (modifica || nuova){
-					if (btnPin.getBackground().equals(Color.RED))
-						btnPin.setBackground(new JButton().getBackground());
-					else
-						btnPin.setBackground(Color.RED);
-				}
-				
-			}
-		});
-		contentModify.add(btnPin);
-		
-		chckbxPublic = new JCheckBox("Public");
-		chckbxPublic.setEnabled(false);
-		chckbxPublic.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				chckbxPublic.setEnabled(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				chckbxPublic.setEnabled(false);
-			}
-		});
-		chckbxPublic.setToolTipText("The note will be public");
-		contentModify.add(chckbxPublic);
-		
 		
 		 try {
 			  ImageIcon addIcon = new ImageIcon("SaveButton.png");
@@ -773,84 +447,59 @@ public class ExploreView extends JPanel {
 		    System.out.println(ex);
 		  } 
 		 btnSave.setEnabled(false);
-		 btnSave.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					btnSave.setEnabled(true);
-				}
-				@Override
-				public void mouseExited(MouseEvent e) {
-					btnSave.setEnabled(false);
-				}
-			});
+//		 btnSave.addMouseListener(new MouseAdapter() {
+//				@Override
+//				public void mouseEntered(MouseEvent arg0) {
+//					btnSave.setEnabled(true);
+//				}
+//				@Override
+//				public void mouseExited(MouseEvent e) {
+//					btnSave.setEnabled(false);
+//				}
+//			});
 		 btnSave.setToolTipText("Save the note");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Note note = new Note(textFieldTitleNote.getText());
-				if(textFieldTitleNote.getText().toCharArray().length>15){
-					showErrorMessage("Title max length = 15!!");
-					textFieldTitleNote.setText("");
-					return;
+				if (textFieldTitleNote.getText().equals("Select one note...")){
+					showInfoMessage("Devi prima selezionare una nota");
 				}
-				note.setBody(textAreaNote.getText());
-//				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
-				note.addLabels(temporanyLabels);
-				note.addSharedUsers(sharedUser);
-				ValidationError validate;
-//				System.out.println("ID che sto modificando "+modifyID);
-				note.setPin(btnPin.getBackground().equals(Color.RED));
-				if (sharedUser.size()>0)
-					note.setPublic(true);
-				else
-				note.setPublic(chckbxPublic.isSelected());
-				
-				if (modifyID==null){
-					validate = view.addNote(note);
-					if (validate.equals(ValidationError.TITLE_EMPTY)){
-						showInfoMessage(validate);
-						return;
-					}
-					System.out.println("nota aggiunta");
-					notes=view.getMyNote();
-					textFieldTitleNote.setText("Select one note...");
-					textAreaNote.setText("");
-					temporanyLabels=new ArrayList<>();
-					sharedUser= new HashSet<>();
-					actualLabels=new ArrayList<>();
-					nuova=false;
-					btnPin.setBackground(new JButton().getBackground());
-					chckbxPublic.setSelected(false);
-					view.updateMyLabels();
-					createModifyNote(view);
-					refreshButton(view);
-					repaint();
-		
-				}
-					
 				else{
-					note.setUpdatedAt(new GregorianCalendar());
-					validate=view.update(note, modifyID);
-					if (validate.equals(ValidationError.TITLE_EMPTY)){
-						showInfoMessage(validate);
+					System.out.println("TITOLO DELLA NOTA DA CERCARE: "+modifyTitle);
+					Note note = view.getNoteByTitle(modifyTitle);
+					if(textFieldTitleNote.getText().toCharArray().length>15){
+						showErrorMessage("Title max length = 15!!");
+						textFieldTitleNote.setText("");
 						return;
 					}
-					System.out.println("nota aggiornata");
-					notes=view.getMyNote();
+					note.setTitle(textFieldTitleNote.getText());
+					note.setBody(textAreaNote.getText());
+					ValidationError validate;
+					if (modifyID==null){
+						System.out.println("YO bro non dovresti entrare in questo if");
+					}				
+					else{
+						note.setUpdatedAt(new GregorianCalendar());
+						validate=view.exUpdate(note, modifyID);
+						System.out.println("UPDATE "+validate);
+						if (validate.equals(ValidationError.TITLE_EMPTY)){
+							showInfoMessage(validate);
+							return;
+						}
+				}
+				
+					
+					notes=view.getAllNote();
 					modifyID= null;
 					textFieldTitleNote.setText("Select one note...");
 					textAreaNote.setText("");
-					actualLabels=new ArrayList<>();
-					temporanyLabels=new ArrayList<>();
-					sharedUser= new HashSet<>();
 					modifica=false;
-					btnPin.setBackground(new JButton().getBackground());
-					chckbxPublic.setSelected(false);
-					view.updateMyLabels();
-					sharedUser= new HashSet<>();
+					btnSave.setEnabled(false);
 					createModifyNote(view);
 					refreshButton(view);
 					repaint();
+					
+					System.out.println(note.getTitle()+"  "+note.getBody()+ "   "+note.getSharedWith().toString());
 		
 				}
 				
@@ -929,63 +578,7 @@ public class ExploreView extends JPanel {
 		contentModify.add(comboColors);
 		
 		
-		 try {
-			  ImageIcon addIcon = new ImageIcon("shareButton.png");
-			  Image im= addIcon.getImage();
-			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
-			  btnShare = new JButton(new ImageIcon(newimg));
-			  btnShare.setContentAreaFilled(true);
-			  btnShare.setMargin(new Insets(0, 0, 0, 0));
-			  btnShare.setBorder(null);
-			 
-
-		  } catch (Exception ex) {
-		    System.out.println(ex);
-		  } 
-		 btnShare.setEnabled(false);
-		 btnShare.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					btnShare.setEnabled(true);
-				}
-				@Override
-				public void mouseExited(MouseEvent e) {
-					btnShare.setEnabled(false);
-				}
-			});
-		 btnShare.setToolTipText("Other users can modify your note");
-		 btnShare.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				ArrayList<User> listUser= new ArrayList<>();
-				listUser= view.getAllUsers();
-				ArrayList<String> cp= (ArrayList<String>)listUser.stream()
-						.map(x->x.getName())
-						.collect(Collectors.toList());
-				System.out.println("LISTA "+cp);
-						
-				String[] users = cp.toArray(new String[0]);
-				System.out.println("TUTTI GLI USER "+users[1]);
-			    String input = (String)JOptionPane.showInputDialog(null, "Share with...",
-			        "Choise one account", JOptionPane.QUESTION_MESSAGE, null, // Use
-			                                                                        // default
-			                                                                        // icon
-			        users, // Array of choices
-			        users[0]); // Initial choice
-			    
-			    int index = -1;
-			    for (int i=0;i<users.length;i++) {
-			        if (users[i].equals(input)) {
-			            index = i;
-			            break;
-			        }
-			    }
-			   
-			    sharedUser.add(listUser.get(index));
-			    refreshSharePanel(view);
-			 
-		}});
-		 contentModify.add(btnShare);
+		
 		
 		contentModify.repaint();
 	}
@@ -1025,28 +618,39 @@ public class ExploreView extends JPanel {
 				case "Titolo":{
 					notes=view.exFilterByTitle();
 					System.out.println(notes);
+					btnSave.setEnabled(false);
 					refreshNoteList(view);
+					createModifyNote(view);
 					comboFilter.setEnabled(false);
 					break;
 				}
 				case "Data":
 					notes=view.exFilterByData();
+					btnSave.setEnabled(false);
 					refreshNoteList(view);
+					createModifyNote(view);
 					comboFilter.setEnabled(false);
 					break;
 					
 				case "Like":
 					notes=view.exFilterByLike();
+					btnSave.setEnabled(false);
 					refreshNoteList(view);
+					createModifyNote(view);
 					comboFilter.setEnabled(false);
 					break;
 				case "Author":
 					notes=view.exFilterByAuthor();
+					btnSave.setEnabled(false);
 					refreshNoteList(view);
+					createModifyNote(view);
 					comboFilter.setEnabled(false);
 					break;
 				case "Filters":
 					comboFilter.setEnabled(false);
+					btnSave.setEnabled(false);
+					refreshNoteList(view);
+					createModifyNote(view);
 					break;
 					
 					default :
@@ -1072,7 +676,9 @@ public class ExploreView extends JPanel {
 		btnShareWithMe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				notes=view.shareWithMe();
+				btnSave.setEnabled(false);
 				refreshNoteList(view);
+				createModifyNote(view);
 				System.out.println("NOTE CHE POSSO MODIFICARE "+notes);
 			}
 		});

@@ -208,6 +208,14 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 		return noteArchive.shareWithMe(u);
 	}
 	
+//	public boolean isShare(Note n, User u){
+//		return noteArchive.isShare(n,u);
+//	}
+	
+	public Note getNoteByTitle(String n, User u){
+		return noteArchive.getNoteByTitle(n, u);
+	}
+	
 	
 	
 }
