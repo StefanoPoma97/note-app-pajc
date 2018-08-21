@@ -20,6 +20,7 @@ public class Note extends Identifiable implements Serializable{
 	private ArrayList<String> labels= new ArrayList<>();
 	private int likes=0;
 	private Set<User> sharedWith = new HashSet<>();
+	private ArrayList<User> likedBy = new ArrayList<>();
 
 	public Note(String _title) {
 		this.title = _title;
@@ -141,6 +142,10 @@ public class Note extends Identifiable implements Serializable{
 		likes++;
 	}
 	
+	public void removeLike(){
+		likes--;
+	}
+	
 	public int getLike(){
 		return likes;
 	}
@@ -159,6 +164,19 @@ public class Note extends Identifiable implements Serializable{
 		System.out.println("AGGIUNTI NUOVI SHARED US: "+sharedWith);
 	}
 	
+	public ArrayList<User> getLikedBy (){
+		return likedBy;
+	}
+	
+	public void addLikedUser(User u){
+		likedBy.add(u);
+		Set<User> cp= new HashSet<>(likedBy);
+		likedBy=new ArrayList<>(cp);
+	}
+	
+	public void removeLikedUser(User u){
+		likedBy.remove(u);
+	}
 	/**
 	 * metodo equals che si basa solo sull'ID dato che è univoco
 	 */

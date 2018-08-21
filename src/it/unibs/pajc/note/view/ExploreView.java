@@ -57,6 +57,7 @@ public class ExploreView extends JPanel {
 	private JButton btnExplore;
 	private JButton btnPin;
 	private JButton btnShare;
+	private JButton btnLike;
 	private JComboBox comboLabelsAdd;
 	private JComboBox comboFilter;
 	private JComboBox comboLabels;
@@ -79,6 +80,7 @@ public class ExploreView extends JPanel {
 	JLabel lbl_title = new JLabel();
 	private NoteArchive noteArchive= new NoteArchive();
 	
+	private JLabel textLike;
 	private JTextField textFieldNewLabel;
 	private JButton btnAddLabel;
 	
@@ -89,6 +91,7 @@ public class ExploreView extends JPanel {
 	private Object[] colours={};
 	private Set<User> sharedUser= new HashSet<>();
 	private String modifyTitle= null;
+	private JButton btnNewButton;
 	
 
 	 /* metodo per far apparire messaggio di errore 
@@ -287,6 +290,7 @@ public class ExploreView extends JPanel {
 			btn_modify.setToolTipText("Modify this note");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					createModifyNote(view);
 					nuova=false;
 					modifica=true;
 					modifyTitle=null;
@@ -294,6 +298,11 @@ public class ExploreView extends JPanel {
 					textFieldTitleNote.setText(lbl_title.getText());
 					textAreaNote.setText(btn_modify.getActionCommand());
 					
+					Note note = view.getNoteByTitleLike(lbl_title.getText());
+					textLike.setText(Integer.toString(note.getLike()));
+					if(view.iLikeThisNote(note))
+						btnLike.setBackground(Color.RED);
+					note=null;
 				
 					textFieldTitleNote.setEditable(isShare);
 					textAreaNote.setEditable(isShare);
@@ -339,6 +348,8 @@ public class ExploreView extends JPanel {
 					lb_data.setEnabled(false);
 				}
 			});
+			
+			
 
 		}
 		
@@ -391,6 +402,77 @@ public class ExploreView extends JPanel {
 			gc.anchor= GridBagConstraints.LINE_START;
 			gc.insets = new Insets(10, 10, 5, 10);
 			contentNote.add(scrollPaneNote,gc);
+			
+		//row 2
+			//col 0
+			try {
+				  ImageIcon addIcon = new ImageIcon("LikeButton.png");
+				  Image im= addIcon.getImage();
+				  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+				  btnLike = new JButton(new ImageIcon(newimg));
+				  btnLike.setContentAreaFilled(true);
+				  btnLike.setMargin(new Insets(0, 0, 0, 0));
+				  btnLike.setBorder(null);
+				 
+
+			  } catch (Exception ex) {
+			    System.out.println(ex);
+			  } 
+			btnLike.setEnabled(false);
+			btnLike.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+						btnLike.setEnabled(true);
+					}
+					@Override
+					public void mouseExited(MouseEvent e) {
+						btnLike.setEnabled(false);
+					}
+				});
+			btnLike.setToolTipText("Pinned the note");
+			btnLike.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Note note= view.getNoteByTitleLike(textFieldTitleNote.getText());
+					if(btnLike.getBackground().equals(new JButton().getBackground())){
+						btnLike.setBackground(Color.RED);
+						note.addLike();
+						note=view.addLikedUser(note);
+						view.exUpdate(note, note.getID());
+						Integer l= Integer.valueOf(textLike.getText());
+						l++;
+						textLike.setText(Integer.toString(l));
+						note=null;
+//						createModifyNote(view);
+					}
+						
+					else{
+						btnLike.setBackground(new JButton().getBackground());
+						note.removeLike();
+						note=view.removeLikedUser(note);
+						view.exUpdate(note, note.getID());
+						Integer l= Integer.valueOf(textLike.getText());
+						l--;
+						textLike.setText(Integer.toString(l));
+						note=null;
+//						createModifyNote(view);
+					}
+						
+			}});
+			gc = new GridBagConstraints();
+			gc.insets = new Insets(5, 5, 5, 5);
+			gc.gridx = 1;
+			gc.gridy = 2;
+			contentNote.add(btnLike, gc);
+			
+			//col 1
+			textLike = new JLabel();
+			textLike.setBorder(null);
+			textLike.setEnabled(false);
+			gc = new GridBagConstraints();
+			gc.insets = new Insets(5, 10, 5, 5);
+			gc.gridx = 0;
+			gc.gridy = 2;
+			contentNote.add(textLike, gc);
 			
 			contentNote.repaint();
 	}
@@ -447,16 +529,7 @@ public class ExploreView extends JPanel {
 		    System.out.println(ex);
 		  } 
 		 btnSave.setEnabled(false);
-//		 btnSave.addMouseListener(new MouseAdapter() {
-//				@Override
-//				public void mouseEntered(MouseEvent arg0) {
-//					btnSave.setEnabled(true);
-//				}
-//				@Override
-//				public void mouseExited(MouseEvent e) {
-//					btnSave.setEnabled(false);
-//				}
-//			});
+
 		 btnSave.setToolTipText("Save the note");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

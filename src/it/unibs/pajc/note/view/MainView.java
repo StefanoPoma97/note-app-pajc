@@ -260,6 +260,24 @@ public class MainView {
 		return noteController.getNoteByTitle(n, utente);
 	}
 	
+	public Note getNoteByTitleLike(String n){
+		return noteController.getNoteByTitleLike(n, utente);
+	}
+	
+	public Note addLikedUser(Note n){
+		n.addLikedUser(utente);
+		return n;
+	}
+	
+	public Note removeLikedUser(Note n){
+		n.removeLikedUser(utente);
+		return n;
+	}
+	
+	public boolean iLikeThisNote (Note n){
+		return n.getLikedBy().contains(utente);
+	}
+	
 	/**
 	 * Launch the application.
 	 */

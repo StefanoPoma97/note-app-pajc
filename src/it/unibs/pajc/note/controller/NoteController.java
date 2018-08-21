@@ -61,12 +61,15 @@ public class NoteController extends Controller<Note>{
 			nota.setAutor(u1);
 			if(i==0){
 				nota.addLabel("Riunione");
+				nota.addLike();
+				nota.addLike();
 				Set<User> set= new HashSet<>();
 				set.add(u);
 				nota.addSharedUsers(set);
 				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
 			}
 			if (i==1){
+				nota.addLike();
 				nota.addLabel("Memo");
 			}
 				
@@ -74,11 +77,14 @@ public class NoteController extends Controller<Note>{
 		}
 		
 		for (int i=0; i<5; i++){
-			Note nota = new Note("titolo copiato 2 volte"+i);
+			Note nota = new Note("titolo cp"+i);
 			nota.setBody("corpo della nota copia numero: "+i);
 			nota.setAutor(u2);
 			if(i==0){
 				nota.setTitle("AAAAAAAAAAAAAA");
+				nota.addLike();
+				nota.addLike();
+				nota.addLike();
 				nota.addLabel("Riunione");
 				Set<User> set= new HashSet<>();
 				set.add(u);
@@ -214,6 +220,10 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 	
 	public Note getNoteByTitle(String n, User u){
 		return noteArchive.getNoteByTitle(n, u);
+	}
+	
+	public Note getNoteByTitleLike(String n, User u){
+		return noteArchive.getNoteByTitleLike(n, u);
 	}
 	
 	

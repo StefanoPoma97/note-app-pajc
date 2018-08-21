@@ -1,5 +1,6 @@
 package it.unibs.pajc.note.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+
 import it.unibs.pajc.note.status.ValidationError;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -191,11 +194,20 @@ public class LoginView extends JPanel {
 	btnCreateAccount.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			if (!textFieldName.getText().isEmpty() && !textFieldPassword.getText().isEmpty())
+			if (!textFieldName.getText().isEmpty() && !textFieldPassword.getText().isEmpty()){
+				textFieldPassword.setBorder(new LineBorder(Color.GREEN));
+				textFieldName.setBorder(new LineBorder(Color.GREEN));
+			}
+			else{
+				textFieldPassword.setBorder(new JTextField().getBorder());
+				textFieldName.setBorder(new JTextField().getBorder());
+			}
 				btnCreateAccount.setEnabled(true);
 		}
 		@Override
 		public void mouseExited(MouseEvent e) {
+			textFieldPassword.setBorder(new JTextField().getBorder());
+			textFieldName.setBorder(new JTextField().getBorder());
 			btnCreateAccount.setEnabled(false);
 		}
 	});

@@ -503,6 +503,7 @@ public class NoteView extends JPanel {
 					  temporanyLabels.remove(btnNewButton.getActionCommand());
 					  actualLabels= new ArrayList<>();
 					  refreshLabelPanel(view);
+					  refreshNoteList(view);
 					} else {
 					  System.out.println("No Option");
 					} 
