@@ -78,7 +78,7 @@ public class ExploreView extends JPanel {
 	private JTextField textFieldTitleNote;
 	private GridBagConstraints gbc_textFieldTitleNote;
 	JLabel lbl_title = new JLabel();
-	private NoteArchive noteArchive= new NoteArchive();
+//	private NoteArchive noteArchive= new NoteArchive();
 	
 	private JLabel textLike;
 	private JTextField textFieldNewLabel;

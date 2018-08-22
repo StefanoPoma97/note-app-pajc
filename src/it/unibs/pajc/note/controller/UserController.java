@@ -9,7 +9,7 @@ import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
 public class UserController extends Controller<User> {
 
-	UserArchive userArchive = new UserArchive();
+	UserArchive userArchive = UserArchive.getIstance();
 	/**
 	 * costruttore
 	 */
@@ -17,6 +17,7 @@ public class UserController extends Controller<User> {
 		//questo è solo per test, in realtà avrà un istanza di Client che connettendosi al server avrà accesso all'archivio
 		
 		User utente= new User("paolo", "merazza");
+//		System.out.println("HO AGGIUNTO L'UTENTE PAOLO");
 		utente.addLabel("Labels");
 		utente.addLabel("Riunione");
 		utente.addLabel("Memo");

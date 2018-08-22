@@ -10,9 +10,16 @@ import it.unibs.pajc.note.utility.AuthenticationUtility;
 
 public class UserArchive extends Archive<User> {
 	
+private static UserArchive userarchive=null;
+	
+	private UserArchive() {
+	}
 
-	public UserArchive() {
-		super();
+	public static UserArchive getIstance()
+	{
+		if (userarchive == null)
+			userarchive =new UserArchive();
+		return userarchive;
 	}
 
 	/**

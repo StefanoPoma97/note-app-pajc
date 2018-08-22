@@ -77,6 +77,7 @@ public class LoginView extends JPanel {
 		setPreferredSize(new Dimension(500, 500));
 		this.build();
 		this.actionListener(view);
+		String out=view.connetti();
 
 	}
 	

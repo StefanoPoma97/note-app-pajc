@@ -13,7 +13,7 @@ import it.unibs.pajc.note.status.ValidationError;
 
 public class NoteController extends Controller<Note>{
 	
-	private NoteArchive noteArchive= new NoteArchive();
+	private NoteArchive noteArchive= NoteArchive.getIstance();
 	private ArrayList<Note> notes= new ArrayList<>();
 	
 	

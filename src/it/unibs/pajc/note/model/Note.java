@@ -161,7 +161,7 @@ public class Note extends Identifiable implements Serializable{
 	
 	public void addSharedUsers (Set<User> us){
 		sharedWith.addAll(us);
-		System.out.println("AGGIUNTI NUOVI SHARED US: "+sharedWith);
+//		System.out.println("AGGIUNTI NUOVI SHARED US: "+sharedWith);
 	}
 	
 	public ArrayList<User> getLikedBy (){

@@ -12,14 +12,21 @@ import it.unibs.pajc.note.status.ValidationError;
 
 public abstract class Archive<E extends Identifiable>  implements Serializable{
 
-	protected List<E> elements;
+	protected List<E> elements= new ArrayList<E>();
+	private static Archive archive=null;
 	
 	/**
 	 * TODO: Per il momento possiamo usare ArrayList
 	 */
 	public Archive() {
-		elements = new ArrayList<E>();
 	}
+	
+//	public static Archive getIstance()
+//	{
+//		if (archive == null)
+//			archive =new Archive();
+//		return archive;
+//	}
 	
 	/**
 	 * Aggiunge un elemento all'archivio.

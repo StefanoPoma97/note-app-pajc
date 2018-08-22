@@ -80,7 +80,7 @@ public class NoteView extends JPanel {
 	private JTextField textFieldTitleNote;
 	private GridBagConstraints gbc_textFieldTitleNote;
 	JLabel lbl_title = new JLabel();
-	private NoteArchive noteArchive= new NoteArchive();
+//	private NoteArchive noteArchive= NoteArchive();
 	
 	private JTextField textFieldNewLabel;
 	private JButton btnAddLabel;
@@ -91,6 +91,7 @@ public class NoteView extends JPanel {
 	private boolean modifica=false;
 	private Object[] colours={};
 	private Set<User> sharedUser= new HashSet<>();
+	private int actualIndex=-1;
 	
 
 	 /* metodo per far apparire messaggio di errore 
@@ -213,7 +214,8 @@ public class NoteView extends JPanel {
 			lbl_title.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_title.setVerticalAlignment(SwingConstants.CENTER);
 			lbl_title.setPreferredSize(new Dimension(100, 20));
-			lbl_title.addMouseListener(new MouseAdapter() {
+			if(i==actualIndex)
+					lbl_title.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					lbl_title.setForeground(Color.BLUE);
@@ -445,7 +447,6 @@ public class NoteView extends JPanel {
 								
 							
 						}
-						System.out.println("CP "+cp);
 						sharedUser.clear();
 						sharedUser= new HashSet<>(cp);
 						refreshSharePanel(view);
@@ -700,15 +701,15 @@ public class NoteView extends JPanel {
 //									System.out.println("TEMPORANY DOPO "+temporanyLabels);
 									textFieldNewLabel.setText("");
 									comboLabelsAdd.setSelectedItem("Labels");
-									System.out.println(temporanyLabels);
+//									System.out.println(temporanyLabels);
 								}
 								else{
 									view.addLabel(textFieldNewLabel.getText());
-									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
+//									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
 									temporanyLabels.add(textFieldNewLabel.getText());
 									refreshLabelPanel(view);
 									textFieldNewLabel.setText("");
-									System.out.println(temporanyLabels);
+//									System.out.println(temporanyLabels);
 								}
 							
 						}
@@ -899,7 +900,7 @@ public class NoteView extends JPanel {
 						showInfoMessage(validate);
 						return;
 					}
-					System.out.println("nota aggiunta");
+//					System.out.println("nota aggiunta");
 					notes=view.getMyNote();
 					textFieldTitleNote.setText("Select one note...");
 					textAreaNote.setText("");
@@ -923,7 +924,7 @@ public class NoteView extends JPanel {
 						showInfoMessage(validate);
 						return;
 					}
-					System.out.println("nota aggiornata");
+//					System.out.println("nota aggiornata");
 					notes=view.getMyNote();
 					modifyID= null;
 					textFieldTitleNote.setText("Select one note...");
@@ -1050,10 +1051,10 @@ public class NoteView extends JPanel {
 				ArrayList<String> cp= (ArrayList<String>)listUser.stream()
 						.map(x->x.getName())
 						.collect(Collectors.toList());
-				System.out.println("LISTA "+cp);
+//				System.out.println("LISTA "+cp);
 						
 				String[] users = cp.toArray(new String[0]);
-				System.out.println("TUTTI GLI USER "+users[1]);
+//				System.out.println("TUTTI GLI USER "+users[1]);
 			    String input = (String)JOptionPane.showInputDialog(null, "Share with...",
 			        "Choise one account", JOptionPane.QUESTION_MESSAGE, null, // Use
 			                                                                        // default

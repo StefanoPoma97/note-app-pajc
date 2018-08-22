@@ -14,10 +14,18 @@ import it.unibs.pajc.note.status.ValidationError;
 
 public class NoteArchive extends Archive<Note> {
 
-	public NoteArchive() {
-		super();
+	private static NoteArchive notearchive=null;
+	
+	private NoteArchive() {
 	}
 
+	public static NoteArchive getIstance()
+	{
+		if (notearchive == null)
+			notearchive =new NoteArchive();
+		return notearchive;
+	}
+	
 	/**
 	 * Una nota è valida se il titolo non è vuoto.
 	 */

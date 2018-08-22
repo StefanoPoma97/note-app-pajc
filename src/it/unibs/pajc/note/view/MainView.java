@@ -17,8 +17,11 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import it.unibs.pajc.note.client_server.Client;
+import it.unibs.pajc.note.client_server.Comunication;
 import it.unibs.pajc.note.controller.NoteController;
 import it.unibs.pajc.note.controller.UserController;
+import it.unibs.pajc.note.data.UserArchive;
 import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.model.Tag;
 import it.unibs.pajc.note.model.User;
@@ -34,7 +37,7 @@ public class MainView {
 	private String name= null;
 	private String password=null;
 	private User utente=null;
-	private UserController userController=new UserController();
+	private UserController userController=null;;
 	
 	//Note View
 	private NoteView noteView=null;
@@ -51,25 +54,47 @@ public class MainView {
 	private JPanel contentPanel;
 	private ExploreView exploreView_1;
 	
+	private Client client= new Client();
+	
 	
 
 	
 	
 	//Metodi per LoginView
+	
+	public String connetti(){
+		return client.connetti();
+	}
+	
 	/**
 	 * Metodo utilizzato nel LoginView che permette di passare nome password 
 	 * restituisce true se il login � possibile
 	 * @param _name
 	 * @param _pass
 	 */
-	public Boolean login(String _name, String _pass){
-		Boolean validate = userController.login(_name, _pass);
-		if (validate){
+//	public Boolean login(String _name, String _pass){
+//		Boolean validate = userController.login(_name, _pass);
+//		if (validate){
+//			utente= new User(_name, _pass);
+//			initializeNoteView();
+//		}
+//			
+//		return validate;
+//	}
+	
+	public Boolean login (String _name, String _pass){
+		userController=new UserController();
+		UserArchive cp= UserArchive.getIstance();
+		Comunication input= new Comunication();
+		input.setInfo("login");
+		input.setLogin(_name, _pass);
+		Comunication output = client.comunica(input);
+		if (output.getLoginResult()){
 			utente= new User(_name, _pass);
 			initializeNoteView();
 		}
 			
-		return validate;
+		return output.getLoginResult();
 	}
 	
 	/**
