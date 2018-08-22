@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.data.UserArchive;
 
 
@@ -45,7 +46,7 @@ public class MultiServer extends Thread{
 				
 				
 				
-				output_stream.writeObject(createResponse(input));
+				output_stream.writeObject(input.createResponse(NoteArchive.getIstance() ,UserArchive.getIstance()));
 				output_stream.flush();
 //				if ("QUIT".equals(response))
 //					break;
@@ -62,23 +63,6 @@ public class MultiServer extends Thread{
 	
 	}
 	
-	Comunication createResponse(Comunication input){
-		Comunication output= new Comunication();
-		switch (input.getInfo()) {
-		case "login":{
-			ArrayList<String> name_pass=input.getLogin();
-			String name= name_pass.get(0);
-			String pass= name_pass.get(1);
-			UserArchive userArchive= UserArchive.getIstance();
-			output= new Comunication();
-			output.setLoginResult(userArchive.authenticate(name, pass));
-			return output;
-		}
 
-		default:
-			return output;
-			
-		}
-	}
 
 }

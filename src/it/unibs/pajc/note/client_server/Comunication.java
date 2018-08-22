@@ -3,6 +3,8 @@ package it.unibs.pajc.note.client_server;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import it.unibs.pajc.note.data.NoteArchive;
+import it.unibs.pajc.note.data.UserArchive;
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
 
@@ -49,9 +51,9 @@ public class Comunication implements Serializable{
 		name_pass.add(pass);
 	}
 	
-	public ArrayList<String> getLogin(){
-		return name_pass;
-	}
+//	public ArrayList<String> getLogin(){
+//		return name_pass;
+//	}
 	
 	public void setLoginResult(boolean er){
 		login=er;
@@ -59,5 +61,46 @@ public class Comunication implements Serializable{
 	
 	public boolean getLoginResult(){
 		return login;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public Comunication createResponse(NoteArchive note, UserArchive users){
+		Comunication output= new Comunication();
+		switch (info) {
+		case "login":{
+			String name= name_pass.get(0);
+			String pass= name_pass.get(1);
+			UserArchive userArchive= UserArchive.getIstance();
+			output= new Comunication();
+			output.setLoginResult(userArchive.authenticate(name, pass));
+			output.setInfo("login_response");
+			return output;
+		}
+
+		default:
+			return output;
+			
+		}
 	}
 }
