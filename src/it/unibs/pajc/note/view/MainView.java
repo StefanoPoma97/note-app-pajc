@@ -37,7 +37,7 @@ public class MainView {
 	private String name= null;
 	private String password=null;
 	private User utente=null;
-	private UserController userController=null;;
+	private UserController userController=new UserController();
 	
 	//Note View
 	private NoteView noteView=null;
@@ -83,8 +83,6 @@ public class MainView {
 //	}
 	
 	public Boolean login (String _name, String _pass){
-		userController=new UserController();
-		UserArchive cp= UserArchive.getIstance();
 		Comunication input= new Comunication();
 		input.setInfo("login");
 		input.setLogin(_name, _pass);
@@ -103,10 +101,23 @@ public class MainView {
 	 * @param pass
 	 * @return ValidationError
 	 */
-	public ValidationError create(String name, String pass){
-		ValidationError validate = userController.create(name, pass);
+//	public ValidationError create(String name, String pass){
+//		ValidationError validate = userController.create(name, pass);
+//		if (validate.equals(ValidationError.CORRECT)){
+//			utente= new User(name, pass);
+//			initializeNoteView();
+//		}
+//		return validate;
+//	}
+	
+	public ValidationError create(String _name, String _pass){
+		Comunication input= new Comunication();
+		input.setInfo("create");
+		input.setLogin(_name, _pass);
+		Comunication output = client.comunica(input);
+		ValidationError validate= output.getCreateResult();
 		if (validate.equals(ValidationError.CORRECT)){
-			utente= new User(name, pass);
+			utente= new User(_name, _pass);
 			initializeNoteView();
 		}
 		return validate;
@@ -119,34 +130,79 @@ public class MainView {
 	 * restituisce tutte le note associate al utente del login
 	 * @return
 	 */
+//	public ArrayList<Note> getMyNote(){
+//		return noteController.getMyNote(utente);
+//	}
+	
 	public ArrayList<Note> getMyNote(){
-		
-		return noteController.getMyNote(utente);
+		Comunication input= new Comunication();
+		input.setInfo("load_notes");
+		input.setUser(utente);
+
+
+		Comunication output= new Comunication();
+		output= client.comunica(input);
+		return output.getNotes();
 	}
+	
 	
 	/**
 	 * restituisce tutte le label associate all'utente del login
 	 * @return
 	 */
+//	public ArrayList<String> getMyLabel(){
+//		return userController.getLabelsByUser(utente);
+//	}
+	
+	
 	public ArrayList<String> getMyLabel(){
-		return userController.getLabelsByUser(utente);
+		Comunication input= new Comunication();
+		input.setInfo("load_labels");
+		input.setUser(utente);
+
+
+		Comunication output= new Comunication();
+		output= client.comunica(input);
+		return output.getLabels();
 	}
 	
 	/**
 	 * confronta le label salvate sull'utente e quelle salvate solamente sulle note
 	 * se le label associate all'utente non sono connesse a nessuna nota vengono eliminate
 	 */
+//	public void updateMyLabels(){
+//		ArrayList<String> userLabels = userController.getLabelsByUser(utente);
+//		ArrayList<String> noteLabels = new ArrayList<>();
+//		for (Note nota: noteController.getMyNote(utente)){
+//			noteLabels.addAll(noteController.getLabelsByNote(nota.getTitle(), utente));
+//		}
+//		ArrayList<String> userLabels_cp= new ArrayList<>(userLabels);
+//		userLabels_cp.removeAll(noteLabels);
+//		userLabels.removeAll(userLabels_cp);
+//		userLabels.add(0, "Labels");
+//		userController.updateLabel(userLabels, utente);
+//		
+//	}
+	
 	public void updateMyLabels(){
-		ArrayList<String> userLabels = userController.getLabelsByUser(utente);
+		
+		
+		ArrayList<String> userLabels = getMyLabel();
 		ArrayList<String> noteLabels = new ArrayList<>();
-		for (Note nota: noteController.getMyNote(utente)){
-			noteLabels.addAll(noteController.getLabelsByNote(nota.getTitle(), utente));
+		for (Note nota: getMyNote()){
+			
+			noteLabels.addAll(getLabelsByNote(nota.getTitle()));
 		}
 		ArrayList<String> userLabels_cp= new ArrayList<>(userLabels);
 		userLabels_cp.removeAll(noteLabels);
 		userLabels.removeAll(userLabels_cp);
 		userLabels.add(0, "Labels");
-		userController.updateLabel(userLabels, utente);
+		
+		Comunication input= new Comunication();
+		input.setInfo("update_label");
+		input.setUser(utente);
+		input.setLabels(userLabels);
+		Comunication output2= client.comunica(input);
 		
 	}
 
@@ -156,7 +212,17 @@ public class MainView {
 	 * @param label
 	 * @return
 	 */
+//	public boolean addLabel(String label){
+//		return userController.addLabel(label, utente);
+//	}
+	
 	public boolean addLabel(String label){
+		Comunication input= new Comunication();
+		input.setInfo("add_label");
+		input.setTitle(label);
+		input.setUser(utente);
+		
+		Comunication out=client.comunica(input);
 		return userController.addLabel(label, utente);
 	}
 	
@@ -165,8 +231,18 @@ public class MainView {
 	 * @param label
 	 * @return
 	 */
+//	public ArrayList<Note> getNotesByLabel(String label){
+//		return noteController.getNotesByLabel(label, utente);
+//	}
+	
 	public ArrayList<Note> getNotesByLabel(String label){
-		return noteController.getNotesByLabel(label, utente);
+		Comunication input= new Comunication();
+		input.setInfo("get_notes_by_label");
+		input.setTitle(label);
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
 	/**
@@ -174,8 +250,19 @@ public class MainView {
 	 * @param title
 	 * @return
 	 */
+//	public ArrayList<String> getLabelsByNote(String title){
+//		return noteController.getLabelsByNote(title, utente);
+//	}
+	
 	public ArrayList<String> getLabelsByNote(String title){
-		return noteController.getLabelsByNote(title, utente);
+		Comunication input= new Comunication();
+		input.setInfo("get_labels_by_note");
+		input.setTitle(title);
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getLabels();
+		
 	}
 	
 	/**
@@ -183,9 +270,19 @@ public class MainView {
 	 * @param n
 	 * @return
 	 */
+//	public ValidationError addNote (Note n){
+//		n.setAutor(utente);
+//		return noteController.addNote(n);
+//	}
+	
 	public ValidationError addNote (Note n){
 		n.setAutor(utente);
-		return noteController.addNote(n);
+		Comunication input= new Comunication();
+		input.setInfo("add_note");
+		input.setNote(n);
+		
+		Comunication output= client.comunica(input);
+		return output.getCreateResult();
 	}
 	
 	/**
@@ -199,8 +296,18 @@ public class MainView {
 		return noteController.update(n, ID);
 	}
 	
+//	public ValidationError exUpdate(Note n, int ID){
+//		return noteController.update(n, ID);
+//	}
+//	
 	public ValidationError exUpdate(Note n, int ID){
-		return noteController.update(n, ID);
+		Comunication input= new Comunication();
+		input.setInfo("update");
+		input.setNote(n);
+		input.setID(ID);
+		
+		Comunication output= client.comunica(input);
+		return output.getCreateResult();
 	}
 	
 	public int getIDbyTitle(String title){

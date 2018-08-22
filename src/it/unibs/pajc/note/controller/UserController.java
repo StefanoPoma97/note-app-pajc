@@ -16,18 +16,18 @@ public class UserController extends Controller<User> {
 	public UserController() {
 		//questo è solo per test, in realtà avrà un istanza di Client che connettendosi al server avrà accesso all'archivio
 		
-		User utente= new User("paolo", "merazza");
-//		System.out.println("HO AGGIUNTO L'UTENTE PAOLO");
-		utente.addLabel("Labels");
-		utente.addLabel("Riunione");
-		utente.addLabel("Memo");
-		utente.addLabel("Memo2");
-		utente.addLabel("Memo3");
-		userArchive.add(utente);
-		userArchive.add(new User("utente1", "pass1"));
-		userArchive.add(new User("utente2", "pass2"));
-		userArchive.add(new User("utente3", "pass3"));
-		
+//		User utente= new User("paolo", "merazza");
+////		System.out.println("HO AGGIUNTO L'UTENTE PAOLO");
+//		utente.addLabel("Labels");
+//		utente.addLabel("Riunione");
+//		utente.addLabel("Memo");
+//		utente.addLabel("Memo2");
+//		utente.addLabel("Memo3");
+//		userArchive.add(utente);
+//		userArchive.add(new User("utente1", "pass1"));
+//		userArchive.add(new User("utente2", "pass2"));
+//		userArchive.add(new User("utente3", "pass3"));
+//		
 	}
 
 	/**

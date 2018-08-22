@@ -234,5 +234,16 @@ public class NoteArchive extends Archive<Note> {
 		return out2.get(0);
 	}
 	
+	public ArrayList<String> getLabelsByNote(String title, User us){
+		ArrayList<Note> out= (ArrayList<Note>)getWhere(x->x.getAuthor().equals(us));
+		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getTitle().equals(title)).collect(Collectors.toList());
+		return out2.get(0).getLabel();
+		}
+	public ArrayList<Note> getNotesByLabel(String label, User us){
+		ArrayList<Note> out= (ArrayList<Note>)getWhere(x->x.getAuthor().equals(us));
+		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getLabel().contains(label)).collect(Collectors.toList());
+		return out2;
+		
+	}
 
 }

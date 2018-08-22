@@ -153,6 +153,8 @@ public class NoteView extends JPanel {
 		_labels= view.getMyLabel();
 		labels= _labels.toArray(new String [_labels.size()]);
 		
+		System.out.println("MY Label: "+labels);
+		
 		//carico i filtri
 		filters=new String[] {"Filters", "Titolo", "Data", "Like", "Pinned"};	
 	}

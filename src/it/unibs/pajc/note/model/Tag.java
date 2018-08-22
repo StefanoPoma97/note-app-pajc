@@ -1,7 +1,13 @@
 package it.unibs.pajc.note.model;
 
-public class Tag extends Identifiable{
+import java.io.Serializable;
+
+public class Tag extends Identifiable implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	
 	public Tag (String tag){
