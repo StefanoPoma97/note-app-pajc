@@ -510,7 +510,7 @@ public class NoteView extends JPanel {
 					  temporanyLabels.remove(btnNewButton.getActionCommand());
 					  actualLabels= new ArrayList<>();
 					  refreshLabelPanel(view);
-					  refreshNoteList(view);
+//					  refreshNoteList(view);
 					} else {
 					  System.out.println("No Option");
 					} 
@@ -917,7 +917,7 @@ public class NoteView extends JPanel {
 					nuova=false;
 					btnPin.setBackground(new JButton().getBackground());
 					chckbxPublic.setSelected(false);
-					view.updateMyLabels();
+//					view.updateMyLabels();
 					createModifyNote(view);
 					refreshButton(view);
 					repaint();
@@ -1125,6 +1125,7 @@ public class NoteView extends JPanel {
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				sharedUser= new HashSet<>();
+				view.updateMyLabels();
 				refreshLabelPanel(view);
 				refreshNoteList(view);
 				refreshSharePanel(view);

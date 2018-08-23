@@ -186,7 +186,7 @@ public class MainView {
 	
 	public void updateMyLabels(){
 		
-		
+		//TODO rendere più efficiente
 		ArrayList<String> userLabels = getMyLabel();
 		ArrayList<String> noteLabels = new ArrayList<>();
 		for (Note nota: getMyNote()){
@@ -223,7 +223,7 @@ public class MainView {
 		input.setUser(utente);
 		
 		Comunication out=client.comunica(input);
-		return userController.addLabel(label, utente);
+		return out.getBoolean();
 	}
 	
 	/**
