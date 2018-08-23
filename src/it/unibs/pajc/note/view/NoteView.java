@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
@@ -1342,13 +1343,14 @@ public class NoteView extends JPanel {
 		gc_2.insets = new Insets(0, 0, 5, 5);
 		gc_2.anchor = GridBagConstraints.WEST;
 		this.contentList = new JPanel();
-		this.contentList.setPreferredSize(new Dimension(430, 30));
+//		this.contentList.setPreferredSize(new Dimension(430, 30));
 		gc_2.weightx=0;
 		gc_2.weighty=1.0;
 		gc_2.gridx = 0;
 		gc_2.gridy = 1;
 		gc_2.fill=GridBagConstraints.BOTH;
-		this.add(this.contentList, gc_2);
+		JScrollPane scroll = new JScrollPane(contentList, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.add(scroll, gc_2);
 		
 		
 			//col 1

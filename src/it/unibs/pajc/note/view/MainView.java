@@ -186,7 +186,7 @@ public class MainView {
 	
 	public void updateMyLabels(){
 		
-		//TODO rendere più efficiente
+		//TODO rendere piï¿½ efficiente
 		ArrayList<String> userLabels = getMyLabel();
 		ArrayList<String> noteLabels = new ArrayList<>();
 		for (Note nota: getMyNote()){
