@@ -44,7 +44,7 @@ public class MultiServerMain {
 		u.addTag(new Tag("Riunione"));
 		u.addTag(new Tag("Memo"));
 		//costruttore solo per test, in realt� si appoggia alla classe client che poi gli da informazioni su archivio note
-		for (int i=0; i<5; i++){
+		for (int i=0; i<20; i++){
 			Note nota = new Note("titolo"+i);
 			nota.setBody("corpo della nota numero: "+i);
 			nota.setAutor(u);
