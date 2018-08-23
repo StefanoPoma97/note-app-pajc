@@ -16,7 +16,7 @@ public class NoteArchive extends Archive<Note> {
 
 	private static NoteArchive notearchive=null;
 	
-	private NoteArchive() {
+	public NoteArchive() {
 	}
 
 	public static NoteArchive getIstance()
@@ -43,7 +43,7 @@ public class NoteArchive extends Archive<Note> {
 	
 	/**
 	 * dato titolo e autore restituisce true
-	 * se la nota è segnata
+	 * se la nota ï¿½ segnata
 	 * @param titolo
 	 * @param utente
 	 * @return
@@ -61,7 +61,7 @@ public class NoteArchive extends Archive<Note> {
 	
 	/**
 	 * dato titolo e autore restituisce true
-	 * se la nota è pubblica
+	 * se la nota ï¿½ pubblica
 	 * @param titolo
 	 * @param utente
 	 * @return

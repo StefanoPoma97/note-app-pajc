@@ -12,7 +12,7 @@ public class UserArchive extends Archive<User> {
 	
 private static UserArchive userarchive=null;
 	
-	private UserArchive() {
+	public UserArchive() {
 	}
 
 	public static UserArchive getIstance()
