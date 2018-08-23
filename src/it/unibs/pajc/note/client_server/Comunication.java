@@ -218,16 +218,17 @@ public class Comunication implements Serializable{
 		}
 		
 		case "update_label":{
-			userArchive.updateLabel(labels, utente);
 			output= new Comunication();
+			userArchive.updateLabel(labels, utente);
 			output.setInfo("update_labels_response");
 			return output;
 			
 		}
 		
 		case "add_label":{
-			userArchive.addLabel(title, utente);
+			
 			output= new Comunication();
+			output.setBoolean(userArchive.addLabel(title, utente));
 			output.setInfo("add_label_response");
 			return output;
 			
