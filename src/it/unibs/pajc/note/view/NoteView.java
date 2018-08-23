@@ -199,7 +199,7 @@ public class NoteView extends JPanel {
 			String titolo=notes.get(i).getTitle();
 			StringBuffer str= new StringBuffer();
 			int count=0;
-			//per ragioni di semplicità il titolo non può contenere più di 15 caratteri
+			//per ragioni di semplicitï¿½ il titolo non puï¿½ contenere piï¿½ di 15 caratteri
 			for (char c : titolo.toCharArray()) {
 			  if(count<15){
 				  str.append(c);
@@ -236,7 +236,7 @@ public class NoteView extends JPanel {
 			gc = new GridBagConstraints();
 			JLabel lbl_name = new JLabel();
 			
-			//per ragioni di semplicità il corpo, nella isualizzazione ad elenco, non può contenere più di 20 caratteri
+			//per ragioni di semplicitï¿½ il corpo, nella isualizzazione ad elenco, non puï¿½ contenere piï¿½ di 20 caratteri
 			String corpo=notes.get(i).getBody();
 			str= new StringBuffer();
 			count=0;
@@ -1092,7 +1092,7 @@ public class NoteView extends JPanel {
 		
 		loadInfo(view);
 		
-		//TODO rendere più carina la visualizzazione con le immagini
+		//TODO rendere piï¿½ carina la visualizzazione con le immagini
 		  try {
 			  ImageIcon addIcon = new ImageIcon("RefreshButton.png");
 			  Image im= addIcon.getImage();

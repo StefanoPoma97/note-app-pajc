@@ -22,13 +22,13 @@ public class Client {
 	
 	public Client()
 	{
-		hostName = "192.168.1.106";
+		hostName = "192.168.1.136";
 		port= 2270;
 		System.out.println("IN ATTESA DI CONNESSIONE... su Host: "+hostName+" alla porta: "+port);
 	}
 	
 	/**
-	 * metodo per la connessione al server, ritorna una Stringa che specifica se la connessione è avvenuta
+	 * metodo per la connessione al server, ritorna una Stringa che specifica se la connessione ï¿½ avvenuta
 	 * @return
 	 */
 	public String connetti()
@@ -69,7 +69,7 @@ public class Client {
 	
 	/**
 	 * metodo per comunicare 
-	 *ora solo una stringa più vanti una classe comunications
+	 *ora solo una stringa piï¿½ vanti una classe comunications
 	 * @param input
 	 */
 	public Comunication comunica (Comunication output)

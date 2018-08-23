@@ -19,73 +19,63 @@ public class PanelScroll extends JPanel {
 
 	private JPanel panel1;
 	private JPanel panel2;
-	private JPanel container= null;
+	private JPanel container = null;
+
 	/**
 	 * Create the panel.
 	 */
 	public PanelScroll(JFrame f) {
-		
-		 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		this.setLayout(gridBagLayout);
-		
-		//row 0
-		//col 0  Pannello Buttons
-	GridBagConstraints gc = new GridBagConstraints();
-	gc.insets = new Insets(0, 0, 5, 5);
-	panel1 = new JPanel();
-	gc.weighty=1;
-	gc.weightx=1; //crescita dello 0% lungo l'asse X
-	gc.gridx = 0;
-	gc.gridy = 0;
-	gc.fill=GridBagConstraints.BOTH; //riempie tutto lo spazio a disposizione in tutte le direzioni
-	
-	
-	int x = 5;
-    int y = 5;
-    panel1.setLayout(new GridLayout(x, y));
-    for (int i = 0; i < x * y; i++) {
-      JButton button = new JButton(String.valueOf(i));
-      button.setPreferredSize(new Dimension(100, 100));
-      panel1.add(button);
-    }
 
-    container = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-    container.add(panel1);
-    JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    scrollPane.getViewport().add(container);
-    add(scrollPane);
-    this.add(this.container, gc);
-//    f.getContentPane().add(scrollPane);
-	
-		//col 1
-	gc = new GridBagConstraints();
-	gc.insets = new Insets(0, 0, 5, 0);
-	panel2= new JPanel();
-	panel2.setBackground(Color.YELLOW);
-	gc.weighty=1;
-	gc.weightx=1; //crescita dello 0% lungo l'asse X
-	gc.gridx = 0;
-	gc.gridy = 1;
-	gc.fill=GridBagConstraints.BOTH;
-	for(int i=0; i<20;i++){
-		JButton btn = new JButton("test");
-		panel2.add(btn);
-	}
-	JScrollBar scrollBar= new JScrollBar();
-	scrollBar.add(panel2);
-	this.add(panel2, gc);
-		
-		
-		
+		// row 0
+		// col 0 Pannello Buttons
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.insets = new Insets(0, 0, 5, 5);
+		panel1 = new JPanel();
+		gc.weighty = 1;
+		gc.weightx = 1; // crescita dello 0% lungo l'asse X
+		gc.gridx = 0;
+		gc.gridy = 0;
+		gc.fill = GridBagConstraints.BOTH; // riempie tutto lo spazio a disposizione in tutte le direzioni
 
-	    f.pack();
-	    f.setLocationRelativeTo(null);
-	    f.setVisible(true);
-		
-		
+		int x = 5;
+		int y = 5;
+		panel1.setLayout(new GridLayout(x, y));
+		for (int i = 0; i < x * y; i++) {
+			JButton button = new JButton(String.valueOf(i));
+			button.setPreferredSize(new Dimension(100, 100));
+			panel1.add(button);
+		}
+
+		JScrollPane scrollPane = new JScrollPane(panel1, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		this.add(scrollPane ,gc);
+//		scrollPane.getViewport().add(container);
+//		add(scrollPane);
+//		f.getContentPane().add(scrollPane);
+
+		// col 1
+		gc = new GridBagConstraints();
+		gc.insets = new Insets(0, 0, 5, 0);
+		panel2 = new JPanel();
+		panel2.setLayout(new GridLayout(10, 2));
+		panel2.setBackground(Color.YELLOW);
+		gc.weighty = 1;
+		gc.weightx = 1; // crescita dello 0% lungo l'asse X
+		gc.gridx = 0;
+		gc.gridy = 1;
+		gc.fill = GridBagConstraints.BOTH;
+		for (int i = 0; i < 20; i++) {
+			JButton btn = new JButton("test");
+			panel2.add(btn);
+		}
+
+		this.add(panel2 ,gc);
+
+
 	}
 
 }

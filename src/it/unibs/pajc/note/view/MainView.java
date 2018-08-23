@@ -286,7 +286,7 @@ public class MainView {
 	}
 	
 	/**
-	 * metodo per aggiornare una nota già essitente
+	 * metodo per aggiornare una nota giï¿½ essitente
 	 * @param n
 	 * @param ID
 	 * @return

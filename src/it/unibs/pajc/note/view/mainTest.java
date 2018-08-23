@@ -31,33 +31,8 @@ import javax.swing.JButton;
 
 public class mainTest {
 
-private JFrame frame;
-	
-	//stringhe utili per passare info con il loginView
-	private String name= null;
-	private String password=null;
-	private UserController userController=new UserController();
+	private JFrame frame;
 
-	
-	
-	
-	/**
-	 * Metodo utilizzato nel LoginView che permette di passare nome password 
-	 * restituisce true se il login � possibile
-	 * @param _name
-	 * @param _pass
-	 */
-	public Boolean login(String _name, String _pass){
-		return userController.login(_name, _pass);
-	}
-	
-	
-	public ValidationError create(String name, String pass){
-		
-		return userController.create(name, pass);
-	}
-
-	
 	/**
 	 * Launch the application.
 	 */
@@ -86,19 +61,13 @@ private JFrame frame;
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 500, 500);
+		frame.setBounds(100, 100, 800, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
-		
+
 		PanelScroll panelScroll = new PanelScroll(frame);
 		frame.getContentPane().add(panelScroll);
-//		frame.add(new JScrollPane(panelScroll));
-		
-		
-		
-		
-		
-		
-		
+		// frame.add(new JScrollPane(panelScroll));
+
 	}
 }
