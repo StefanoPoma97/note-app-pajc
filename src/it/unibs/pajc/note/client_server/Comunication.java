@@ -2,6 +2,7 @@ package it.unibs.pajc.note.client_server;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Set;
 
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.data.UserArchive;
@@ -29,11 +30,14 @@ public class Comunication implements Serializable{
 	private User utente= null;
 	private ArrayList<String> name_pass= null;
 	private ArrayList<Note> notes= null;
+	private ArrayList<User> users= null;
 	private ArrayList<String> labels= null;
+	private Set<User> usersSet=null;
 	private boolean login;
 	private ValidationError create;
 	private Note note=null;
 	private int ID;
+	private boolean bool;
 	
 	//Info message
 	public String getError(){
@@ -91,6 +95,21 @@ public class Comunication implements Serializable{
 	public ArrayList<Note> getNotes(){
 		return notes;
 	}
+	public void setUsers(ArrayList<User> list){
+		users=list;
+	}
+	
+	public ArrayList<User> getUsers(){
+		return users;
+	}
+	
+	public void setUsersSet(Set<User> list){
+		usersSet=list;
+	}
+	
+	public Set<User> getUsersSet(){
+		return usersSet;
+	}
 	
 	//my Labels
 	public void setLabels(ArrayList<String> list){
@@ -125,6 +144,14 @@ public class Comunication implements Serializable{
 	
 	public int getID (){
 		return ID;
+	}
+	
+	public boolean getBoolean(){
+		return bool;
+	}
+	
+	public void setBoolean(boolean b){
+		bool=b;
 	}
 	
 	
@@ -228,7 +255,63 @@ public class Comunication implements Serializable{
 			return output;
 		}
 		
+		case "get_id_by_title":{
+			output= new Comunication();
+			output.setInfo("get_id_by_title_response");
+			output.setID(noteArchive.getIDbyTitle(title));
+			return output;
+		}
 		
+		case "is_pinned":{
+			output= new Comunication();
+			output.setInfo("is_pinned_response");
+			output.setBoolean(noteArchive.isPinned(title, utente));
+			return output;
+		}
+		case "is_public":{
+			output= new Comunication();
+			output.setInfo("is_public_response");
+			output.setBoolean(noteArchive.isPublic(title, utente));
+			return output;
+		}
+		
+		case "filter_by_title":{
+			output= new Comunication();
+			output.setInfo("filter_by_title_response");
+			output.setNotes(noteArchive.FilterByTitle(utente));
+			return output;
+		}
+		case "filter_by_pin":{
+			output= new Comunication();
+			output.setInfo("filter_by_pin_response");
+			output.setNotes(noteArchive.FilterByPin(utente));
+			return output;
+		}
+		case "filter_by_like":{
+			output= new Comunication();
+			output.setInfo("filter_by_like_response");
+			output.setNotes(noteArchive.FilterByLike(utente));
+			return output;
+		}
+		case "filter_by_data":{
+			output= new Comunication();
+			output.setInfo("filter_by_data_response");
+			output.setNotes(noteArchive.FilterByData(utente));
+			return output;
+		}
+		case "get_all_user":{
+			output= new Comunication();
+			output.setInfo("get_all_user_response");
+			output.setUsers(userArchive.getAllUsers(utente));
+			return output;
+		}
+		
+		case "get_shared_user":{
+			output= new Comunication();
+			output.setInfo("get_shared_user_response");
+			output.setUsersSet(noteArchive.getSharredUser(title, utente));
+			return output;
+		}
 		
 		
 		default:

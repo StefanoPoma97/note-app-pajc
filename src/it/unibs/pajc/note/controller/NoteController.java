@@ -146,7 +146,7 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 	
 	
 	public int getIDbyTitle(String title){
-		return noteArchive.getWhere(x->x.getTitle().equals(title)).get(0).getID();
+		return noteArchive.getIDbyTitle(title);
 	}
 	
 	public ValidationError create(String title) {
@@ -198,8 +198,7 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 	}
 	
 	public Set<User> getSharredUser (String titolo, User u){
-		ArrayList<Note> n =getMyNote(u);
-		return  n.stream().filter(x->x.getTitle().equals(titolo)).collect(Collectors.toList()).get(0).getSharedWith();
+		return noteArchive.getSharredUser(titolo, u);
 	}
 	
 	public ArrayList<Note> getAllNote(User u){

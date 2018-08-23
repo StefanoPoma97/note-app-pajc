@@ -112,5 +112,9 @@ private static UserArchive userarchive=null;
 	public void updateLabel(ArrayList<String>str, User us){
 		getWhere(x->x.getID()==us.getID()).get(0).updateLabel(str);
 	}
+	
+	public ArrayList<User> getAllUsers(User u){
+		return (ArrayList<User>)getWhere(x->x.getID()!=u.getID());
+	}
 
 }

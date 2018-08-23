@@ -245,5 +245,14 @@ public class NoteArchive extends Archive<Note> {
 		return out2;
 		
 	}
+	
+	public int getIDbyTitle(String title){
+		return getWhere(x->x.getTitle().equals(title)).get(0).getID();
+	}
+	
+	public Set<User> getSharredUser (String titolo, User u){
+		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(u));
+		return  out.stream().filter(x->x.getTitle().equals(titolo)).collect(Collectors.toList()).get(0).getSharedWith();
+	}
 
 }
