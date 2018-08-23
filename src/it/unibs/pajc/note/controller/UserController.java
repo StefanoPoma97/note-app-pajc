@@ -67,6 +67,6 @@ public class UserController extends Controller<User> {
 	}
 	
 	public ArrayList<User> getAllUsers(User u){
-		return (ArrayList<User>)userArchive.getWhere(x->x.getID()!=u.getID());
+		return userArchive.getAllUsers(u);
 	}
 }

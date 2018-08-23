@@ -22,7 +22,7 @@ public class Client {
 	
 	public Client()
 	{
-		hostName = "192.168.1.106";
+		hostName = "127.0.0.1";
 		port= 2270;
 		System.out.println("IN ATTESA DI CONNESSIONE... su Host: "+hostName+" alla porta: "+port);
 	}

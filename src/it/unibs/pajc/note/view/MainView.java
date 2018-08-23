@@ -293,7 +293,7 @@ public class MainView {
 	 */
 	public ValidationError update(Note n, int ID){
 		n.setAutor(utente);
-		return noteController.update(n, ID);
+		return exUpdate(n, ID);
 	}
 	
 //	public ValidationError exUpdate(Note n, int ID){
@@ -310,40 +310,120 @@ public class MainView {
 		return output.getCreateResult();
 	}
 	
+//	public int getIDbyTitle(String title){
+//		return noteController.getIDbyTitle(title);
+//	}
+	
 	public int getIDbyTitle(String title){
-		return noteController.getIDbyTitle(title);
+		Comunication input= new Comunication();
+		input.setInfo("get_id_by_title");
+		input.setTitle(title);
+		
+		Comunication output= client.comunica(input);
+		return output.getID();
+		
 	}
+	
+//	public Boolean isPinned(String titolo){
+//		return noteController.isPinned(titolo, utente);
+//	}
 	
 	public Boolean isPinned(String titolo){
-		return noteController.isPinned(titolo, utente);
+		Comunication input= new Comunication();
+		input.setInfo("is_pinned");
+		input.setTitle(title);
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getBoolean();
 	}
+	
+//	public Boolean isPublic(String titolo){
+//		return noteController.isPublic(titolo, utente);
+//	}
 	
 	public Boolean isPublic(String titolo){
-		return noteController.isPublic(titolo, utente);
+		Comunication input= new Comunication();
+		input.setInfo("is_public");
+		input.setTitle(title);
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getBoolean();
 	}
 	
+//	public ArrayList<Note> FilterByTitle(){
+//		return noteController.FilterByTitle(utente);
+//	}
 	public ArrayList<Note> FilterByTitle(){
-		return noteController.FilterByTitle(utente);
+		Comunication input= new Comunication();
+		input.setInfo("filter_by_title");
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
+//	public ArrayList<Note> FilterByPin(){
+//		return noteController.FilterByPin(utente);
+//	}
 	public ArrayList<Note> FilterByPin(){
-		return noteController.FilterByPin(utente);
+		Comunication input= new Comunication();
+		input.setInfo("filter_by_pin");
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
+//	public ArrayList<Note> FilterByLike(){
+//		return noteController.FilterByLike(utente);
+//	}
 	public ArrayList<Note> FilterByLike(){
-		return noteController.FilterByLike(utente);
+		Comunication input= new Comunication();
+		input.setInfo("filter_by_like");
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
+//	public ArrayList<Note> FilterByData(){
+//		return noteController.FilterByData(utente);
+//	}
 	public ArrayList<Note> FilterByData(){
-		return noteController.FilterByData(utente);
+		Comunication input= new Comunication();
+		input.setInfo("filter_by_data");
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
+//	public ArrayList<User> getAllUsers(){
+//		return userController.getAllUsers(utente);
+//	}
 	public ArrayList<User> getAllUsers(){
-		return userController.getAllUsers(utente);
+		Comunication input= new Comunication();
+		input.setInfo("get_all_user");
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getUsers();
 	}
 	
+//	public Set<User> getSharredUser(String title){
+//		return noteController.getSharredUser(title, utente);
+//	}
 	public Set<User> getSharredUser(String title){
-		return noteController.getSharredUser(title, utente);
+		Comunication input= new Comunication();
+		input.setInfo("get_shared_user");
+		input.setUser(utente);
+		input.setTitle(title);
+		
+		Comunication output= client.comunica(input);
+		return output.getUsersSet();
+		
 	}
 	
 	

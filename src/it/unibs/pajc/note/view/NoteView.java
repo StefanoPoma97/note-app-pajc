@@ -1261,8 +1261,9 @@ public class NoteView extends JPanel {
 		comboLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String label = (String)comboLabels.getSelectedItem();
-				if (label=="Labels"){ 
+				if (label.equals("Labels")){ 
 					notes=view.getMyNote();
+//					System.out.println("MIE Labels: "+labels);
 					temporanyLabels= new ArrayList<>();
 					sharedUser= new HashSet<>();
 					refreshSharePanel(view);
