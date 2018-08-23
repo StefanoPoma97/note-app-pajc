@@ -49,6 +49,8 @@ public class NoteArchive extends Archive<Note> {
 	 * @return
 	 */
 	public Boolean isPinned (String titolo, User utente){
+		System.out.println("IS PINNED???");
+		System.out.println("CERCO TITOLO: "+titolo+" UTENTE: "+utente);
 		ArrayList<Note> notes= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(utente));
 		return notes.stream()
 			.filter(x->x.getTitle().equals(titolo))

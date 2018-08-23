@@ -298,13 +298,17 @@ public class NoteView extends JPanel {
 			btn_modify.setToolTipText("Modify this note");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					System.out.println("TASTO MODIFICA");
 					temporanyLabels= new ArrayList<>();
 					sharedUser= new HashSet<>();
 					System.out.println("Sharred user: "+sharedUser);
 					nuova=false;
 					modifica=true;
-					if (view.isPinned(lbl_title.getText()))
+					System.out.println("PIN INSERISCO TITOLO: "+lbl_title.getText());
+					if (view.isPinned(lbl_title.getText())){
 						btnPin.setBackground(Color.RED);
+					}
+						
 					else
 						btnPin.setBackground(new JButton().getBackground());
 					
@@ -683,6 +687,7 @@ public class NoteView extends JPanel {
 					if (textFieldNewLabel.getText().isEmpty() && comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
 						
 						showInfoMessage("Label is empty");
+						return;
 					}
 					
 					if (!textFieldNewLabel.getText().isEmpty() && !comboLabelsAdd.getSelectedItem().toString().equals("Labels")){

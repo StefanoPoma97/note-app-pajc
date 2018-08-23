@@ -331,7 +331,7 @@ public class MainView {
 	public Boolean isPinned(String titolo){
 		Comunication input= new Comunication();
 		input.setInfo("is_pinned");
-		input.setTitle(title);
+		input.setTitle(titolo);
 		input.setUser(utente);
 		
 		Comunication output= client.comunica(input);
@@ -345,7 +345,7 @@ public class MainView {
 	public Boolean isPublic(String titolo){
 		Comunication input= new Comunication();
 		input.setInfo("is_public");
-		input.setTitle(title);
+		input.setTitle(titolo);
 		input.setUser(utente);
 		
 		Comunication output= client.comunica(input);
