@@ -240,18 +240,18 @@ public class NoteView extends JPanel {
 			//per ragioni di semplicit� il corpo, nella isualizzazione ad elenco, non pu� contenere pi� di 20 caratteri
 			String corpo=notes.get(i).getBody();
 			str= new StringBuffer();
-			count=0;
-			for (char c : corpo.toCharArray()) {
-			  if(count<15){
-				  str.append(c);
-			  }
-			  else{
-				  str.append("...");
-				  break;
-			  }
-			  count++;
-			}
-			lbl_name.setText(str.toString());
+//			count=0;
+//			for (char c : corpo.toCharArray()) {
+//			  if(count<15){
+//				  str.append(c);
+//			  }
+//			  else{
+//				  str.append("...");
+//				  break;
+//			  }
+//			  count++;
+//			}
+			lbl_name.setText(corpo);
 			lbl_name.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_name.setVerticalAlignment(SwingConstants.CENTER);
 			lbl_name.setPreferredSize(new Dimension(300, 20));
