@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import it.unibs.pajc.note.controller.NoteController;
 import it.unibs.pajc.note.controller.UserController;
+import it.unibs.pajc.note.data.NoteArchive;
 
 public class Client {
 	
@@ -19,6 +20,22 @@ public class Client {
 	private UserController userController= new UserController();
 	private NoteController noteController= new NoteController();
 	
+//	private static Client instance=null;
+	
+	
+//	private Client()
+//	{
+//		hostName = "127.0.0.1";
+//		port= 2270;
+//		System.out.println("IN ATTESA DI CONNESSIONE... su Host: "+hostName+" alla porta: "+port);
+//	}
+//	
+//	public static Client getIstance()
+//	{
+//		if (instance == null)
+//			instance =new Client();
+//		return instance;
+//	}
 	
 	public Client()
 	{

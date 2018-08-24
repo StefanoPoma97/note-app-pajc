@@ -63,7 +63,7 @@ public class MainView {
 	//Metodi per LoginView
 	
 	public String connetti(){
-		return client.connetti();
+		return userController.connetti(client);
 	}
 	
 	/**
@@ -83,10 +83,8 @@ public class MainView {
 //	}
 	
 	public Boolean login (String _name, String _pass){
-		Comunication input= new Comunication();
-		input.setInfo("login");
-		input.setLogin(_name, _pass);
-		Comunication output = client.comunica(input);
+		
+		Comunication output = userController.login(client, _name, _pass);
 		if (output.getLoginResult()){
 			utente= new User(_name, _pass);
 			initializeNoteView();
@@ -111,11 +109,8 @@ public class MainView {
 //	}
 	
 	public ValidationError create(String _name, String _pass){
-		Comunication input= new Comunication();
-		input.setInfo("create");
-		input.setLogin(_name, _pass);
-		Comunication output = client.comunica(input);
-		ValidationError validate= output.getCreateResult();
+		
+		ValidationError validate= userController.create(client, _name, _pass);
 		if (validate.equals(ValidationError.CORRECT)){
 			utente= new User(_name, _pass);
 			initializeNoteView();
@@ -135,14 +130,7 @@ public class MainView {
 //	}
 	
 	public ArrayList<Note> getMyNote(){
-		Comunication input= new Comunication();
-		input.setInfo("load_notes");
-		input.setUser(utente);
-
-
-		Comunication output= new Comunication();
-		output= client.comunica(input);
-		return output.getNotes();
+		return noteController.getMyNote(client, utente);
 	}
 	
 	
@@ -156,14 +144,7 @@ public class MainView {
 	
 	
 	public ArrayList<String> getMyLabel(){
-		Comunication input= new Comunication();
-		input.setInfo("load_labels");
-		input.setUser(utente);
-
-
-		Comunication output= new Comunication();
-		output= client.comunica(input);
-		return output.getLabels();
+		return userController.getLabelsByUser(client, utente);
 	}
 	
 	/**
@@ -198,11 +179,7 @@ public class MainView {
 		userLabels.removeAll(userLabels_cp);
 		userLabels.add(0, "Labels");
 		
-		Comunication input= new Comunication();
-		input.setInfo("update_label");
-		input.setUser(utente);
-		input.setLabels(userLabels);
-		Comunication output2= client.comunica(input);
+		userController.updateLabel(client, userLabels, utente);
 		
 	}
 
@@ -217,13 +194,7 @@ public class MainView {
 //	}
 	
 	public boolean addLabel(String label){
-		Comunication input= new Comunication();
-		input.setInfo("add_label");
-		input.setTitle(label);
-		input.setUser(utente);
-		
-		Comunication out=client.comunica(input);
-		return out.getBoolean();
+		return userController.addLabel(client, label, utente);
 	}
 	
 	/**
@@ -236,13 +207,7 @@ public class MainView {
 //	}
 	
 	public ArrayList<Note> getNotesByLabel(String label){
-		Comunication input= new Comunication();
-		input.setInfo("get_notes_by_label");
-		input.setTitle(label);
-		input.setUser(utente);
-		
-		Comunication output= client.comunica(input);
-		return output.getNotes();
+		return noteController.getNotesByLabel(client, label, utente);
 	}
 	
 	/**
@@ -255,13 +220,7 @@ public class MainView {
 //	}
 	
 	public ArrayList<String> getLabelsByNote(String title){
-		Comunication input= new Comunication();
-		input.setInfo("get_labels_by_note");
-		input.setTitle(title);
-		input.setUser(utente);
-		
-		Comunication output= client.comunica(input);
-		return output.getLabels();
+		return noteController.getLabelsByNote(client, title, utente);
 		
 	}
 	
@@ -277,12 +236,7 @@ public class MainView {
 	
 	public ValidationError addNote (Note n){
 		n.setAutor(utente);
-		Comunication input= new Comunication();
-		input.setInfo("add_note");
-		input.setNote(n);
-		
-		Comunication output= client.comunica(input);
-		return output.getCreateResult();
+		return noteController.addNote(client, n);
 	}
 	
 	/**
@@ -301,13 +255,7 @@ public class MainView {
 //	}
 //	
 	public ValidationError exUpdate(Note n, int ID){
-		Comunication input= new Comunication();
-		input.setInfo("update");
-		input.setNote(n);
-		input.setID(ID);
-		
-		Comunication output= client.comunica(input);
-		return output.getCreateResult();
+		return noteController.update(client, n, ID);
 	}
 	
 //	public int getIDbyTitle(String title){
@@ -315,12 +263,7 @@ public class MainView {
 //	}
 	
 	public int getIDbyTitle(String title){
-		Comunication input= new Comunication();
-		input.setInfo("get_id_by_title");
-		input.setTitle(title);
-		
-		Comunication output= client.comunica(input);
-		return output.getID();
+		return noteController.getIDbyTitle(client, title);
 		
 	}
 	
@@ -329,13 +272,7 @@ public class MainView {
 //	}
 	
 	public Boolean isPinned(String titolo){
-		Comunication input= new Comunication();
-		input.setInfo("is_pinned");
-		input.setTitle(titolo);
-		input.setUser(utente);
-		
-		Comunication output= client.comunica(input);
-		return output.getBoolean();
+		return noteController.isPinned(client, titolo, utente);
 	}
 	
 //	public Boolean isPublic(String titolo){
@@ -343,86 +280,49 @@ public class MainView {
 //	}
 	
 	public Boolean isPublic(String titolo){
-		Comunication input= new Comunication();
-		input.setInfo("is_public");
-		input.setTitle(titolo);
-		input.setUser(utente);
-		
-		Comunication output= client.comunica(input);
-		return output.getBoolean();
+		return noteController.isPublic(client, titolo, utente);
 	}
 	
 //	public ArrayList<Note> FilterByTitle(){
 //		return noteController.FilterByTitle(utente);
 //	}
 	public ArrayList<Note> FilterByTitle(){
-		Comunication input= new Comunication();
-		input.setInfo("filter_by_title");
-		input.setUser(utente);
-		
-		Comunication output= client.comunica(input);
-		return output.getNotes();
+		return noteController.FilterByTitle(client, utente);
 	}
 	
 //	public ArrayList<Note> FilterByPin(){
 //		return noteController.FilterByPin(utente);
 //	}
 	public ArrayList<Note> FilterByPin(){
-		Comunication input= new Comunication();
-		input.setInfo("filter_by_pin");
-		input.setUser(utente);
-		
-		Comunication output= client.comunica(input);
-		return output.getNotes();
+		return noteController.FilterByPin(client, utente);
 	}
 	
 //	public ArrayList<Note> FilterByLike(){
 //		return noteController.FilterByLike(utente);
 //	}
 	public ArrayList<Note> FilterByLike(){
-		Comunication input= new Comunication();
-		input.setInfo("filter_by_like");
-		input.setUser(utente);
-		
-		Comunication output= client.comunica(input);
-		return output.getNotes();
+		return noteController.FilterByLike(client, utente);
 	}
 	
 //	public ArrayList<Note> FilterByData(){
 //		return noteController.FilterByData(utente);
 //	}
 	public ArrayList<Note> FilterByData(){
-		Comunication input= new Comunication();
-		input.setInfo("filter_by_data");
-		input.setUser(utente);
-		
-		Comunication output= client.comunica(input);
-		return output.getNotes();
+		return noteController.FilterByData(client, utente);
 	}
 	
 //	public ArrayList<User> getAllUsers(){
 //		return userController.getAllUsers(utente);
 //	}
 	public ArrayList<User> getAllUsers(){
-		Comunication input= new Comunication();
-		input.setInfo("get_all_user");
-		input.setUser(utente);
-		
-		Comunication output= client.comunica(input);
-		return output.getUsers();
+		return userController.getAllUsers(client, utente);
 	}
 	
 //	public Set<User> getSharredUser(String title){
 //		return noteController.getSharredUser(title, utente);
 //	}
 	public Set<User> getSharredUser(String title){
-		Comunication input= new Comunication();
-		input.setInfo("get_shared_user");
-		input.setUser(utente);
-		input.setTitle(title);
-		
-		Comunication output= client.comunica(input);
-		return output.getUsersSet();
+		return noteController.getSharredUser(client, title, utente);
 		
 	}
 	

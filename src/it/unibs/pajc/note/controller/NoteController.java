@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import it.unibs.pajc.note.client_server.Client;
+import it.unibs.pajc.note.client_server.Comunication;
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.model.Tag;
@@ -15,88 +17,11 @@ public class NoteController extends Controller<Note>{
 	
 	private NoteArchive noteArchive= NoteArchive.getIstance();
 	private ArrayList<Note> notes= new ArrayList<>();
+	private Client client=null;
 	
 	
 	public NoteController(){
-//		User u= new User("paolo", "merazza");
-//		User u1= new User("utente1", "pass1");
-//		User u2= new User("autente2","pass2");
-//		u1.addTag(new Tag("Riunione"));
-//		u1.addTag(new Tag("Memo"));
-//		u1.addTag(new Tag("Memo2"));
-//		u1.addTag(new Tag("Memo3"));
-//		u.addTag(new Tag("Riunione"));
-//		u.addTag(new Tag("Memo"));
-//		//costruttore solo per test, in realtà si appoggia alla classe client che poi gli da informazioni su archivio note
-//		for (int i=0; i<5; i++){
-//			Note nota = new Note("titolo"+i);
-//			nota.setBody("corpo della nota numero: "+i);
-//			nota.setAutor(u);
-//			if(i==0){
-//				nota.addLabel("Riunione");
-//				nota.setPin(true);
-//				Set<User> set= new HashSet<>();
-//				set.add(u1);
-//				nota.addSharedUsers(set);
-//			}
-//			if (i==1){
-//				nota.addLabel("Memo");
-//			}
-//			if (i==2){
-//				nota.addLabel("Memo2");
-//			}
-//			
-//			if (i==3){
-//				nota.addLabel("Memo3");
-//			}
-//			
-//			
-//				
-//			noteArchive.add(nota);
-//		}
-//		
-//		for (int i=0; i<5; i++){
-//			Note nota = new Note("titolo copia"+i);
-//			nota.setBody("corpo della nota copia numero: "+i);
-//			nota.setAutor(u1);
-//			if(i==0){
-//				nota.addLabel("Riunione");
-//				nota.addLike();
-//				nota.addLike();
-//				Set<User> set= new HashSet<>();
-//				set.add(u);
-//				nota.addSharedUsers(set);
-//				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
-//			}
-//			if (i==1){
-//				nota.addLike();
-//				nota.addLabel("Memo");
-//			}
-//				
-//			noteArchive.add(nota);
-//		}
-//		
-//		for (int i=0; i<5; i++){
-//			Note nota = new Note("titolo cp"+i);
-//			nota.setBody("corpo della nota copia numero: "+i);
-//			nota.setAutor(u2);
-//			if(i==0){
-//				nota.setTitle("AAAAAAAAAAAAAA");
-//				nota.addLike();
-//				nota.addLike();
-//				nota.addLike();
-//				nota.addLabel("Riunione");
-//				Set<User> set= new HashSet<>();
-//				set.add(u);
-//				nota.addSharedUsers(set);
-//				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
-//			}
-//			if (i==1){
-//				nota.addLabel("Memo");
-//			}
-//				
-//			noteArchive.add(nota);
-//		}
+
 	}
 	
 	/**
@@ -104,8 +29,14 @@ public class NoteController extends Controller<Note>{
 	 * @param us
 	 * @return
 	 */
-	public ArrayList<Note> getMyNote(User us){
-		return (ArrayList<Note>)noteArchive.getWhere(x->x.getAuthor().equals(us));
+	public ArrayList<Note> getMyNote(Client _client, User us){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("load_notes");
+		input.setUser(us);
+		Comunication output= new Comunication();
+		output= client.comunica(input);
+		return output.getNotes();
 		
 	}
 	
@@ -115,8 +46,15 @@ public class NoteController extends Controller<Note>{
 	 * @param us
 	 * @return
 	 */
-public ArrayList<String> getLabelsByNote(String title, User us){
-	return noteArchive.getLabelsByNote(title,us);
+public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
+	client=_client;
+	Comunication input= new Comunication();
+	input.setInfo("get_labels_by_note");
+	input.setTitle(title);
+	input.setUser(us);
+	
+	Comunication output= client.comunica(input);
+	return output.getLabels();
 	}
 
 	/**
@@ -125,8 +63,15 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 	 * @param us
 	 * @return
 	 */
-	public ArrayList<Note> getNotesByLabel(String label, User us){
-		return noteArchive.getNotesByLabel(label, us);
+	public ArrayList<Note> getNotesByLabel(Client _client, String label, User us){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("get_notes_by_label");
+		input.setTitle(label);
+		input.setUser(us);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 		
 	}
 	
@@ -135,18 +80,37 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 	 * @param note
 	 * @return
 	 */
-	public ValidationError addNote(Note note){
-		return noteArchive.add(note);
+	public ValidationError addNote(Client _client, Note note){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("add_note");
+		input.setNote(note);
+		
+		Comunication output= client.comunica(input);
+		return output.getCreateResult();
 		
 	}
 	
-	public ValidationError update (Note note, int id){
-		return noteArchive.update(note, id);
+	public ValidationError update (Client _client, Note note, int id){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("update");
+		input.setNote(note);
+		input.setID(id);
+		
+		Comunication output= client.comunica(input);
+		return output.getCreateResult();
 	}
 	
 	
-	public int getIDbyTitle(String title){
-		return noteArchive.getIDbyTitle(title);
+	public int getIDbyTitle(Client _client, String title){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("get_id_by_title");
+		input.setTitle(title);
+		
+		Comunication output= client.comunica(input);
+		return output.getID();
 	}
 	
 	public ValidationError create(String title) {
@@ -155,38 +119,76 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 		return archive.add(n);
 	}
 	
-	public Boolean isPinned(String titolo, User utente){
-		return noteArchive.isPinned(titolo, utente);
+	public Boolean isPinned(Client _client, String titolo, User utente){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("is_pinned");
+		input.setTitle(titolo);
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getBoolean();
 		
 	}
 	
-	public Boolean isPublic(String titolo, User utente){
-		return noteArchive.isPublic(titolo, utente);
+	public Boolean isPublic(Client _client, String titolo, User utente){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("is_public");
+		input.setTitle(titolo);
+		input.setUser(utente);
+		
+		Comunication output= client.comunica(input);
+		return output.getBoolean();
 		
 	}
 	
-	public ArrayList<Note> FilterByTitle(User u){
-		return noteArchive.FilterByTitle(u);
+	public ArrayList<Note> FilterByTitle(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("filter_by_title");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
 	public ArrayList<Note> exFilterByTitle (User u){
 		return noteArchive.exFilterByTitle(u);
 	}
 	
-	public ArrayList<Note> FilterByPin(User u){
-		return noteArchive.FilterByPin(u);
+	public ArrayList<Note> FilterByPin(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("filter_by_pin");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
-	public ArrayList<Note> FilterByLike(User u){
-		return noteArchive.FilterByLike(u);
+	public ArrayList<Note> FilterByLike(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("filter_by_like");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
 	public ArrayList<Note> exFilterByLike(User u){
 		return noteArchive.exFilterByLike(u);
 	}
 	
-	public ArrayList<Note> FilterByData(User u){
-		return noteArchive.FilterByData(u);
+	public ArrayList<Note> FilterByData(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("filter_by_data");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
 	public ArrayList<Note> exFilterByData(User u){
@@ -197,8 +199,15 @@ public ArrayList<String> getLabelsByNote(String title, User us){
 		return noteArchive.exFilterByAuthor(u);
 	}
 	
-	public Set<User> getSharredUser (String titolo, User u){
-		return noteArchive.getSharredUser(titolo, u);
+	public Set<User> getSharredUser (Client _client, String titolo, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("get_shared_user");
+		input.setUser(u);
+		input.setTitle(titolo);
+		
+		Comunication output= client.comunica(input);
+		return output.getUsersSet();
 	}
 	
 	public ArrayList<Note> getAllNote(User u){

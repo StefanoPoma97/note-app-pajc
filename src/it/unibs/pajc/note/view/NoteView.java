@@ -716,7 +716,9 @@ public class NoteView extends JPanel {
 								else{
 									view.addLabel(textFieldNewLabel.getText());
 //									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
+									
 									temporanyLabels.add(textFieldNewLabel.getText());
+									System.out.println("AGGIUNTA NUOVA LABEL: "+temporanyLabels);
 									refreshLabelPanel(view);
 									textFieldNewLabel.setText("");
 //									System.out.println(temporanyLabels);
@@ -733,44 +735,7 @@ public class NoteView extends JPanel {
 	}
 	
 	
-	private void createColors(){
-//		ArrayList<Object> colour = new ArrayList<>();
-//		JButton btnColor=null;
-//		 try {
-//			  ImageIcon addIcon = new ImageIcon("White.png");
-//			  Image im= addIcon.getImage();
-//			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
-//			  btnColor = new JButton(new ImageIcon(newimg));
-//			  btnColor.setMargin(new Insets(0, 0, 0, 0));
-//			  btnColor.setBorder(null);
-//			  btnColor.setOpaque(true);
-//			  btnColor.setBorderPainted(false);
-//			  btnColor.setContentAreaFilled(false);
-//			  btnColor.setFocusPainted(false);
-//			  btnColor.setOpaque(false);
-//		  } catch (Exception ex) {
-//		    System.out.println(ex);
-//		  } 
-//		colour.add(btnColor);
-//		 try {
-//			  ImageIcon addIcon = new ImageIcon("Yellow.png");
-//			  Image im= addIcon.getImage();
-//			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
-//			  btnColor = new JButton(new ImageIcon(newimg));
-//			  btnColor.setMargin(new Insets(0, 0, 0, 0));
-//			  btnColor.setBorder(null);
-//			  btnColor.setOpaque(true);
-//			  btnColor.setBorderPainted(false);
-//			  btnColor.setContentAreaFilled(false);
-//			  btnColor.setFocusPainted(false);
-//			  btnColor.setOpaque(false);
-//		  } catch (Exception ex) {
-//		    System.out.println(ex);
-//		  } 
-//		colour.add(btnColor);
-//		colours = colour.toArray();
-		
-	}
+	
 	/**
 	 * aggiorna il pannello contenente i bottodi di modifica alla nota selezionata
 	 * @param view
@@ -895,6 +860,7 @@ public class NoteView extends JPanel {
 				note.setBody(textAreaNote.getText());
 //				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
 				note.addLabels(temporanyLabels);
+				System.out.println("HO AGGIUNTO ALLA NOTA LE TEMPORANY LABEL: "+temporanyLabels);
 				note.addSharedUsers(sharedUser);
 				ValidationError validate;
 //				System.out.println("ID che sto modificando "+modifyID);
@@ -920,8 +886,9 @@ public class NoteView extends JPanel {
 					nuova=false;
 					btnPin.setBackground(new JButton().getBackground());
 					chckbxPublic.setSelected(false);
-//					view.updateMyLabels();
+					view.updateMyLabels();
 					createModifyNote(view);
+					refreshButton(view);
 					refreshButton(view);
 					repaint();
 		

@@ -3,44 +3,44 @@ package it.unibs.pajc.note.controller;
 import java.util.ArrayList;
 import java.util.Set;
 
+import it.unibs.pajc.note.client_server.Client;
+import it.unibs.pajc.note.client_server.Comunication;
 import it.unibs.pajc.note.data.UserArchive;
+import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.model.Tag;
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
 public class UserController extends Controller<User> {
 
 	UserArchive userArchive = UserArchive.getIstance();
+	Client client= null;
 	/**
 	 * costruttore
 	 */
 	public UserController() {
-		//questo è solo per test, in realtà avrà un istanza di Client che connettendosi al server avrà accesso all'archivio
-		
-//		User utente= new User("paolo", "merazza");
-////		System.out.println("HO AGGIUNTO L'UTENTE PAOLO");
-//		utente.addLabel("Labels");
-//		utente.addLabel("Riunione");
-//		utente.addLabel("Memo");
-//		utente.addLabel("Memo2");
-//		utente.addLabel("Memo3");
-//		userArchive.add(utente);
-//		userArchive.add(new User("utente1", "pass1"));
-//		userArchive.add(new User("utente2", "pass2"));
-//		userArchive.add(new User("utente3", "pass3"));
-//		
 	}
 
+	public String connetti(Client _client){
+		client=_client;
+		return client.connetti();
+	}
+	
+	
+	
 	/**
 	 * metodo per verificare un login
 	 * @param name
 	 * @param password
 	 * @return un boolean (valido o non valido)
 	 */
-	public Boolean login(String name, String password) {
-		
-		return userArchive.authenticate(name, password);
-
-		
+	public Comunication login(Client _client, String _name, String _pass) {
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("login");
+		input.setLogin(_name, _pass);
+		Comunication output = client.comunica(input);
+			
+		return output;
 	}
 
 	/**
@@ -49,24 +49,56 @@ public class UserController extends Controller<User> {
 	 * @param password
 	 * @return ValidateError
 	 */
-	public ValidationError create(String username, String password) {
-		User u = new User(username, password);
-		return userArchive.add(u);
+	public ValidationError create(Client _client, String _name, String _pass) {
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("create");
+		input.setLogin(_name, _pass);
+		Comunication output = client.comunica(input);
+		ValidationError validate= output.getCreateResult();
+		return validate;
 	}
 
-	public ArrayList<String> getLabelsByUser (User u){
-		return userArchive.getlabelsByUser(u);
+	public ArrayList<String> getLabelsByUser (Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("load_labels");
+		input.setUser(u);
+
+
+		Comunication output= new Comunication();
+		output= client.comunica(input);
+		return output.getLabels();
 	}
 	
-	public boolean addLabel (String label, User us){
-		return userArchive.addLabel(label, us);
+	public boolean addLabel (Client _client, String label, User us){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("add_label");
+		input.setTitle(label);
+		input.setUser(us);
+		
+		Comunication out=client.comunica(input);
+		return out.getBoolean();
 	}
 	
-	public void updateLabel(ArrayList<String> str, User us){
-		userArchive.updateLabel(str, us);
+	public void updateLabel(Client _client, ArrayList<String> str, User us){
+		//TODO rendere piï¿½ efficiente
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("update_label");
+		input.setUser(us);
+		input.setLabels(str);
+		Comunication output2= client.comunica(input);
 	}
 	
-	public ArrayList<User> getAllUsers(User u){
-		return userArchive.getAllUsers(u);
+	public ArrayList<User> getAllUsers(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("get_all_user");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getUsers();
 	}
 }
