@@ -365,6 +365,13 @@ public class Comunication implements Serializable{
 			return output;
 		}
 		
+		case "get_note_by_id":{
+			output= new Comunication();
+			output.setInfo("get_note_by_id_response");
+			output.setNote(noteArchive.getNoteByID(ID));
+			return output;
+		}
+		
 		
 		default:
 			return output;

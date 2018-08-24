@@ -260,5 +260,14 @@ public class NoteArchive extends Archive<Note> {
 
 	public ArrayList<Note> getAllNote(User u){
 		return (ArrayList<Note>)getWhere(x->!x.getAuthor().equals(u));
+//		System.out.println(out);
+//		for(Note n: out){
+//			System.out.println("CARICO Una NOTA: "+n);
+//		}
+//		return out;
+	}
+	
+	public Note getNoteByID(int ID){
+		return getWhere(x->x.getID()==ID).get(0);
 	}
 }

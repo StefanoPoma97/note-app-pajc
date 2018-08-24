@@ -69,8 +69,10 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 		if (maxID.isPresent()) {
 			int id = maxID.getAsInt();
 			e.setID(++id);
+//			System.out.println("IDDDDDDDD="+id);
 		} else {
 			e.setID(0);
+//			System.out.println("IDDDDDDDD=00000000");
 		}
 	}
 

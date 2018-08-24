@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import it.unibs.pajc.note.data.NoteArchive;
@@ -72,6 +73,7 @@ public class ExploreView extends JPanel {
 	//array che conterr� solo le note visualizzabili in questo momento (non necessariamente tutto l'archivio)
 	private ArrayList <Note> notes= new ArrayList<>();
 	private Integer modifyID= null;
+	private Integer modifyNoteID= null;
 	private JTextField textFieldTitle;
 	private JButton btnSave;
 	private JTextArea textAreaNote;
@@ -91,6 +93,7 @@ public class ExploreView extends JPanel {
 	private Object[] colours={};
 	private Set<User> sharedUser= new HashSet<>();
 	private String modifyTitle= null;
+//	private int modifyID;
 	private JButton btnNewButton;
 	
 
@@ -275,6 +278,8 @@ public class ExploreView extends JPanel {
 			contentList.add(btn_modify,gc);
 			btn_modify.setToolTipText("Modifica");
 			btn_modify.setActionCommand(notes.get(i).getBody());
+			int moment_id= notes.get(i).getID();
+			System.out.println("MOMENT ID: "+moment_id);
 			btn_modify.setEnabled(false);
 			btn_modify.addMouseListener(new MouseAdapter() {
 				@Override
@@ -294,11 +299,13 @@ public class ExploreView extends JPanel {
 					nuova=false;
 					modifica=true;
 					modifyTitle=null;
+					modifyID=null;
 					modifyTitle=lbl_title.getText();
+					modifyNoteID=moment_id;
 					textFieldTitleNote.setText(lbl_title.getText());
 					textAreaNote.setText(btn_modify.getActionCommand());
-					
-					Note note = view.getNoteByTitleLike(lbl_title.getText());
+					Note note= view.getNotebyID(moment_id);
+//					Note note = view.getNoteByTitleLike(lbl_title.getText());
 					textLike.setText(Integer.toString(note.getLike()));
 					if(view.iLikeThisNote(note))
 						btnLike.setBackground(Color.RED);
@@ -432,7 +439,10 @@ public class ExploreView extends JPanel {
 			btnLike.setToolTipText("Pinned the note");
 			btnLike.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					Note note= view.getNoteByTitleLike(textFieldTitleNote.getText());
+//					Note note= view.getNoteByTitleLike(textFieldTitleNote.getText());
+					System.out.println("ID DELLA NOTA A CUI METTO LIKE: "+modifyNoteID);
+					Note note= view.getNotebyID(modifyNoteID);
+					System.out.println("NOTA A CUI METTO LIKE: "+note);
 					if(btnLike.getBackground().equals(new JButton().getBackground())){
 						btnLike.setBackground(Color.RED);
 						note.addLike();
@@ -539,7 +549,8 @@ public class ExploreView extends JPanel {
 				}
 				else{
 					System.out.println("TITOLO DELLA NOTA DA CERCARE: "+modifyTitle);
-					Note note = view.getNoteByTitle(modifyTitle);
+//					Note note = view.getNoteByTitle(modifyTitle);
+					Note note= view.getNotebyID(modifyNoteID);
 					if(textFieldTitleNote.getText().toCharArray().length>15){
 						showErrorMessage("Title max length = 15!!");
 						textFieldTitleNote.setText("");
@@ -777,7 +788,7 @@ public class ExploreView extends JPanel {
 		gc.insets = new Insets(0, 0, 5, 5);
 		this.contentButton = new JPanel();
 		contentButton.setBackground(Color.LIGHT_GRAY);
-		this.contentButton.setPreferredSize(new Dimension(300, 50));
+		this.contentButton.setPreferredSize(new Dimension(500, 50));
 		gc.weightx=0; //crescita dello 0% lungo l'asse X
 		gc.gridx = 0;
 		gc.gridy = 0;
@@ -807,14 +818,17 @@ public class ExploreView extends JPanel {
 		gc_2 = new GridBagConstraints();
 		gc_2.insets = new Insets(0, 0, 5, 5);
 		gc_2.anchor = GridBagConstraints.WEST;
+		
 		this.contentList = new JPanel();
-		this.contentList.setPreferredSize(new Dimension(430, 30));
+		this.contentList.setPreferredSize(new Dimension(500, notes.size()*47));
 		gc_2.weightx=0;
-		gc_2.weighty=1.0;
+		gc_2.weighty=0;
 		gc_2.gridx = 0;
 		gc_2.gridy = 1;
 		gc_2.fill=GridBagConstraints.BOTH;
-		this.add(this.contentList, gc_2);
+		JScrollPane scroll = new JScrollPane(contentList, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.setPreferredSize(new Dimension(30, 30));
+		this.add(scroll, gc_2);
 		
 		
 			//col 1

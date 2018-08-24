@@ -242,6 +242,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		input.setUser(u);
 		
 		Comunication output= client.comunica(input);
+//		System.out.println("CONTROLLER: "+output.getNotes());
 		return output.getNotes();
 		
 	}
@@ -278,6 +279,16 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		input.setInfo("get_note_by_title_like");
 		input.setUser(u);
 		input.setTitle(n);
+		
+		Comunication output= client.comunica(input);
+		return output.getNote();
+	}
+	
+	public Note getNotebyID(Client _client, int ID){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("get_note_by_id");
+		input.setID(ID);
 		
 		Comunication output= client.comunica(input);
 		return output.getNote();

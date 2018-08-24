@@ -390,6 +390,10 @@ public class MainView {
 		return n.getLikedBy().contains(utente);
 	}
 	
+	public Note getNotebyID(int ID){
+		return noteController.getNotebyID(client, ID);
+	}
+	
 	/**
 	 * Launch the application.
 	 */
