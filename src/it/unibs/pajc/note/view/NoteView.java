@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
@@ -45,6 +47,7 @@ import java.text.SimpleDateFormat;
 public class NoteView extends JPanel {
 	//Pannelli contenitivi
 	private JPanel contentList;
+	private JPanel contentList2;
 	private JPanel contentButton;
 	private JPanel contentNote;
 	private JPanel contentModify;
@@ -153,6 +156,8 @@ public class NoteView extends JPanel {
 		_labels= view.getMyLabel();
 		labels= _labels.toArray(new String [_labels.size()]);
 		
+		System.out.println("MY Label: "+labels);
+		
 		//carico i filtri
 		filters=new String[] {"Filters", "Titolo", "Data", "Like", "Pinned"};	
 	}
@@ -197,7 +202,7 @@ public class NoteView extends JPanel {
 			String titolo=notes.get(i).getTitle();
 			StringBuffer str= new StringBuffer();
 			int count=0;
-			//per ragioni di semplicità il titolo non può contenere più di 15 caratteri
+			//per ragioni di semplicitï¿½ il titolo non puï¿½ contenere piï¿½ di 15 caratteri
 			for (char c : titolo.toCharArray()) {
 			  if(count<15){
 				  str.append(c);
@@ -234,21 +239,21 @@ public class NoteView extends JPanel {
 			gc = new GridBagConstraints();
 			JLabel lbl_name = new JLabel();
 			
-			//per ragioni di semplicità il corpo, nella isualizzazione ad elenco, non può contenere più di 20 caratteri
+			//per ragioni di semplicitï¿½ il corpo, nella isualizzazione ad elenco, non puï¿½ contenere piï¿½ di 20 caratteri
 			String corpo=notes.get(i).getBody();
 			str= new StringBuffer();
-			count=0;
-			for (char c : corpo.toCharArray()) {
-			  if(count<15){
-				  str.append(c);
-			  }
-			  else{
-				  str.append("...");
-				  break;
-			  }
-			  count++;
-			}
-			lbl_name.setText(str.toString());
+//			count=0;
+//			for (char c : corpo.toCharArray()) {
+//			  if(count<15){
+//				  str.append(c);
+//			  }
+//			  else{
+//				  str.append("...");
+//				  break;
+//			  }
+//			  count++;
+//			}
+			lbl_name.setText(corpo);
 			lbl_name.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_name.setVerticalAlignment(SwingConstants.CENTER);
 			lbl_name.setPreferredSize(new Dimension(300, 20));
@@ -296,13 +301,17 @@ public class NoteView extends JPanel {
 			btn_modify.setToolTipText("Modify this note");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					System.out.println("TASTO MODIFICA");
 					temporanyLabels= new ArrayList<>();
 					sharedUser= new HashSet<>();
 					System.out.println("Sharred user: "+sharedUser);
 					nuova=false;
 					modifica=true;
-					if (view.isPinned(lbl_title.getText()))
+					System.out.println("PIN INSERISCO TITOLO: "+lbl_title.getText());
+					if (view.isPinned(lbl_title.getText())){
 						btnPin.setBackground(Color.RED);
+					}
+						
 					else
 						btnPin.setBackground(new JButton().getBackground());
 					
@@ -504,7 +513,7 @@ public class NoteView extends JPanel {
 					  temporanyLabels.remove(btnNewButton.getActionCommand());
 					  actualLabels= new ArrayList<>();
 					  refreshLabelPanel(view);
-					  refreshNoteList(view);
+//					  refreshNoteList(view);
 					} else {
 					  System.out.println("No Option");
 					} 
@@ -681,6 +690,7 @@ public class NoteView extends JPanel {
 					if (textFieldNewLabel.getText().isEmpty() && comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
 						
 						showInfoMessage("Label is empty");
+						return;
 					}
 					
 					if (!textFieldNewLabel.getText().isEmpty() && !comboLabelsAdd.getSelectedItem().toString().equals("Labels")){
@@ -706,7 +716,9 @@ public class NoteView extends JPanel {
 								else{
 									view.addLabel(textFieldNewLabel.getText());
 //									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
+									
 									temporanyLabels.add(textFieldNewLabel.getText());
+									System.out.println("AGGIUNTA NUOVA LABEL: "+temporanyLabels);
 									refreshLabelPanel(view);
 									textFieldNewLabel.setText("");
 //									System.out.println(temporanyLabels);
@@ -723,44 +735,7 @@ public class NoteView extends JPanel {
 	}
 	
 	
-	private void createColors(){
-//		ArrayList<Object> colour = new ArrayList<>();
-//		JButton btnColor=null;
-//		 try {
-//			  ImageIcon addIcon = new ImageIcon("White.png");
-//			  Image im= addIcon.getImage();
-//			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
-//			  btnColor = new JButton(new ImageIcon(newimg));
-//			  btnColor.setMargin(new Insets(0, 0, 0, 0));
-//			  btnColor.setBorder(null);
-//			  btnColor.setOpaque(true);
-//			  btnColor.setBorderPainted(false);
-//			  btnColor.setContentAreaFilled(false);
-//			  btnColor.setFocusPainted(false);
-//			  btnColor.setOpaque(false);
-//		  } catch (Exception ex) {
-//		    System.out.println(ex);
-//		  } 
-//		colour.add(btnColor);
-//		 try {
-//			  ImageIcon addIcon = new ImageIcon("Yellow.png");
-//			  Image im= addIcon.getImage();
-//			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
-//			  btnColor = new JButton(new ImageIcon(newimg));
-//			  btnColor.setMargin(new Insets(0, 0, 0, 0));
-//			  btnColor.setBorder(null);
-//			  btnColor.setOpaque(true);
-//			  btnColor.setBorderPainted(false);
-//			  btnColor.setContentAreaFilled(false);
-//			  btnColor.setFocusPainted(false);
-//			  btnColor.setOpaque(false);
-//		  } catch (Exception ex) {
-//		    System.out.println(ex);
-//		  } 
-//		colour.add(btnColor);
-//		colours = colour.toArray();
-		
-	}
+	
 	/**
 	 * aggiorna il pannello contenente i bottodi di modifica alla nota selezionata
 	 * @param view
@@ -885,6 +860,7 @@ public class NoteView extends JPanel {
 				note.setBody(textAreaNote.getText());
 //				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
 				note.addLabels(temporanyLabels);
+				System.out.println("HO AGGIUNTO ALLA NOTA LE TEMPORANY LABEL: "+temporanyLabels);
 				note.addSharedUsers(sharedUser);
 				ValidationError validate;
 //				System.out.println("ID che sto modificando "+modifyID);
@@ -912,6 +888,7 @@ public class NoteView extends JPanel {
 					chckbxPublic.setSelected(false);
 					view.updateMyLabels();
 					createModifyNote(view);
+					refreshButton(view);
 					refreshButton(view);
 					repaint();
 		
@@ -1090,7 +1067,7 @@ public class NoteView extends JPanel {
 		
 		loadInfo(view);
 		
-		//TODO rendere più carina la visualizzazione con le immagini
+		//TODO rendere piï¿½ carina la visualizzazione con le immagini
 		  try {
 			  ImageIcon addIcon = new ImageIcon("RefreshButton.png");
 			  Image im= addIcon.getImage();
@@ -1118,6 +1095,7 @@ public class NoteView extends JPanel {
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				sharedUser= new HashSet<>();
+				view.updateMyLabels();
 				refreshLabelPanel(view);
 				refreshNoteList(view);
 				refreshSharePanel(view);
@@ -1259,8 +1237,9 @@ public class NoteView extends JPanel {
 		comboLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String label = (String)comboLabels.getSelectedItem();
-				if (label=="Labels"){ 
+				if (label.equals("Labels")){ 
 					notes=view.getMyNote();
+//					System.out.println("MIE Labels: "+labels);
 					temporanyLabels= new ArrayList<>();
 					sharedUser= new HashSet<>();
 					refreshSharePanel(view);
@@ -1302,7 +1281,7 @@ public class NoteView extends JPanel {
 		gc.insets = new Insets(0, 0, 5, 5);
 		this.contentButton = new JPanel();
 		contentButton.setBackground(Color.LIGHT_GRAY);
-		this.contentButton.setPreferredSize(new Dimension(300, 50));
+		this.contentButton.setPreferredSize(new Dimension(500, 50));
 		gc.weightx=0; //crescita dello 0% lungo l'asse X
 		gc.gridx = 0;
 		gc.gridy = 0;
@@ -1332,14 +1311,21 @@ public class NoteView extends JPanel {
 		gc_2 = new GridBagConstraints();
 		gc_2.insets = new Insets(0, 0, 5, 5);
 		gc_2.anchor = GridBagConstraints.WEST;
+		
 		this.contentList = new JPanel();
-		this.contentList.setPreferredSize(new Dimension(430, 30));
+		this.contentList2 = new JPanel();
+//		contentList2.setLayout();
+		this.contentList.setPreferredSize(new Dimension(500, notes.size()*47));
 		gc_2.weightx=0;
-		gc_2.weighty=1.0;
+		gc_2.weighty=0;
 		gc_2.gridx = 0;
 		gc_2.gridy = 1;
 		gc_2.fill=GridBagConstraints.BOTH;
-		this.add(this.contentList, gc_2);
+		JScrollPane scroll = new JScrollPane(contentList, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		contentList2.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+//		contentList2.add(contentList);
+		scroll.setPreferredSize(new Dimension(30, 30));
+		this.add(scroll, gc_2);
 		
 		
 			//col 1

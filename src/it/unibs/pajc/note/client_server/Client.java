@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import it.unibs.pajc.note.controller.NoteController;
 import it.unibs.pajc.note.controller.UserController;
+import it.unibs.pajc.note.data.NoteArchive;
 
 public class Client {
 	
@@ -19,16 +20,32 @@ public class Client {
 	private UserController userController= new UserController();
 	private NoteController noteController= new NoteController();
 	
+//	private static Client instance=null;
+	
+	
+//	private Client()
+//	{
+//		hostName = "127.0.0.1";
+//		port= 2270;
+//		System.out.println("IN ATTESA DI CONNESSIONE... su Host: "+hostName+" alla porta: "+port);
+//	}
+//	
+//	public static Client getIstance()
+//	{
+//		if (instance == null)
+//			instance =new Client();
+//		return instance;
+//	}
 	
 	public Client()
 	{
-		hostName = "192.168.1.106";
+		hostName = "127.0.0.1";
 		port= 2270;
 		System.out.println("IN ATTESA DI CONNESSIONE... su Host: "+hostName+" alla porta: "+port);
 	}
 	
 	/**
-	 * metodo per la connessione al server, ritorna una Stringa che specifica se la connessione è avvenuta
+	 * metodo per la connessione al server, ritorna una Stringa che specifica se la connessione ï¿½ avvenuta
 	 * @return
 	 */
 	public String connetti()
@@ -69,7 +86,7 @@ public class Client {
 	
 	/**
 	 * metodo per comunicare 
-	 *ora solo una stringa più vanti una classe comunications
+	 *ora solo una stringa piï¿½ vanti una classe comunications
 	 * @param input
 	 */
 	public Comunication comunica (Comunication output)

@@ -37,7 +37,7 @@ public class MainView {
 	private String name= null;
 	private String password=null;
 	private User utente=null;
-	private UserController userController=null;;
+	private UserController userController=new UserController();
 	
 	//Note View
 	private NoteView noteView=null;
@@ -63,7 +63,7 @@ public class MainView {
 	//Metodi per LoginView
 	
 	public String connetti(){
-		return client.connetti();
+		return userController.connetti(client);
 	}
 	
 	/**
@@ -83,12 +83,8 @@ public class MainView {
 //	}
 	
 	public Boolean login (String _name, String _pass){
-		userController=new UserController();
-		UserArchive cp= UserArchive.getIstance();
-		Comunication input= new Comunication();
-		input.setInfo("login");
-		input.setLogin(_name, _pass);
-		Comunication output = client.comunica(input);
+		
+		Comunication output = userController.login(client, _name, _pass);
 		if (output.getLoginResult()){
 			utente= new User(_name, _pass);
 			initializeNoteView();
@@ -103,10 +99,20 @@ public class MainView {
 	 * @param pass
 	 * @return ValidationError
 	 */
-	public ValidationError create(String name, String pass){
-		ValidationError validate = userController.create(name, pass);
+//	public ValidationError create(String name, String pass){
+//		ValidationError validate = userController.create(name, pass);
+//		if (validate.equals(ValidationError.CORRECT)){
+//			utente= new User(name, pass);
+//			initializeNoteView();
+//		}
+//		return validate;
+//	}
+	
+	public ValidationError create(String _name, String _pass){
+		
+		ValidationError validate= userController.create(client, _name, _pass);
 		if (validate.equals(ValidationError.CORRECT)){
-			utente= new User(name, pass);
+			utente= new User(_name, _pass);
 			initializeNoteView();
 		}
 		return validate;
@@ -119,34 +125,61 @@ public class MainView {
 	 * restituisce tutte le note associate al utente del login
 	 * @return
 	 */
+//	public ArrayList<Note> getMyNote(){
+//		return noteController.getMyNote(utente);
+//	}
+	
 	public ArrayList<Note> getMyNote(){
-		
-		return noteController.getMyNote(utente);
+		return noteController.getMyNote(client, utente);
 	}
+	
 	
 	/**
 	 * restituisce tutte le label associate all'utente del login
 	 * @return
 	 */
+//	public ArrayList<String> getMyLabel(){
+//		return userController.getLabelsByUser(utente);
+//	}
+	
+	
 	public ArrayList<String> getMyLabel(){
-		return userController.getLabelsByUser(utente);
+		return userController.getLabelsByUser(client, utente);
 	}
 	
 	/**
 	 * confronta le label salvate sull'utente e quelle salvate solamente sulle note
 	 * se le label associate all'utente non sono connesse a nessuna nota vengono eliminate
 	 */
+//	public void updateMyLabels(){
+//		ArrayList<String> userLabels = userController.getLabelsByUser(utente);
+//		ArrayList<String> noteLabels = new ArrayList<>();
+//		for (Note nota: noteController.getMyNote(utente)){
+//			noteLabels.addAll(noteController.getLabelsByNote(nota.getTitle(), utente));
+//		}
+//		ArrayList<String> userLabels_cp= new ArrayList<>(userLabels);
+//		userLabels_cp.removeAll(noteLabels);
+//		userLabels.removeAll(userLabels_cp);
+//		userLabels.add(0, "Labels");
+//		userController.updateLabel(userLabels, utente);
+//		
+//	}
+	
 	public void updateMyLabels(){
-		ArrayList<String> userLabels = userController.getLabelsByUser(utente);
+		
+		//TODO rendere piï¿½ efficiente
+		ArrayList<String> userLabels = getMyLabel();
 		ArrayList<String> noteLabels = new ArrayList<>();
-		for (Note nota: noteController.getMyNote(utente)){
-			noteLabels.addAll(noteController.getLabelsByNote(nota.getTitle(), utente));
+		for (Note nota: getMyNote()){
+			
+			noteLabels.addAll(getLabelsByNote(nota.getTitle()));
 		}
 		ArrayList<String> userLabels_cp= new ArrayList<>(userLabels);
 		userLabels_cp.removeAll(noteLabels);
 		userLabels.removeAll(userLabels_cp);
 		userLabels.add(0, "Labels");
-		userController.updateLabel(userLabels, utente);
+		
+		userController.updateLabel(client, userLabels, utente);
 		
 	}
 
@@ -156,8 +189,12 @@ public class MainView {
 	 * @param label
 	 * @return
 	 */
+//	public boolean addLabel(String label){
+//		return userController.addLabel(label, utente);
+//	}
+	
 	public boolean addLabel(String label){
-		return userController.addLabel(label, utente);
+		return userController.addLabel(client, label, utente);
 	}
 	
 	/**
@@ -165,8 +202,12 @@ public class MainView {
 	 * @param label
 	 * @return
 	 */
+//	public ArrayList<Note> getNotesByLabel(String label){
+//		return noteController.getNotesByLabel(label, utente);
+//	}
+	
 	public ArrayList<Note> getNotesByLabel(String label){
-		return noteController.getNotesByLabel(label, utente);
+		return noteController.getNotesByLabel(client, label, utente);
 	}
 	
 	/**
@@ -174,8 +215,13 @@ public class MainView {
 	 * @param title
 	 * @return
 	 */
+//	public ArrayList<String> getLabelsByNote(String title){
+//		return noteController.getLabelsByNote(title, utente);
+//	}
+	
 	public ArrayList<String> getLabelsByNote(String title){
-		return noteController.getLabelsByNote(title, utente);
+		return noteController.getLabelsByNote(client, title, utente);
+		
 	}
 	
 	/**
@@ -183,60 +229,101 @@ public class MainView {
 	 * @param n
 	 * @return
 	 */
+//	public ValidationError addNote (Note n){
+//		n.setAutor(utente);
+//		return noteController.addNote(n);
+//	}
+	
 	public ValidationError addNote (Note n){
 		n.setAutor(utente);
-		return noteController.addNote(n);
+		return noteController.addNote(client, n);
 	}
 	
 	/**
-	 * metodo per aggiornare una nota già essitente
+	 * metodo per aggiornare una nota giï¿½ essitente
 	 * @param n
 	 * @param ID
 	 * @return
 	 */
 	public ValidationError update(Note n, int ID){
 		n.setAutor(utente);
-		return noteController.update(n, ID);
+		return exUpdate(n, ID);
 	}
 	
+//	public ValidationError exUpdate(Note n, int ID){
+//		return noteController.update(n, ID);
+//	}
+//	
 	public ValidationError exUpdate(Note n, int ID){
-		return noteController.update(n, ID);
+		return noteController.update(client, n, ID);
 	}
+	
+//	public int getIDbyTitle(String title){
+//		return noteController.getIDbyTitle(title);
+//	}
 	
 	public int getIDbyTitle(String title){
-		return noteController.getIDbyTitle(title);
+		return noteController.getIDbyTitle(client, title);
+		
 	}
+	
+//	public Boolean isPinned(String titolo){
+//		return noteController.isPinned(titolo, utente);
+//	}
 	
 	public Boolean isPinned(String titolo){
-		return noteController.isPinned(titolo, utente);
+		return noteController.isPinned(client, titolo, utente);
 	}
+	
+//	public Boolean isPublic(String titolo){
+//		return noteController.isPublic(titolo, utente);
+//	}
 	
 	public Boolean isPublic(String titolo){
-		return noteController.isPublic(titolo, utente);
+		return noteController.isPublic(client, titolo, utente);
 	}
 	
+//	public ArrayList<Note> FilterByTitle(){
+//		return noteController.FilterByTitle(utente);
+//	}
 	public ArrayList<Note> FilterByTitle(){
-		return noteController.FilterByTitle(utente);
+		return noteController.FilterByTitle(client, utente);
 	}
 	
+//	public ArrayList<Note> FilterByPin(){
+//		return noteController.FilterByPin(utente);
+//	}
 	public ArrayList<Note> FilterByPin(){
-		return noteController.FilterByPin(utente);
+		return noteController.FilterByPin(client, utente);
 	}
 	
+//	public ArrayList<Note> FilterByLike(){
+//		return noteController.FilterByLike(utente);
+//	}
 	public ArrayList<Note> FilterByLike(){
-		return noteController.FilterByLike(utente);
+		return noteController.FilterByLike(client, utente);
 	}
 	
+//	public ArrayList<Note> FilterByData(){
+//		return noteController.FilterByData(utente);
+//	}
 	public ArrayList<Note> FilterByData(){
-		return noteController.FilterByData(utente);
+		return noteController.FilterByData(client, utente);
 	}
 	
+//	public ArrayList<User> getAllUsers(){
+//		return userController.getAllUsers(utente);
+//	}
 	public ArrayList<User> getAllUsers(){
-		return userController.getAllUsers(utente);
+		return userController.getAllUsers(client, utente);
 	}
 	
+//	public Set<User> getSharredUser(String title){
+//		return noteController.getSharredUser(title, utente);
+//	}
 	public Set<User> getSharredUser(String title){
-		return noteController.getSharredUser(title, utente);
+		return noteController.getSharredUser(client, title, utente);
+		
 	}
 	
 	
@@ -253,27 +340,27 @@ public class MainView {
 	}
 	
 	public ArrayList<Note> getAllNote(){
-		return noteController.getAllNote(utente);
+		return noteController.getAllNote(client, utente);
 	}
 	
 	public ArrayList<Note> exFilterByTitle(){
-		return noteController.exFilterByTitle(utente);
+		return noteController.exFilterByTitle(client, utente);
 	}
 	
 	public ArrayList<Note> exFilterByData(){
-		return noteController.exFilterByData(utente);
+		return noteController.exFilterByData(client, utente);
 	}
 	
 	public ArrayList<Note> exFilterByLike(){
-		return noteController.exFilterByLike(utente);
+		return noteController.exFilterByLike(client, utente);
 	}
 	
 	public ArrayList<Note> exFilterByAuthor(){
-		return noteController.exFilterByAuthor(utente);
+		return noteController.exFilterByAuthor(client, utente);
 	}
 	
 	public ArrayList<Note> shareWithMe(){
-		return noteController.shareWithMe(utente);
+		return noteController.shareWithMe(client, utente);
 	}
 	
 	public boolean isShare(Note n){
@@ -282,11 +369,11 @@ public class MainView {
 	}
 	
 	public Note getNoteByTitle(String n){
-		return noteController.getNoteByTitle(n, utente);
+		return noteController.getNoteByTitle(client, n, utente);
 	}
 	
 	public Note getNoteByTitleLike(String n){
-		return noteController.getNoteByTitleLike(n, utente);
+		return noteController.getNoteByTitleLike(client, n, utente);
 	}
 	
 	public Note addLikedUser(Note n){
@@ -301,6 +388,10 @@ public class MainView {
 	
 	public boolean iLikeThisNote (Note n){
 		return n.getLikedBy().contains(utente);
+	}
+	
+	public Note getNotebyID(int ID){
+		return noteController.getNotebyID(client, ID);
 	}
 	
 	/**

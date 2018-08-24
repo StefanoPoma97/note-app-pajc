@@ -16,7 +16,7 @@ public class NoteArchive extends Archive<Note> {
 
 	private static NoteArchive notearchive=null;
 	
-	private NoteArchive() {
+	public NoteArchive() {
 	}
 
 	public static NoteArchive getIstance()
@@ -43,12 +43,14 @@ public class NoteArchive extends Archive<Note> {
 	
 	/**
 	 * dato titolo e autore restituisce true
-	 * se la nota è segnata
+	 * se la nota ï¿½ segnata
 	 * @param titolo
 	 * @param utente
 	 * @return
 	 */
 	public Boolean isPinned (String titolo, User utente){
+		System.out.println("IS PINNED???");
+		System.out.println("CERCO TITOLO: "+titolo+" UTENTE: "+utente);
 		ArrayList<Note> notes= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(utente));
 		return notes.stream()
 			.filter(x->x.getTitle().equals(titolo))
@@ -59,7 +61,7 @@ public class NoteArchive extends Archive<Note> {
 	
 	/**
 	 * dato titolo e autore restituisce true
-	 * se la nota è pubblica
+	 * se la nota ï¿½ pubblica
 	 * @param titolo
 	 * @param utente
 	 * @return
@@ -214,9 +216,9 @@ public class NoteArchive extends Archive<Note> {
 	}
 	
 	public Note getNoteByTitle(String n, User u){
-		System.out.println("STO CERCANDO LA NOTA: "+n);
+//		System.out.println("STO CERCANDO LA NOTA: "+n);
 		ArrayList<Note> out= shareWithMe(u);
-		System.out.println("NOTE CONDIVISE CON ME: "+out.toString());
+//		System.out.println("NOTE CONDIVISE CON ME: "+out.toString());
 		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getTitle().equals(n)).collect(Collectors.toList());
 		//TODO impedire doppioni
 		System.out.println(out2);
@@ -234,5 +236,38 @@ public class NoteArchive extends Archive<Note> {
 		return out2.get(0);
 	}
 	
+	public ArrayList<String> getLabelsByNote(String title, User us){
+		ArrayList<Note> out= (ArrayList<Note>)getWhere(x->x.getAuthor().equals(us));
+		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getTitle().equals(title)).collect(Collectors.toList());
+		return out2.get(0).getLabel();
+		}
+	public ArrayList<Note> getNotesByLabel(String label, User us){
+		ArrayList<Note> out= (ArrayList<Note>)getWhere(x->x.getAuthor().equals(us));
+		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getLabel().contains(label)).collect(Collectors.toList());
+		return out2;
+		
+	}
+	
+	public int getIDbyTitle(String title){
+		return getWhere(x->x.getTitle().equals(title)).get(0).getID();
+	}
+	
+	public Set<User> getSharredUser (String titolo, User u){
+		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(u));
+		return  out.stream().filter(x->x.getTitle().equals(titolo)).collect(Collectors.toList()).get(0).getSharedWith();
+	}
+	
 
+	public ArrayList<Note> getAllNote(User u){
+		return (ArrayList<Note>)getWhere(x->!x.getAuthor().equals(u));
+//		System.out.println(out);
+//		for(Note n: out){
+//			System.out.println("CARICO Una NOTA: "+n);
+//		}
+//		return out;
+	}
+	
+	public Note getNoteByID(int ID){
+		return getWhere(x->x.getID()==ID).get(0);
+	}
 }

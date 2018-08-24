@@ -126,7 +126,7 @@ public class Note extends Identifiable implements Serializable{
 
 	@Override
 	public String toString() {
-		return title + "\t" + body;
+		return title + "\t" + body + "\t" +getID();
 	}
 	
 	public void setPin(Boolean _pin){
