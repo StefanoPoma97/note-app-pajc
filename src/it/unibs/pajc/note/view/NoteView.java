@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import java.text.SimpleDateFormat;
 public class NoteView extends JPanel {
 	//Pannelli contenitivi
 	private JPanel contentList;
+	private JPanel contentList2;
 	private JPanel contentButton;
 	private JPanel contentNote;
 	private JPanel contentModify;
@@ -1312,7 +1314,7 @@ public class NoteView extends JPanel {
 		gc.insets = new Insets(0, 0, 5, 5);
 		this.contentButton = new JPanel();
 		contentButton.setBackground(Color.LIGHT_GRAY);
-		this.contentButton.setPreferredSize(new Dimension(300, 50));
+		this.contentButton.setPreferredSize(new Dimension(500, 50));
 		gc.weightx=0; //crescita dello 0% lungo l'asse X
 		gc.gridx = 0;
 		gc.gridy = 0;
@@ -1342,14 +1344,20 @@ public class NoteView extends JPanel {
 		gc_2 = new GridBagConstraints();
 		gc_2.insets = new Insets(0, 0, 5, 5);
 		gc_2.anchor = GridBagConstraints.WEST;
+		
 		this.contentList = new JPanel();
-//		this.contentList.setPreferredSize(new Dimension(430, 30));
+		this.contentList2 = new JPanel();
+//		contentList2.setLayout();
+		this.contentList.setPreferredSize(new Dimension(500, notes.size()*47));
 		gc_2.weightx=0;
-		gc_2.weighty=1.0;
+		gc_2.weighty=0;
 		gc_2.gridx = 0;
 		gc_2.gridy = 1;
 		gc_2.fill=GridBagConstraints.BOTH;
-		JScrollPane scroll = new JScrollPane(contentList, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane scroll = new JScrollPane(contentList, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		contentList2.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+//		contentList2.add(contentList);
+		scroll.setPreferredSize(new Dimension(30, 30));
 		this.add(scroll, gc_2);
 		
 		
