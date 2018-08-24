@@ -340,27 +340,27 @@ public class MainView {
 	}
 	
 	public ArrayList<Note> getAllNote(){
-		return noteController.getAllNote(utente);
+		return noteController.getAllNote(client, utente);
 	}
 	
 	public ArrayList<Note> exFilterByTitle(){
-		return noteController.exFilterByTitle(utente);
+		return noteController.exFilterByTitle(client, utente);
 	}
 	
 	public ArrayList<Note> exFilterByData(){
-		return noteController.exFilterByData(utente);
+		return noteController.exFilterByData(client, utente);
 	}
 	
 	public ArrayList<Note> exFilterByLike(){
-		return noteController.exFilterByLike(utente);
+		return noteController.exFilterByLike(client, utente);
 	}
 	
 	public ArrayList<Note> exFilterByAuthor(){
-		return noteController.exFilterByAuthor(utente);
+		return noteController.exFilterByAuthor(client, utente);
 	}
 	
 	public ArrayList<Note> shareWithMe(){
-		return noteController.shareWithMe(utente);
+		return noteController.shareWithMe(client, utente);
 	}
 	
 	public boolean isShare(Note n){
@@ -369,11 +369,11 @@ public class MainView {
 	}
 	
 	public Note getNoteByTitle(String n){
-		return noteController.getNoteByTitle(n, utente);
+		return noteController.getNoteByTitle(client, n, utente);
 	}
 	
 	public Note getNoteByTitleLike(String n){
-		return noteController.getNoteByTitleLike(n, utente);
+		return noteController.getNoteByTitleLike(client, n, utente);
 	}
 	
 	public Note addLikedUser(Note n){

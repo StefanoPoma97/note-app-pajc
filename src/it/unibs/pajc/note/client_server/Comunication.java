@@ -313,6 +313,57 @@ public class Comunication implements Serializable{
 			output.setUsersSet(noteArchive.getSharredUser(title, utente));
 			return output;
 		}
+		case "get_all_note":{
+			output= new Comunication();
+			output.setInfo("get_all_note_response");
+			output.setNotes(noteArchive.getAllNote(utente));
+			return output;
+		}
+		
+		case "ex_filter_by_title":{
+			output= new Comunication();
+			output.setInfo("ex_filter_by_title_response");
+			output.setNotes(noteArchive.exFilterByTitle(utente));
+			return output;
+		}
+		case "ex_filter_by_author":{
+			output= new Comunication();
+			output.setInfo("ex_filter_by_author_response");
+			output.setNotes(noteArchive.exFilterByAuthor(utente));
+			return output;
+		}
+		case "ex_filter_by_data":{
+			output= new Comunication();
+			output.setInfo("ex_filter_by_data_response");
+			output.setNotes(noteArchive.exFilterByData(utente));
+			return output;
+		}
+		case "ex_filter_by_like":{
+			output= new Comunication();
+			output.setInfo("ex_filter_by_like_response");
+			output.setNotes(noteArchive.exFilterByLike(utente));
+			return output;
+		}
+		
+		case "share_with_me":{
+			output= new Comunication();
+			output.setInfo("share_with_me_response");
+			output.setNotes(noteArchive.shareWithMe(utente));
+			return output;
+		}
+		
+		case "get_note_by_title":{
+			output= new Comunication();
+			output.setInfo("get_note_by_title_response");
+			output.setNote(noteArchive.getNoteByTitle(title, utente));
+			return output;
+		}
+		case "get_note_by_title_like":{
+			output= new Comunication();
+			output.setInfo("get_note_by_title_like_response");
+			output.setNote(noteArchive.getNoteByTitleLike(title, utente));
+			return output;
+		}
 		
 		
 		default:

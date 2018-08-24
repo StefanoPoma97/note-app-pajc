@@ -153,8 +153,15 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		return output.getNotes();
 	}
 	
-	public ArrayList<Note> exFilterByTitle (User u){
-		return noteArchive.exFilterByTitle(u);
+	public ArrayList<Note> exFilterByTitle (Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("ex_filter_by_title");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
+		
 	}
 	
 	public ArrayList<Note> FilterByPin(Client _client, User u){
@@ -177,8 +184,14 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		return output.getNotes();
 	}
 	
-	public ArrayList<Note> exFilterByLike(User u){
-		return noteArchive.exFilterByLike(u);
+	public ArrayList<Note> exFilterByLike(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("ex_filter_by_like");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
 	public ArrayList<Note> FilterByData(Client _client, User u){
@@ -191,12 +204,24 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		return output.getNotes();
 	}
 	
-	public ArrayList<Note> exFilterByData(User u){
-		return noteArchive.exFilterByData(u);
+	public ArrayList<Note> exFilterByData(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("ex_filter_by_data");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
-	public ArrayList<Note> exFilterByAuthor(User u){
-		return noteArchive.exFilterByAuthor(u);
+	public ArrayList<Note> exFilterByAuthor(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("ex_filter_by_author");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
 	}
 	
 	public Set<User> getSharredUser (Client _client, String titolo, User u){
@@ -210,24 +235,52 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		return output.getUsersSet();
 	}
 	
-	public ArrayList<Note> getAllNote(User u){
-		return (ArrayList<Note>)noteArchive.getWhere(x->!x.getAuthor().equals(u));
+	public ArrayList<Note> getAllNote(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("get_all_note");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
+		
 	}
 	
-	public ArrayList<Note> shareWithMe(User u){
-		return noteArchive.shareWithMe(u);
+	public ArrayList<Note> shareWithMe(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("share_with_me");
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getNotes();
+		
 	}
 	
 //	public boolean isShare(Note n, User u){
 //		return noteArchive.isShare(n,u);
 //	}
 	
-	public Note getNoteByTitle(String n, User u){
-		return noteArchive.getNoteByTitle(n, u);
+	public Note getNoteByTitle(Client _client, String n, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("get_note_by_title");
+		input.setUser(u);
+		input.setTitle(n);
+		
+		Comunication output= client.comunica(input);
+		return output.getNote();
 	}
 	
-	public Note getNoteByTitleLike(String n, User u){
-		return noteArchive.getNoteByTitleLike(n, u);
+	public Note getNoteByTitleLike(Client _client, String n, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("get_note_by_title_like");
+		input.setUser(u);
+		input.setTitle(n);
+		
+		Comunication output= client.comunica(input);
+		return output.getNote();
 	}
 	
 	

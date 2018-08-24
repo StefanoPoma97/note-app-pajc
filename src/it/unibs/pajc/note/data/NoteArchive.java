@@ -216,9 +216,9 @@ public class NoteArchive extends Archive<Note> {
 	}
 	
 	public Note getNoteByTitle(String n, User u){
-		System.out.println("STO CERCANDO LA NOTA: "+n);
+//		System.out.println("STO CERCANDO LA NOTA: "+n);
 		ArrayList<Note> out= shareWithMe(u);
-		System.out.println("NOTE CONDIVISE CON ME: "+out.toString());
+//		System.out.println("NOTE CONDIVISE CON ME: "+out.toString());
 		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getTitle().equals(n)).collect(Collectors.toList());
 		//TODO impedire doppioni
 		System.out.println(out2);
@@ -256,5 +256,9 @@ public class NoteArchive extends Archive<Note> {
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(u));
 		return  out.stream().filter(x->x.getTitle().equals(titolo)).collect(Collectors.toList()).get(0).getSharedWith();
 	}
+	
 
+	public ArrayList<Note> getAllNote(User u){
+		return (ArrayList<Note>)getWhere(x->!x.getAuthor().equals(u));
+	}
 }
