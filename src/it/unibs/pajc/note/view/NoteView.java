@@ -193,6 +193,7 @@ public class NoteView extends JPanel {
 		contentList.removeAll();
 		contentList.revalidate();
 		
+		contentList.setPreferredSize(new Dimension(500, (notes.size()-1)*50));
 		contentList.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		for (int i=0; i<notes.size(); i++){
@@ -204,7 +205,7 @@ public class NoteView extends JPanel {
 			int count=0;
 			//per ragioni di semplicit� il titolo non pu� contenere pi� di 15 caratteri
 			for (char c : titolo.toCharArray()) {
-			  if(count<15){
+			  if(count<20){
 				  str.append(c);
 			  }
 			  else{
@@ -242,18 +243,18 @@ public class NoteView extends JPanel {
 			//per ragioni di semplicit� il corpo, nella isualizzazione ad elenco, non pu� contenere pi� di 20 caratteri
 			String corpo=notes.get(i).getBody();
 			str= new StringBuffer();
-//			count=0;
-//			for (char c : corpo.toCharArray()) {
-//			  if(count<15){
-//				  str.append(c);
-//			  }
-//			  else{
-//				  str.append("...");
-//				  break;
-//			  }
-//			  count++;
-//			}
-			lbl_name.setText(corpo);
+			count=0;
+			for (char c : corpo.toCharArray()) {
+			  if(count<15){
+				  str.append(c);
+			  }
+			  else{
+				  str.append("...");
+				  break;
+			  }
+			  count++;
+			}
+			lbl_name.setText(str.toString());
 			lbl_name.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_name.setVerticalAlignment(SwingConstants.CENTER);
 			lbl_name.setPreferredSize(new Dimension(300, 20));
@@ -318,7 +319,7 @@ public class NoteView extends JPanel {
 					chckbxPublic.setSelected(view.isPublic(lbl_title.getText()));
 					
 					textFieldTitleNote.setText(lbl_title.getText());
-					textAreaNote.setText(btn_modify.getActionCommand());
+					textAreaNote.setText(corpo);
 					temporanyLabels= view.getLabelsByNote(lbl_title.getText());
 					sharedUser= view.getSharredUser(lbl_title.getText());
 					System.out.println("Sharred USer "+sharedUser);
@@ -887,6 +888,7 @@ public class NoteView extends JPanel {
 					btnPin.setBackground(new JButton().getBackground());
 					chckbxPublic.setSelected(false);
 					view.updateMyLabels();
+					
 					createModifyNote(view);
 					refreshButton(view);
 					refreshButton(view);
@@ -1315,7 +1317,7 @@ public class NoteView extends JPanel {
 		this.contentList = new JPanel();
 		this.contentList2 = new JPanel();
 //		contentList2.setLayout();
-		this.contentList.setPreferredSize(new Dimension(500, notes.size()*47));
+		this.contentList.setPreferredSize(new Dimension(500, (notes.size()-1)*50));
 		gc_2.weightx=0;
 		gc_2.weighty=0;
 		gc_2.gridx = 0;
