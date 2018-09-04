@@ -12,6 +12,12 @@ import java.security.NoSuchAlgorithmException;
  */
 public class AuthenticationUtility {
 
+	/**
+	 * restituisce hash code da un array di byte
+	 * @param hash
+	 * @return stringa che rappresenta l'hash code dell'ingresso
+	 * @author Daniele Vezzoli
+	 */
 	private static String hashToString(byte[] hash) {
 	    StringBuffer hexString = new StringBuffer();
 	    for (int i = 0; i < hash.length; i++) {
@@ -22,6 +28,12 @@ public class AuthenticationUtility {
 	    return hexString.toString();
 	}
 	
+	/**
+	 * da una stringa restituisce il suo hashcode
+	 * @param text
+	 * @return stringa che rappresenta l'hashcode dell'input
+	 * @author Daniele Vezzoli
+	 */
 	public static String generateHash(String text) {
 		MessageDigest digest = null;
 		try {

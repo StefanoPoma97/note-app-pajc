@@ -13,7 +13,8 @@ public class ServizioFile
 	/**
 	 * metodo per caricare un singolo oggetto da un file
 	 * @param f
-	 * @return
+	 * @return restituisce un object
+	 * @author Stefano Poma
 	 */
 	public static Object caricaSingoloOggetto (File f)
 	 {
@@ -64,6 +65,7 @@ public class ServizioFile
 	 * metodo per salvare un singolo oggetto su di un file
 	 * @param f
 	 * @param daSalvare
+	 * @author Stefano Poma
 	 */
 	public static void salvaSingoloOggetto (File f, Object daSalvare)
 	 {
