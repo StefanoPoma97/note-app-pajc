@@ -18,7 +18,11 @@ public class MultiServer extends Thread{
 	private ObjectOutputStream output_stream;
 	private ObjectInputStream input_stream;
 	
-	
+	/**
+	 * costrutture del MultiServer
+	 * riceve in ingresso un Socket e crea una connessione con quest'ultimo
+	 * @param _socket
+	 */
 	public MultiServer(Socket _socket)
 	{
 		super("MS#"+clientId);
@@ -28,7 +32,10 @@ public class MultiServer extends Thread{
 		
 	}
 	
-	
+	/**
+	 * metodo esteso dalla classe Thread
+	 * crea gli stream e mediante un ciclo while ogni volta che c'è qualcosa in ingresso restituisce un risultasto in uscita
+	 */
 	public void run()
 	{
 	
@@ -60,7 +67,7 @@ public class MultiServer extends Thread{
 			//TODO dopo errore di comunicazione salvare tutto su file
 		}
 
-		System.out.println("SERVER STOP dentro");
+//		System.out.println("SERVER STOP dentro");
 	
 	}
 	

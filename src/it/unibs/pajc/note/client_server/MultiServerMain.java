@@ -82,7 +82,7 @@ public class MultiServerMain {
 				Set<User> set= new HashSet<>();
 				set.add(u);
 				nota.addSharedUsers(set);
-				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
+//				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
 			}
 			if (i==1){
 				nota.addLike();
@@ -105,7 +105,7 @@ public class MultiServerMain {
 				Set<User> set= new HashSet<>();
 				set.add(u);
 				nota.addSharedUsers(set);
-				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
+//				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
 			}
 			if (i==1){
 				nota.addLabel("Memo");
@@ -115,8 +115,11 @@ public class MultiServerMain {
 		}
 		
 		
-		System.out.println("AGGIUNTE LE NOTE");
 		
+		/**
+		 * server.accept() permette di attendere fino a quando non si presenta una connessione,
+		 * appena succede viene dichiarata una nuova istanza di MultiServer e avviato il Thread
+		 */
 		int port=2270;
 		System.out.println("MULTISERVER START!");
 		try (
@@ -124,7 +127,6 @@ public class MultiServerMain {
 			)
 		{
 			while (true){
-				//TODO caricare i dati su file la prima volta
 				new MultiServer(server.accept()).start();
 			}
 	

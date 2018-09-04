@@ -12,14 +12,9 @@ import it.unibs.pajc.note.status.ValidationError;
 
 public class Comunication implements Serializable{
 
-	/**
-	 * 
-	 */
+	//per poter essere messa negli stream e' importante che implementi Serializable
 	private static final long serialVersionUID = 1L;
-	//Stringhe per la comunicazione
-	private static final String LOGIN= "login";
-	private static final String CREATE_ACCOUNT= "create_account";
-	private static final String LOAD_NOTE= "load_notes";
+	
 	
 	
 	
@@ -40,116 +35,219 @@ public class Comunication implements Serializable{
 	private boolean bool;
 	
 	//Info message
+	/**
+	 * ritorna messaggio di errore
+	 * @return
+	 */
 	public String getError(){
 		return info;
 	}
 	
+	/**
+	 * setta il messaggio di errore
+	 * @param in
+	 */
 	public void setError(String in){
 		error=in;
 	}
 	
+	/**
+	 * ritorna la striga info, utile per capire che cosa stiamo comunicando
+	 * @return
+	 */
 	public String getInfo(){
 		return info;
 	}
 	
+	/**
+	 * setta la stringa info
+	 * @param in
+	 */
 	public void setInfo(String in){
 		info=in;
 	}
 	
-	//Login
+	//LOGIN
+	/**
+	 * imposta tutte le variabili per il LogIn
+	 * @param name
+	 * @param pass
+	 */
 	public void setLogin(String name, String pass){
 		name_pass= new ArrayList<>();
 		name_pass.add(name);
 		name_pass.add(pass);
 	}
 	
-//	public ArrayList<String> getLogin(){
-//		return name_pass;
-//	}
-	
+	/**
+	 * imposta il valore di ritorno per il login (boolean)
+	 * @param er
+	 */
 	public void setLoginResult(boolean er){
 		login=er;
 	}
 	
+	/**
+	 * restituisce il risultato in seguito al logn
+	 * @return boolean
+	 */
 	public boolean getLoginResult(){
 		return login;
 	}
 	
+	/**
+	 * imposta il valore di ValidationError in seguito ad un operazione che richiede esso come risultato
+	 * @param er
+	 */
 	public void setCreate(ValidationError er){
 		create=er;
 	}
 	
+	/**
+	 * restituisce il valore di ValidationError 
+	 * @return ValidationError
+	 */
 	public ValidationError getCreateResult(){
 		return create;
 	}
 	
 	//MyNotes
+	
+	/**
+	 * imposta l'utente selezionato
+	 * @param u
+	 */
 	public void setUser(User u){
 		utente=u;
 	}
 	
+	/**
+	 * imposta le note
+	 * @param list
+	 */
 	public void setNotes(ArrayList<Note> list){
 		notes=list;
 	}
 	
+	/**
+	 * retituisce un arrayList di note a seconda di cosa stavamo cercando
+	 * @return
+	 */
 	public ArrayList<Note> getNotes(){
 		return notes;
 	}
+	
+	/**
+	 * imposta un ArrayList di utenti
+	 * @param list
+	 */
 	public void setUsers(ArrayList<User> list){
 		users=list;
 	}
 	
+	/**
+	 * restituisce un ArrayList di utenti
+	 * @return
+	 */
 	public ArrayList<User> getUsers(){
 		return users;
 	}
 	
+	/**
+	 * imposta un Set di utenti
+	 * @param list
+	 */
 	public void setUsersSet(Set<User> list){
 		usersSet=list;
 	}
 	
+	/**
+	 * restituisce un Set di utenti
+	 * @return
+	 */
 	public Set<User> getUsersSet(){
 		return usersSet;
 	}
 	
 	//my Labels
+	/**
+	 * imposta un ArrayList di Label
+	 * @param list
+	 */
 	public void setLabels(ArrayList<String> list){
 		labels=list;
 	}
 	
+	/**
+	 * restituisce un arrayList di Label
+	 * @return
+	 */
 	public ArrayList<String> getLabels(){
 		return labels;
 	}
 	
+	/**
+	 * restituisce il titolo
+	 * @return
+	 */
 	public String getTitle(){
 		return title;
 	}
 	
+	/**
+	 * imposta il titolo
+	 * @param in
+	 */
 	public void setTitle(String in){
 		title=in;
 	}
 	
 	//add note
+	/**
+	 * imposta una Note
+	 * @param n
+	 */
 	public void setNote(Note n){
 		note=n;
 	}
 	
+	/**
+	 * restituisce la Note impostata precedentemente
+	 * @return
+	 */
 	public Note getNote (){
 		return note;
 	}
 	
 	//update note
+	/**
+	 * imposta un indirizzo ID
+	 * @param i
+	 */
 	public void setID (int i){
 		ID=i;
 	}
 	
+	/**
+	 * restituisce l'indirizzo ID impostato precedentemente
+	 * @return
+	 */
 	public int getID (){
 		return ID;
 	}
 	
+	/**
+	 * imposta una variabile booleana
+	 * @return
+	 */
 	public boolean getBoolean(){
 		return bool;
 	}
 	
+	/**
+	 * restituisce la variabile booleana
+	 * @param b
+	 */
 	public void setBoolean(boolean b){
 		bool=b;
 	}
@@ -167,7 +265,14 @@ public class Comunication implements Serializable{
 	
 	
 	
-	
+	/**
+	 * dati il NoteArchive e UserArchive aggiurnati questo metodo crea una risposta per ogni istanza di COmunication
+	 * basandosi sulla stringa info capisce che tipo di informazione viene cercata, la crea, la inserisce in una nuova
+	 * istanza di Comunication e la restituisce
+	 * @param noteArchive
+	 * @param userArchive
+	 * @return classe Comunication con all'interno la risposta cercata
+	 */
 	public Comunication createResponse(NoteArchive noteArchive, UserArchive userArchive){
 		Comunication output= new Comunication();
 		switch (info) {

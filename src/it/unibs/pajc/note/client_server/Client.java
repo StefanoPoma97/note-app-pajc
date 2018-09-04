@@ -17,26 +17,12 @@ public class Client {
 	private Socket client=null;
 	private ObjectOutputStream output_stream;
 	private ObjectInputStream input_stream;
-	private UserController userController= new UserController();
-	private NoteController noteController= new NoteController();
 	
-//	private static Client instance=null;
-	
-	
-//	private Client()
-//	{
-//		hostName = "127.0.0.1";
-//		port= 2270;
-//		System.out.println("IN ATTESA DI CONNESSIONE... su Host: "+hostName+" alla porta: "+port);
-//	}
-//	
-//	public static Client getIstance()
-//	{
-//		if (instance == null)
-//			instance =new Client();
-//		return instance;
-//	}
-	
+
+	/**
+	 * costruttore del client, va specificata la porta corretta e l'indirizzo IP dell'host
+	 * 127.0.0.1 serve per test in locale, ma il funzionamento è lo stesso
+	 */
 	public Client()
 	{
 		hostName = "127.0.0.1";
@@ -45,8 +31,8 @@ public class Client {
 	}
 	
 	/**
-	 * metodo per la connessione al server, ritorna una Stringa che specifica se la connessione ï¿½ avvenuta
-	 * @return
+	 * metodo per la connessione al server, ritorna una Stringa che specifica se la connessione è avvenuta
+	 * @return Stringa che indica se la connessione è avvenuta
 	 */
 	public String connetti()
 	{
@@ -66,7 +52,7 @@ public class Client {
 	}
 	
 	/** 
-	 * metodo per interrompere la comunicazione con il server
+	 * metodo per interrompere la comunicazione con il server, va a chiudere tutti gli stream
 	 */
 	public void stop()
 	{
@@ -85,9 +71,9 @@ public class Client {
 	}
 	
 	/**
-	 * metodo per comunicare 
-	 *ora solo una stringa piï¿½ vanti una classe comunications
-	 * @param input
+	 * metodo per svolgere tutte le comunicazioni con il server
+	 * @param output una classe Comunication riempita a seconda delle esigenze
+	 * @return Comunication
 	 */
 	public Comunication comunica (Comunication output)
 	{
