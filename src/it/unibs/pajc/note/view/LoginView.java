@@ -30,9 +30,11 @@ public class LoginView extends JPanel {
 	private JFormattedTextField textName;
 	private JFormattedTextField textPassword;
 
-	 /* metodo per far apparire messaggio di errore 
-		 * @param in stringa
-		 */
+	 	/**
+	 	 * mostra un messaggio di errore data una stringa
+	 	 * @param in
+	 	 * @author Stefano Poma
+	 	 */
 		private void showErrorMessage(String in){
 			JOptionPane.showMessageDialog(this,
 				    in,
@@ -41,8 +43,9 @@ public class LoginView extends JPanel {
 		}
 		
 		/**
-		 * metodo per far apparire messaggio di errore 
+		 * metodo per far apparire messaggio di errore dato un ValidationError
 		 * @param in ValidateError
+		 * @author Stefano Poma
 		 */
 		private void showErrorMessage(ValidationError in){
 			JOptionPane.showMessageDialog(this,
@@ -52,16 +55,18 @@ public class LoginView extends JPanel {
 		}
 
 		/**
-		 * metodo per far apparire un messaggio di segnalazione
+		 * metodo per far apparire un messaggio di segnalazione dato un ValidationError
 		 * @param in
+		 * @author Stefano Poma
 		 */
 		private void showInfoMessage(ValidationError in){
 			JOptionPane.showMessageDialog(null, in.toString());
 		}
 		
 		/**
-		 * metodo per far apparire un messaggio di segnalazione
+		 * metodo per far apparire un messaggio di segnalazione data una stringa
 		 * @param in
+		 * @author Stefano Poma
 		 */
 		private void showInfoMessage(String in){
 			JOptionPane.showMessageDialog(null, in);
@@ -84,6 +89,7 @@ public class LoginView extends JPanel {
 	/**
 	 * metodo per settare tutti gli actionListener necessari
 	 * @param view
+	 * @author Stefano Poma
 	 */
 	private void actionListener(MainView view){
 		//ACTION LISTENER
@@ -94,7 +100,6 @@ public class LoginView extends JPanel {
 					setVisible(false);
 				}
 				else{
-					//TODO creare archivio errori
 					showErrorMessage("Login errato");
 					textFieldName.setText("");
 					textFieldPassword.setText("");
@@ -136,7 +141,6 @@ public class LoginView extends JPanel {
 	textName.setEditable(false);
 	this.textName.setPreferredSize(new Dimension(150, 30));
 	gc.weightx=0.001;
-//	gc.weighty=0.001;
 	gc.gridx = 1;
 	gc.gridy = 0;
 	gc.insets = new Insets(30, 0, 10, 30);
@@ -148,7 +152,6 @@ public class LoginView extends JPanel {
 	this.textFieldName = new JTextField();
 	this.textFieldName.setPreferredSize(new Dimension(180, 30));
 	gc.weightx=0.001;
-//	gc.weighty=0.001;
 	gc.gridx = 2;
 	gc.gridy = 0;
 	gc.insets = new Insets(30, 30, 10, 0);
@@ -165,12 +168,10 @@ public class LoginView extends JPanel {
 	textPassword.setEditable(false);
 	this.textPassword.setPreferredSize(new Dimension(150, 30));
 	gc.weightx=0.001;
-//	gc.weighty=0.001;
 	gc.gridx = 1;
 	gc.gridy = 1;
 	gc.insets = new Insets(0, 0, 10, 30);
 	gc.anchor = GridBagConstraints.LINE_END;
-//	gc.anchor = GridBagConstraints.CENTER;
 	this.add(this.textPassword, gc);
 	
 		//col 2
@@ -178,12 +179,10 @@ public class LoginView extends JPanel {
 	this.textFieldPassword = new JTextField();
 	this.textFieldPassword.setPreferredSize(new Dimension(180, 30));
 	gc.weightx=0.001;
-//	gc.weighty=0.001;
 	gc.gridx = 2;
 	gc.gridy = 1;
 	gc.insets = new Insets(0, 30, 10, 0);
 	gc.anchor = GridBagConstraints.LINE_START;
-//	gc.anchor = GridBagConstraints.CENTER;
 	this.add(this.textFieldPassword, gc);
 	
 	//row 2
@@ -196,6 +195,7 @@ public class LoginView extends JPanel {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			if (!textFieldName.getText().isEmpty() && !textFieldPassword.getText().isEmpty()){
+				//i text field diventano verdi se viene inserito qualcosa (NO controllo su cosa è stato inserito)
 				textFieldPassword.setBorder(new LineBorder(Color.GREEN));
 				textFieldName.setBorder(new LineBorder(Color.GREEN));
 			}
@@ -217,9 +217,6 @@ public class LoginView extends JPanel {
 	gc.weighty=0.001;
 	gc.gridx = 1;
 	gc.gridy = 2;
-	//aumenta in che modo(uniforme)
-//	gc.fill=GridBagConstraints.BOTH;
-	//ancoraggio
 	gc.anchor = GridBagConstraints.LINE_END;
 	gc.insets = new Insets(10, 10, 10, 40);
 	this.add(this.btnCreateAccount, gc);
@@ -248,7 +245,6 @@ public class LoginView extends JPanel {
 	gc.gridx = 2;
 	gc.gridy = 2;
 	gc.insets = new Insets(10, 10, 10, 10);
-//	gc.fill = GridBagConstraints.CENTER;
 	gc.insets = new Insets(10, 40, 10, 10);
 	gc.anchor = GridBagConstraints.LINE_START;
 	this.add(this.btnLogin, gc);

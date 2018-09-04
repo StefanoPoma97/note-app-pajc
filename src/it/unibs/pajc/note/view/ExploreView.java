@@ -97,8 +97,10 @@ public class ExploreView extends JPanel {
 	private JButton btnNewButton;
 	
 
-	 /* metodo per far apparire messaggio di errore 
-	 * @param in stringa
+	/**
+	 * metodo per visualizzare un messaggio di errore data una stringa
+	 * @param in
+	 * @author Stefano Poma
 	 */
 	private void showErrorMessage(String in){
 		JOptionPane.showMessageDialog(this,
@@ -108,8 +110,9 @@ public class ExploreView extends JPanel {
 	}
 	
 	/**
-	 * metodo per far apparire messaggio di errore 
+	 * metodo per far apparire messaggio di errore dato un ValidationError
 	 * @param in ValidateError
+	 * @author Stefano Poma
 	 */
 	private void showErrorMessage(ValidationError in){
 		JOptionPane.showMessageDialog(this,
@@ -119,23 +122,25 @@ public class ExploreView extends JPanel {
 	}
 
 	/**
-	 * metodo per far apparire un messaggio di segnalazione
+	 * metodo per far apparire un messaggio di segnalazione dato un ValidationError
 	 * @param in
+	 * @author Stefano Poma
 	 */
 	private void showInfoMessage(ValidationError in){
 		JOptionPane.showMessageDialog(null, in.toString());
 	}
 	
 	/**
-	 * metodo per far apparire un messaggio di segnalazione
+	 * metodo per far apparire un messaggio di segnalazione data una stringa
 	 * @param in
+	 * @author Stefano Poma
 	 */
 	private void showInfoMessage(String in){
 		JOptionPane.showMessageDialog(null, in);
 	}
 
 	/**
-	 * Create the panel. (Costruttore)
+	 * costruttore
 	 */
 	public ExploreView(MainView view) {
 		loadInfo(view);
@@ -147,11 +152,13 @@ public class ExploreView extends JPanel {
 	 * metodo per caricare tutte le informazioni per il primo avvio
 	 * si appogger� a NoteController che a sua volta tramite la classe Client richieder�
 	 * al server tutte le info necessarie
+	 * @param view
+	 * @author Stefano Poma
 	 */
 	private void loadInfo(MainView view){
 		//carico le mie note
 		notes=view.getAllNote();
-		System.out.println("CARICO LE NOTE "+notes);
+//		System.out.println("CARICO LE NOTE "+notes);
 		
 		//carico i filtri
 		filters=new String[] {"Filters", "Titolo", "Data", "Like", "Author"};	
@@ -161,7 +168,9 @@ public class ExploreView extends JPanel {
 
 	
 	/**
-	 * metodo per creare i vari componenti e le funzioni
+	 * metodo per creare i vari componenti
+	 * @param view
+	 * @author Stefano Poma
 	 */
 	private void buildComponent(MainView view){
 		
@@ -170,21 +179,13 @@ public class ExploreView extends JPanel {
 		refreshNoteList(view);
 		refreshButtonModify(view);
 
-		
-		
-		
-		
-		
-		
-		
-	
 	}
 	
 	
 	/**
 	 * metodo che aggiorna e scrive la lista delle nostre note
-	 * aggiunge actionlistener al bottone per modificare la singola nota
-	 * TODO implementare una Scroll bar funzionante
+	 * @param view
+	 * @author Stefano Poma
 	 */
 	private void refreshNoteList(MainView view){
 
@@ -196,6 +197,8 @@ public class ExploreView extends JPanel {
 		GridBagConstraints gc = new GridBagConstraints();
 		for (int i=0; i<notes.size(); i++){
 			
+			//ROW 0
+				//col 0
 			gc = new GridBagConstraints();
 			JLabel lbl_title = new JLabel();
 			String titolo=notes.get(i).getTitle();
@@ -212,8 +215,7 @@ public class ExploreView extends JPanel {
 			  }
 			  count++;
 			}
-			
-			
+
 			lbl_title.setText(str.toString());
 			lbl_title.setHorizontalAlignment(SwingConstants.LEFT);
 			lbl_title.setVerticalAlignment(SwingConstants.CENTER);
@@ -234,6 +236,7 @@ public class ExploreView extends JPanel {
 			gc.insets = new Insets(10, 10, 10, 10);
 			contentList.add(lbl_title,gc);
 			
+				//col 1
 			gc = new GridBagConstraints();
 			JLabel lbl_name = new JLabel();
 			String autore=notes.get(i).getAuthor().getName();
@@ -259,17 +262,14 @@ public class ExploreView extends JPanel {
 			gc.fill=GridBagConstraints.BOTH;
 			contentList.add(lbl_name,gc);
 			
-			
+				//col 2
 			gc = new GridBagConstraints();
 			boolean isShare= view.isShare(notes.get(i));
 			JButton btn_modify= new JButton("V");
 			if(isShare)
 				btn_modify.setText("M");
-				
-				
-			
+
 			btn_modify.setPreferredSize(new Dimension(20, 20));
-			
 			gc.gridx = 3;
 			gc.gridy = i;
 			gc.weightx=0;
@@ -302,10 +302,9 @@ public class ExploreView extends JPanel {
 					modifyID=null;
 					modifyTitle=lbl_title.getText();
 					modifyNoteID=moment_id;
-					textFieldTitleNote.setText(lbl_title.getText());
+					textFieldTitleNote.setText(titolo);
 					textAreaNote.setText(btn_modify.getActionCommand());
 					Note note= view.getNotebyID(moment_id);
-//					Note note = view.getNoteByTitleLike(lbl_title.getText());
 					textLike.setText(Integer.toString(note.getLike()));
 					if(view.iLikeThisNote(note))
 						btnLike.setBackground(Color.RED);
@@ -326,7 +325,7 @@ public class ExploreView extends JPanel {
 				}
 			});
 			
-			//
+				//col 3
 			gc = new GridBagConstraints();
 			GregorianCalendar data = null;
 			if (notes.get(i).getUpdatedAt()==null)
@@ -368,7 +367,9 @@ public class ExploreView extends JPanel {
 	
 	
 	/**
-	 * crea l'area di modifica per la nota selezionata
+	 * crea l'area di modifica della nota
+	 * @param view
+	 * @author Stefano Poma
 	 */
 	private void createModifyNote(MainView view){
 		contentNote.removeAll();
@@ -442,9 +443,9 @@ public class ExploreView extends JPanel {
 					if (textFieldTitleNote.getText().equals("Select one note..."))
 						return;
 //					Note note= view.getNoteByTitleLike(textFieldTitleNote.getText());
-					System.out.println("ID DELLA NOTA A CUI METTO LIKE: "+modifyNoteID);
+//					System.out.println("ID DELLA NOTA A CUI METTO LIKE: "+modifyNoteID);
 					Note note= view.getNotebyID(modifyNoteID);
-					System.out.println("NOTA A CUI METTO LIKE: "+note);
+//					System.out.println("NOTA A CUI METTO LIKE: "+note);
 					
 					if(btnLike.getBackground().equals(new JButton().getBackground())){
 						btnLike.setBackground(Color.RED);
@@ -495,12 +496,12 @@ public class ExploreView extends JPanel {
 	/**
 	 * aggiorna il pannello contenente i bottodi di modifica alla nota selezionata
 	 * @param view
+	 * @author Stefano Poma
 	 */
 	private void refreshButtonModify(MainView view){
 		contentModify.removeAll();
 		contentModify.revalidate();
 		
-//		createColors();
 		
 		btnExplore = new JButton("Back");
 		btnExplore.addActionListener(new ActionListener() {
@@ -673,6 +674,7 @@ public class ExploreView extends JPanel {
 	/**
 	 * aggiorna il pannello contenente i bottoni di navigazione
 	 * @param view
+	 * @author Stefano Poma
 	 */
 	private void refreshButton (MainView view){
 		
@@ -778,7 +780,9 @@ public class ExploreView extends JPanel {
 	}
 	
 	/**
-	 * metodo per la creazione dell'interfaccia utilizzando il GridBagLayout
+	 * metodo per la creazione dei pannelli contenitivi
+	 * @param view
+	 * @author Stefano Poma
 	 */
 	private void buildContent(MainView view){
 		//setta il tipo di layout da utilizzare

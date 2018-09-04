@@ -62,26 +62,22 @@ public class MainView {
 	
 	//Metodi per LoginView
 	
+	/**
+	 * metodo per connettere il client
+	 * @return String che indica se la connessione e' avvenuta
+	 * @author Stefano Poma
+	 */
 	public String connetti(){
 		return userController.connetti(client);
 	}
 	
 	/**
-	 * Metodo utilizzato nel LoginView che permette di passare nome password 
-	 * restituisce true se il login ï¿½ possibile
+	 * metodo per effettuare il login
 	 * @param _name
 	 * @param _pass
+	 * @return true se il login e' avvenuto
+	 * @author Stefano Poma
 	 */
-//	public Boolean login(String _name, String _pass){
-//		Boolean validate = userController.login(_name, _pass);
-//		if (validate){
-//			utente= new User(_name, _pass);
-//			initializeNoteView();
-//		}
-//			
-//		return validate;
-//	}
-	
 	public Boolean login (String _name, String _pass){
 		
 		Comunication output = userController.login(client, _name, _pass);
@@ -93,6 +89,10 @@ public class MainView {
 		return output.getLoginResult();
 	}
 	
+	/**
+	 * metodo per effettuare il logout, riporta l'utente alla schermata di login
+	 * @author Stefano Poma
+	 */
 	public void logOut(){
 		noteView.setVisible(false);
 		initializeLoginView();
@@ -103,15 +103,8 @@ public class MainView {
 	 * @param name
 	 * @param pass
 	 * @return ValidationError
+	 * @author Stefano Poma
 	 */
-//	public ValidationError create(String name, String pass){
-//		ValidationError validate = userController.create(name, pass);
-//		if (validate.equals(ValidationError.CORRECT)){
-//			utente= new User(name, pass);
-//			initializeNoteView();
-//		}
-//		return validate;
-//	}
 	
 	public ValidationError create(String _name, String _pass){
 		
@@ -128,12 +121,9 @@ public class MainView {
 	
 	/**
 	 * restituisce tutte le note associate al utente del login
-	 * @return
+	 * @return Arraylist delle note 
+	 * @author Stefano Poma
 	 */
-//	public ArrayList<Note> getMyNote(){
-//		return noteController.getMyNote(utente);
-//	}
-	
 	public ArrayList<Note> getMyNote(){
 		return noteController.getMyNote(client, utente);
 	}
@@ -141,13 +131,9 @@ public class MainView {
 	
 	/**
 	 * restituisce tutte le label associate all'utente del login
-	 * @return
+	 * @return arrayList contenente le labels
+	 * @author Stefano Poma
 	 */
-//	public ArrayList<String> getMyLabel(){
-//		return userController.getLabelsByUser(utente);
-//	}
-	
-	
 	public ArrayList<String> getMyLabel(){
 		return userController.getLabelsByUser(client, utente);
 	}
@@ -155,21 +141,8 @@ public class MainView {
 	/**
 	 * confronta le label salvate sull'utente e quelle salvate solamente sulle note
 	 * se le label associate all'utente non sono connesse a nessuna nota vengono eliminate
+	 * @author Stefano Poma
 	 */
-//	public void updateMyLabels(){
-//		ArrayList<String> userLabels = userController.getLabelsByUser(utente);
-//		ArrayList<String> noteLabels = new ArrayList<>();
-//		for (Note nota: noteController.getMyNote(utente)){
-//			noteLabels.addAll(noteController.getLabelsByNote(nota.getTitle(), utente));
-//		}
-//		ArrayList<String> userLabels_cp= new ArrayList<>(userLabels);
-//		userLabels_cp.removeAll(noteLabels);
-//		userLabels.removeAll(userLabels_cp);
-//		userLabels.add(0, "Labels");
-//		userController.updateLabel(userLabels, utente);
-//		
-//	}
-	
 	public void updateMyLabels(){
 		
 		//TODO rendere piï¿½ efficiente
@@ -190,14 +163,10 @@ public class MainView {
 
 	/**
 	 * aggiunge una label all'utente del login
-	 * TODO meglio Set?
 	 * @param label
-	 * @return
+	 * @return true se e' stata aggiunta con successo
+	 * @author Stefano Poma
 	 */
-//	public boolean addLabel(String label){
-//		return userController.addLabel(label, utente);
-//	}
-	
 	public boolean addLabel(String label){
 		return userController.addLabel(client, label, utente);
 	}
@@ -205,12 +174,9 @@ public class MainView {
 	/**
 	 * restituisce le note associate ad una label
 	 * @param label
-	 * @return
+	 * @return ArrayList delle note associate
+	 * @author Stefano Poma
 	 */
-//	public ArrayList<Note> getNotesByLabel(String label){
-//		return noteController.getNotesByLabel(label, utente);
-//	}
-	
 	public ArrayList<Note> getNotesByLabel(String label){
 		return noteController.getNotesByLabel(client, label, utente);
 	}
@@ -218,12 +184,8 @@ public class MainView {
 	/**
 	 * restituisce le labels associate ad una nota
 	 * @param title
-	 * @return
+	 * @return ArrayList delle labels associte
 	 */
-//	public ArrayList<String> getLabelsByNote(String title){
-//		return noteController.getLabelsByNote(title, utente);
-//	}
-	
 	public ArrayList<String> getLabelsByNote(String title){
 		return noteController.getLabelsByNote(client, title, utente);
 		
@@ -232,13 +194,9 @@ public class MainView {
 	/**
 	 * metodo per aggiungere una nota
 	 * @param n
-	 * @return
+	 * @return Validation error che indica se l'operazione e' avvenuta
+	 * @author Stefano Poma
 	 */
-//	public ValidationError addNote (Note n){
-//		n.setAutor(utente);
-//		return noteController.addNote(n);
-//	}
-	
 	public ValidationError addNote (Note n){
 		n.setAutor(utente);
 		return noteController.addNote(client, n);
@@ -248,84 +206,109 @@ public class MainView {
 	 * metodo per aggiornare una nota giï¿½ essitente
 	 * @param n
 	 * @param ID
-	 * @return
+	 * @return Validation error che indica se l'operazione e' avvenuta
+	 * @author Stefano Poma
 	 */
 	public ValidationError update(Note n, int ID){
 		n.setAutor(utente);
 		return exUpdate(n, ID);
 	}
 	
-//	public ValidationError exUpdate(Note n, int ID){
-//		return noteController.update(n, ID);
-//	}
-//	
+	/**
+	 * metodo per aggiornare una nota giï¿½ essitente nella sezione esplora
+	 * @param n
+	 * @param ID
+	 * @return Validation error che indica se l'operazione e' avvenuta
+	 * @author Stefano Poma
+	 */
 	public ValidationError exUpdate(Note n, int ID){
 		return noteController.update(client, n, ID);
 	}
 	
-//	public int getIDbyTitle(String title){
-//		return noteController.getIDbyTitle(title);
-//	}
-	
+	/**
+	 * restituisce ID di una nota in base al titolo
+	 * @param title
+	 * @return ID associato al titolo
+	 * @author Stefano Poma
+	 * 
+	 */
 	public int getIDbyTitle(String title){
 		return noteController.getIDbyTitle(client, title);
 		
 	}
 	
-//	public Boolean isPinned(String titolo){
-//		return noteController.isPinned(titolo, utente);
-//	}
-	
+	/**
+	 * una nota e' segnata
+	 * @param titolo
+	 * @return true se e' segnata
+	 * @author Stefano Poma
+	 */
 	public Boolean isPinned(String titolo){
 		return noteController.isPinned(client, titolo, utente);
 	}
 	
-//	public Boolean isPublic(String titolo){
-//		return noteController.isPublic(titolo, utente);
-//	}
-	
+	/**
+	 * la nota e' pubblica
+	 * @param titolo
+	 * @return true se e' pubblica
+	 * @author Stefano Poma
+	 */
 	public Boolean isPublic(String titolo){
 		return noteController.isPublic(client, titolo, utente);
 	}
-	
-//	public ArrayList<Note> FilterByTitle(){
-//		return noteController.FilterByTitle(utente);
-//	}
+
+	/**
+	 * filtra le note tramite titolo
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> FilterByTitle(){
 		return noteController.FilterByTitle(client, utente);
 	}
 	
-//	public ArrayList<Note> FilterByPin(){
-//		return noteController.FilterByPin(utente);
-//	}
+	/**
+	 * filtra le note tramite pin
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> FilterByPin(){
 		return noteController.FilterByPin(client, utente);
 	}
 	
-//	public ArrayList<Note> FilterByLike(){
-//		return noteController.FilterByLike(utente);
-//	}
+	/**
+	 * filtra le note per like
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> FilterByLike(){
 		return noteController.FilterByLike(client, utente);
 	}
 	
-//	public ArrayList<Note> FilterByData(){
-//		return noteController.FilterByData(utente);
-//	}
+	/**
+	 * filtra le note per data
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> FilterByData(){
 		return noteController.FilterByData(client, utente);
 	}
 	
-//	public ArrayList<User> getAllUsers(){
-//		return userController.getAllUsers(utente);
-//	}
+	/**
+	 * restituisce tutti gli utenti
+	 * @return ArrayList con tutti gli utenti
+	 * ArrayList di note filtate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<User> getAllUsers(){
 		return userController.getAllUsers(client, utente);
 	}
 	
-//	public Set<User> getSharredUser(String title){
-//		return noteController.getSharredUser(title, utente);
-//	}
+	/**
+	 * restituisce gli utenti condivisi
+	 * @param title
+	 * @return Set con gli utenti condivisi
+	 * @author Stefano Poma
+	 */
 	public Set<User> getSharredUser(String title){
 		return noteController.getSharredUser(client, title, utente);
 		
@@ -333,72 +316,155 @@ public class MainView {
 	
 	
 	//metodi per Explore view
+	/**
+	 * metodo per aprire la sezione Esplora ed oscurare le altr
+	 * @author Stefano Poma
+	 */
 	public void exploreView(){
 		initializeExploreView();
 		noteView.setVisible(false);
 		
 	}
 	
+	/**
+	 * metodo per aprire la sezione NoteView ed oscurare le altre
+	 * @author Stefano Poma
+	 */
 	public void noteView(){
 		initializeNoteView();
 		exploreView.setVisible(false);
 	}
 	
+	/**
+	 * metodo per restituire tutte le note di un utente
+	 * @return ArrayList con tutte le note dell'utente
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> getAllNote(){
 		return noteController.getAllNote(client, utente);
 	}
 	
+	/**
+	 * filtra le note nella sezione eslora per titolo
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> exFilterByTitle(){
 		return noteController.exFilterByTitle(client, utente);
 	}
 	
+	/**
+	 * filtra le note nella sezione esplora per data
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> exFilterByData(){
 		return noteController.exFilterByData(client, utente);
 	}
 	
+	/**
+	 * filtra le note nella sezione esplora per like
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> exFilterByLike(){
 		return noteController.exFilterByLike(client, utente);
 	}
 	
+	/**
+	 * filtra le note nella sezione esplora per autore
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> exFilterByAuthor(){
 		return noteController.exFilterByAuthor(client, utente);
 	}
 	
+	/**
+	 * ritorna condivise con l'utente selezionato
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> shareWithMe(){
 		return noteController.shareWithMe(client, utente);
 	}
 	
+	/**
+	 * data una nota controlla se è condivisa con l'utente in questione
+	 * @param n
+	 * @return true se è condivisa con l'utente selezionato
+	 * @author Stefano Poma
+	 */
 	public boolean isShare(Note n){
 		ArrayList<User> us= new ArrayList<>(n.getSharedWith());
 		return us.contains(utente);
 	}
 	
+	/**
+	 * restituisce una nota dato il suo titolo
+	 * @param n
+	 * @return nota con titolo=n
+	 * @author Stefano Poma
+	 */
 	public Note getNoteByTitle(String n){
 		return noteController.getNoteByTitle(client, n, utente);
 	}
 	
+	/**
+	 * restituisce una nota dato il suo titolo
+	 * @param n
+	 * @return nota con titolo uguale alla stringa in ingresso
+	 * @author Stefano Poma
+	 */
 	public Note getNoteByTitleLike(String n){
 		return noteController.getNoteByTitleLike(client, n, utente);
 	}
 	
+	/**
+	 * aggiunge un like del dato utente alla nota in questione
+	 * @param n
+	 * @return nota aggiornata
+	 * @author Stefano Poma
+	 */
 	public Note addLikedUser(Note n){
 		n.addLikedUser(utente);
 		return n;
 	}
 	
+	/**
+	 * rimuove il like del dato utente alla nota
+	 * @param n
+	 * @return nota aggiornata
+	 * @author Stefano Poma
+	 */
 	public Note removeLikedUser(Note n){
 		n.removeLikedUser(utente);
 		return n;
 	}
 	
+	/**
+	 * specifica se l'utente selezionato ha lasciato like a una nota
+	 * @param n
+	 * @return true se ha lasciato like
+	 * @author Stefano Poma
+	 */
 	public boolean iLikeThisNote (Note n){
 		return n.getLikedBy().contains(utente);
 	}
 	
+	/**
+	 * dato un ID restituisce la nota associata
+	 * @param ID
+	 * @return nota con il dato ID
+	 * @author Stefano Poma
+	 */
 	public Note getNotebyID(int ID){
 		return noteController.getNotebyID(client, ID);
 	}
 	
+	/**
+	 * comando che permette il salvataggio su file degli archivi
+	 */
 	public void saveOnFile(){
 		
 	}
@@ -459,6 +525,9 @@ public class MainView {
 
 	}
 	
+	/**
+	 * metodo per inizializzare la schermata di Login
+	 */
 	private void initializeLoginView(){
 		//GridBgLayout per il pannello principale
 				loginView = new LoginView(this);
@@ -472,6 +541,9 @@ public class MainView {
 				contentPanel.add(loginView, gc);
 	}
 	
+	/**
+	 * metodo per inizializzare la schermata di visualizzazione delle note
+	 */
 	private void initializeNoteView(){
 		noteView = new NoteView(this);
 		GridBagConstraints gc = new GridBagConstraints();
@@ -483,6 +555,9 @@ public class MainView {
 		contentPanel.add(noteView, gc);
 	}
 	
+	/**
+	 * metodo per inizializzare la schermata esplora
+	 */
 	private void initializeExploreView(){
 		exploreView = new ExploreView(this);
 		GridBagConstraints gc = new GridBagConstraints();
