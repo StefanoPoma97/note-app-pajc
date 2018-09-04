@@ -24,7 +24,7 @@ public class UserController extends Controller<User> {
 	 * metodo per permettere la connessione del client
 	 * @author Stefano Poma
 	 * @param _client
-	 * @return
+	 * @return Stringa che indica se è avvenuta la connessione
 	 */
 	public String connetti(Client _client){
 		client=_client;
@@ -40,7 +40,7 @@ public class UserController extends Controller<User> {
 	 * @param _client
 	 * @param _name
 	 * @param _pass
-	 * @return
+	 * @return classe comunication che indica il risultato del login
 	 */
 	public Comunication login(Client _client, String _name, String _pass) {
 		client=_client;
@@ -60,7 +60,7 @@ public class UserController extends Controller<User> {
 	 * @param _client
 	 * @param _name
 	 * @param _pass
-	 * @return
+	 * @return ValidationError che indica il risultato dell'operazione
 	 
 	 */
 	public ValidationError create(Client _client, String _name, String _pass) {
@@ -80,7 +80,7 @@ public class UserController extends Controller<User> {
 	 * @author Stefano Poma
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList di Label
 	 */
 	public ArrayList<String> getLabelsByUser (Client _client, User u){
 		client=_client;
@@ -102,7 +102,7 @@ public class UserController extends Controller<User> {
 	 * @param _client
 	 * @param label
 	 * @param us
-	 * @return
+	 * @return true se l'operazione è avvenuta
 	 */
 	public boolean addLabel (Client _client, String label, User us){
 		client=_client;
@@ -141,7 +141,7 @@ public class UserController extends Controller<User> {
 	 * @author Stefano Poma
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con gli utenti
 	 */
 	public ArrayList<User> getAllUsers(Client _client, User u){
 		client=_client;

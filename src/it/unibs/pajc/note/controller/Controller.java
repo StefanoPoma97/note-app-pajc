@@ -31,7 +31,7 @@ public abstract class Controller<E extends Identifiable> {
 	/**
 	 * Mostra un elemento specifico in base all'id
 	 * @param id l'id secondo il quale cercare l'elemento
-	 * @return
+	 * @return elemente con quel ID
 	 * @author Stefano Poma, Daniele Vezzoli
 	 */
 	public E show(int id) {
@@ -43,7 +43,7 @@ public abstract class Controller<E extends Identifiable> {
 	 * aggiorna una nota esistente, ricevendo la nuova nota e l'ID della nota da modificare
 	 * @param e
 	 * @param id
-	 * @return
+	 * @return ValidationError che indica se è stata aggiornata con successo
 	 * @author Stefano Poma, Daniele Vezzoli
 	 */
 	public ValidationError update(E e, int id) {
@@ -54,7 +54,7 @@ public abstract class Controller<E extends Identifiable> {
 	/**
 	 * elimina una nota sulla base del suo ID
 	 * @param id
-	 * @return
+	 * @return boolean che indica se è stata eliminata con successo
 	 * @author Stefano Poma, Daniele Vezzoli
 	 */
 	public boolean destroy(int id) {

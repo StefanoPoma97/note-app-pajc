@@ -54,7 +54,7 @@ public class Comunication implements Serializable{
 	
 	/**
 	 * ritorna la striga info, utile per capire che cosa stiamo comunicando
-	 * @return
+	 * @return stringa info
 	 * @author Stefano Poma
 	 */
 	public String getInfo(){
@@ -141,7 +141,7 @@ public class Comunication implements Serializable{
 	
 	/**
 	 * retituisce un arrayList di note a seconda di cosa stavamo cercando
-	 * @return
+	 * @return ArrayList contenente le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> getNotes(){
@@ -159,7 +159,7 @@ public class Comunication implements Serializable{
 	
 	/**
 	 * restituisce un ArrayList di utenti
-	 * @return
+	 * @return ArrayList contenente gli utenti
 	 * @author Stefano Poma
 	 */
 	public ArrayList<User> getUsers(){
@@ -177,7 +177,7 @@ public class Comunication implements Serializable{
 	
 	/**
 	 * restituisce un Set di utenti
-	 * @return
+	 * @return Set contenente gli utenti
 	 * @author Stefano Poma
 	 */
 	public Set<User> getUsersSet(){
@@ -196,7 +196,7 @@ public class Comunication implements Serializable{
 	
 	/**
 	 * restituisce un arrayList di Label
-	 * @return
+	 * @return ArrayList contenente le Label
 	 * @author Stefano Poma
 	 */
 	public ArrayList<String> getLabels(){
@@ -205,7 +205,7 @@ public class Comunication implements Serializable{
 	
 	/**
 	 * restituisce il titolo
-	 * @return
+	 * @return titolo
 	 * @author Stefano Poma
 	 */
 	public String getTitle(){
@@ -233,7 +233,7 @@ public class Comunication implements Serializable{
 	
 	/**
 	 * restituisce la Note impostata precedentemente
-	 * @return
+	 * @return Note
 	 * @author Stefano Poma
 	 */
 	public Note getNote (){
@@ -252,7 +252,7 @@ public class Comunication implements Serializable{
 	
 	/**
 	 * restituisce l'indirizzo ID impostato precedentemente
-	 * @return
+	 * @return ID
 	 * @author Stefano Poma
 	 */
 	public int getID (){
@@ -261,7 +261,7 @@ public class Comunication implements Serializable{
 	
 	/**
 	 * imposta una variabile booleana
-	 * @return
+	 * @return variabile booleana
 	 * @author Stefano Poma
 	 */
 	public boolean getBoolean(){

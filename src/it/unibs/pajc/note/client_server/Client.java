@@ -75,7 +75,7 @@ public class Client {
 	/**
 	 * metodo per svolgere tutte le comunicazioni con il server
 	 * @param output una classe Comunication riempita a seconda delle esigenze
-	 * @return Comunication
+	 * @return Comunication contenente le informazioni di ritorno
 	 * @author Stefano Poma
 	 */
 	public Comunication comunica (Comunication output)

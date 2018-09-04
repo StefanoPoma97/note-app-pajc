@@ -16,9 +16,17 @@ public class NoteArchive extends Archive<Note> {
 
 	private static NoteArchive notearchive=null;
 	
-	public NoteArchive() {
+	/**
+	 * costruttore privato (singletone)
+	 * @author Stefano Poma
+	 */
+	private NoteArchive() {
 	}
 
+	/**
+	 * serve per restituire la sola istanza di notearchive
+	 * @return istanza unica di NoteArchive
+	 */
 	public static NoteArchive getIstance()
 	{
 		if (notearchive == null)
@@ -43,14 +51,15 @@ public class NoteArchive extends Archive<Note> {
 	
 	/**
 	 * dato titolo e autore restituisce true
-	 * se la nota ï¿½ segnata
+	 * se la nota e' segnata
 	 * @param titolo
 	 * @param utente
-	 * @return
+	 * @return true se è segnata
+	 * @author Stefano Poma
 	 */
 	public Boolean isPinned (String titolo, User utente){
-		System.out.println("IS PINNED???");
-		System.out.println("CERCO TITOLO: "+titolo+" UTENTE: "+utente);
+//		System.out.println("IS PINNED???");
+//		System.out.println("CERCO TITOLO: "+titolo+" UTENTE: "+utente);
 		ArrayList<Note> notes= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(utente));
 		return notes.stream()
 			.filter(x->x.getTitle().equals(titolo))
@@ -61,10 +70,11 @@ public class NoteArchive extends Archive<Note> {
 	
 	/**
 	 * dato titolo e autore restituisce true
-	 * se la nota ï¿½ pubblica
+	 * se la nota e' pubblica
 	 * @param titolo
 	 * @param utente
-	 * @return
+	 * @return true se e' pubblica
+	 * @author Stefano Poma
 	 */
 	public Boolean isPublic (String titolo, User utente){
 		ArrayList<Note> notes= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(utente));
@@ -75,6 +85,12 @@ public class NoteArchive extends Archive<Note> {
 			
 	}
 	
+	/**
+	 * filtra le note di un utente tramite titolo
+	 * @param u
+	 * @return ArrayList di note filtrate tramite titolo
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> FilterByTitle(User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(u));
 		Collections.sort(out, new Comparator<Note>() {
@@ -86,6 +102,12 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	/**
+	 * filtra tramite titolo le note della sezione esplora
+	 * @param u
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> exFilterByTitle(User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->!x.getAuthor().equals(u));
 		Collections.sort(out, new Comparator<Note>() {
@@ -97,6 +119,12 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	/**
+	 * filtra tramite pin le note
+	 * @param u
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> FilterByPin(User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(u));
 		Collections.sort(out, new Comparator<Note>() {
@@ -113,6 +141,12 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	/**
+	 * filtra tramite pin le note della sezione esplora
+	 * @param u
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> exFilterByAuthor(User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->!x.getAuthor().equals(u));
 		Collections.sort(out, new Comparator<Note>() {
@@ -124,6 +158,12 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	/**
+	 * filtra le note tramte like
+	 * @param u
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> FilterByLike(User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(u));
 		Collections.sort(out, new Comparator<Note>() {
@@ -140,6 +180,12 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	/**
+	 * filtra le note della sezione esplora tramite like
+	 * @param u
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> exFilterByLike(User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->!x.getAuthor().equals(u));
 		Collections.sort(out, new Comparator<Note>() {
@@ -156,6 +202,12 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	/**
+	 * filtra le note per data
+	 * @param u
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> FilterByData(User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(u));
 		Collections.sort(out, new Comparator<Note>() {
@@ -180,6 +232,12 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	/**
+	 * filtra per data le note della sezione esplora
+	 * @param u
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> exFilterByData(User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->!x.getAuthor().equals(u));
 		Collections.sort(out, new Comparator<Note>() {
@@ -204,7 +262,12 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
-	
+	/**
+	 * note condivise con utente selezionato
+	 * @param u
+	 * @return ArrayList di note filtrate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> shareWithMe(User u){
 		ArrayList<Note> notes=(ArrayList<Note>) getWhere(x->!x.getAuthor().equals(u));
 		ArrayList<Note> out= new ArrayList<>();
@@ -215,6 +278,13 @@ public class NoteArchive extends Archive<Note> {
 		return out;
 	}
 	
+	/**
+	 * nota cercata dal titolo
+	 * @param n
+	 * @param u
+	 * @return nota che corrisponde a quel titolo
+	 * @author Stefano Poma
+	 */
 	public Note getNoteByTitle(String n, User u){
 //		System.out.println("STO CERCANDO LA NOTA: "+n);
 		ArrayList<Note> out= shareWithMe(u);
@@ -227,6 +297,13 @@ public class NoteArchive extends Archive<Note> {
 		return out2.get(0);
 	}
 	
+	/**
+	 * trova la nota dato il titolo
+	 * @param n
+	 * @param u
+	 * @return nota con quel titolo
+	 * @author Stefano Poma
+	 */
 	public Note getNoteByTitleLike(String n, User u){
 		ArrayList<Note> out2= (ArrayList<Note>)getWhere(x->x.getTitle().equals(n));
 		//TODO impedire doppioni
@@ -236,11 +313,26 @@ public class NoteArchive extends Archive<Note> {
 		return out2.get(0);
 	}
 	
+	/**
+	 * labels associate a una nota
+	 * @param title
+	 * @param us
+	 * @return ArrayList delle labels cercate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<String> getLabelsByNote(String title, User us){
 		ArrayList<Note> out= (ArrayList<Note>)getWhere(x->x.getAuthor().equals(us));
 		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getTitle().equals(title)).collect(Collectors.toList());
 		return out2.get(0).getLabel();
 		}
+	
+	/**
+	 * note associate a una label
+	 * @param label
+	 * @param us
+	 * @return Arraylist delle note cercate
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> getNotesByLabel(String label, User us){
 		ArrayList<Note> out= (ArrayList<Note>)getWhere(x->x.getAuthor().equals(us));
 		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getLabel().contains(label)).collect(Collectors.toList());
@@ -248,25 +340,45 @@ public class NoteArchive extends Archive<Note> {
 		
 	}
 	
+	/**
+	 * cerca ID sulla base del titolo della nota
+	 * @param title
+	 * @return ID associato a quel titolo (titolo univoco)
+	 * @author Stefano Poma
+	 */
 	public int getIDbyTitle(String title){
 		return getWhere(x->x.getTitle().equals(title)).get(0).getID();
 	}
 	
+	/**
+	 * utenti condivisi con quello selezionato
+	 * @param titolo
+	 * @param u
+	 * @return Set degli utenti condivisi
+	 * @author Stefano Poma
+	 */
 	public Set<User> getSharredUser (String titolo, User u){
 		ArrayList<Note> out= (ArrayList<Note>) getWhere(x->x.getAuthor().equals(u));
 		return  out.stream().filter(x->x.getTitle().equals(titolo)).collect(Collectors.toList()).get(0).getSharedWith();
 	}
 	
 
+	/**
+	 * tutte le note di un utente
+	 * @param u
+	 * @return ArrayList contenente tutte le note
+	 * @author Stefano Poma
+	 */
 	public ArrayList<Note> getAllNote(User u){
 		return (ArrayList<Note>)getWhere(x->!x.getAuthor().equals(u));
-//		System.out.println(out);
-//		for(Note n: out){
-//			System.out.println("CARICO Una NOTA: "+n);
-//		}
-//		return out;
 	}
 	
+	/**
+	 * nota cercata tramite ID
+	 * @param ID
+	 * @return restituisce la nota con quel ID
+	 * @author Stefano Poma
+	 */
 	public Note getNoteByID(int ID){
 		return getWhere(x->x.getID()==ID).get(0);
 	}

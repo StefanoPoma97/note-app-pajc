@@ -27,7 +27,7 @@ public class NoteController extends Controller<Note>{
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param us
-	 * @return
+	 * @return ArrayList contenente le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> getMyNote(Client _client, User us){
@@ -47,7 +47,7 @@ public class NoteController extends Controller<Note>{
 	 * @param _client
 	 * @param title
 	 * @param us
-	 * @return
+	 * @return ArrayList contenetne le Label
 	 * @author Stefano Poma
 	 */
 public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
@@ -68,7 +68,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * @param _client
 	 * @param label
 	 * @param us
-	 * @return
+	 * @return ArrayList contenente le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> getNotesByLabel(Client _client, String label, User us){
@@ -88,7 +88,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
  * ottiene una classe Comunication con il riusultato
  * @param _client
  * @param note
- * @return
+ * @return ValidationError che indica se è avvenuta l'operazione
  * @author Stefano Poma
  */
 	public ValidationError addNote(Client _client, Note note){
@@ -108,7 +108,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * @param _client
 	 * @param note
 	 * @param id
-	 * @return
+	 * @return ValidationError che indica se è avvenuta l'operazione
 	 * @author Stefano Poma
 	 */
 	public ValidationError update (Client _client, Note note, int id){
@@ -128,7 +128,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param title
-	 * @return
+	 * @return l'ID associato a quel titolo
 	 * @author Stefano Poma
 	 */
 	public int getIDbyTitle(Client _client, String title){
@@ -147,7 +147,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @author Stefano Poma
 	 * @param title
-	 * @return
+	 * @return ValidationError che indica se è avvenuta l'operazione
 	 */
 	public ValidationError create(String title) {
 		System.out.println("info arrivate: titolo= " + title);
@@ -161,7 +161,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * @param _client
 	 * @param titolo
 	 * @param utente
-	 * @return
+	 * @return true se è segnata, false se non è segnata
 	 * @author Stefano Poma
 	 */
 	public Boolean isPinned(Client _client, String titolo, User utente){
@@ -182,7 +182,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * @param _client
 	 * @param titolo
 	 * @param utente
-	 * @return
+	 * @return treu se è pubblica, false se non lo è
 	 * @author Stefano Poma
 	 */
 	public Boolean isPublic(Client _client, String titolo, User utente){
@@ -202,7 +202,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> FilterByTitle(Client _client, User u){
@@ -221,7 +221,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> exFilterByTitle (Client _client, User u){
@@ -241,7 +241,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> FilterByPin(Client _client, User u){
@@ -260,7 +260,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> FilterByLike(Client _client, User u){
@@ -279,7 +279,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato 
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> exFilterByLike(Client _client, User u){
@@ -298,7 +298,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> FilterByData(Client _client, User u){
@@ -317,7 +317,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> exFilterByData(Client _client, User u){
@@ -336,7 +336,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> exFilterByAuthor(Client _client, User u){
@@ -356,7 +356,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * @param _client
 	 * @param titolo
 	 * @param u
-	 * @return
+	 * @return Set con gli utenti
 	 * @author Stefano Poma
 	 */
 	public Set<User> getSharredUser (Client _client, String titolo, User u){
@@ -376,7 +376,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> getAllNote(Client _client, User u){
@@ -397,7 +397,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param u
-	 * @return
+	 * @return ArrayList con le note
 	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> shareWithMe(Client _client, User u){
@@ -418,7 +418,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * @param _client
 	 * @param n
 	 * @param u
-	 * @return
+	 * @return Nota con quel titolo
 	 * @author Stefano Poma
 	 */
 	public Note getNoteByTitle(Client _client, String n, User u){
@@ -439,7 +439,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * @param _client
 	 * @param n
 	 * @param u
-	 * @return
+	 * @return Nota con quel titolo
 	 * @author Stefano Poma
 	 */
 	public Note getNoteByTitleLike(Client _client, String n, User u){
@@ -459,7 +459,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * ottiene una classe Comunication con il riusultato
 	 * @param _client
 	 * @param ID
-	 * @return
+	 * @return nota con quel ID
 	 * @author Stefano Poma
 	 */
 	public Note getNotebyID(Client _client, int ID){

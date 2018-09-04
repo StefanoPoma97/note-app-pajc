@@ -13,20 +13,11 @@ import it.unibs.pajc.note.status.ValidationError;
 public abstract class Archive<E extends Identifiable>  implements Serializable{
 
 	protected List<E> elements= new ArrayList<E>();
-	private static Archive archive=null;
 	
-	/**
-	 * TODO: Per il momento possiamo usare ArrayList
-	 */
 	public Archive() {
 	}
 	
-//	public static Archive getIstance()
-//	{
-//		if (archive == null)
-//			archive =new Archive();
-//		return archive;
-//	}
+
 	
 	/**
 	 * Aggiunge un elemento all'archivio.
@@ -35,6 +26,7 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 	 * viene tornato un Enum per capire che eventuali errori si sono presentati
 	 * @param e
 	 * @return Errors
+	 * @author Daniele Vezzoli
 	 */
 	public ValidationError add(E e) {
 
@@ -54,6 +46,7 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 	 * Metodo per la validazione dell'istanza da inserire nell'archivio
 	 * @param e L'istanza della classe da validare
 	 * @return Errors.CORRECT se la classe � valida
+	 * @author Daniele Vezzoli
 	 */
 	protected abstract ValidationError validate(E e);
 	               
@@ -62,6 +55,7 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 	 * Metodo per la gestione degli id
 	 * Prende l'id max e lo incrementa 
 	 * @param e
+	 * @author Daniele Vezzoli
 	 */
 	private void setID(E e) {
 		//TODO: far in modo che il max venga salvato in modo da non doverlo ricalcolare
@@ -81,6 +75,7 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 	 * Metodo per applicare un filtro di ricerca all'archivio
 	 * @param pred Il filtro su cui si basa la ricerca
 	 * @return La lista filtrata
+	 * @author Daniele Vezzoli
 	 */
 	public List<E> getWhere(Predicate<E> pred) {
 		return elements.stream().filter(pred).collect(Collectors.toList());
@@ -91,6 +86,7 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 	 * Rimuove gli elementi in base al {@link Predicate}
 	 * @param pred La condizione secondo la quale rimuovere gli elementi
 	 * @return true se sono stati rimossi elementi
+	 * @author Daniele Vezzoli
 	 */
 	public boolean remove(Predicate<E> pred) {
 		return elements.removeAll(getWhere(pred));
@@ -104,6 +100,7 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 	 * @param note
 	 * @param index
 	 * @return Errors
+	 * @author Daniele Vezzoli
 	 */
 	public ValidationError update(E e, int id) {
 		remove(x->x.getID()==id);
@@ -115,15 +112,28 @@ public abstract class Archive<E extends Identifiable>  implements Serializable{
 		return updateStatus;
 	}
 	
-	
+	/**
+	 * 
+	 * @return tutti gli elementi
+	 * @author Daniele Vezzoli
+	 */
 	public List<E> all() {
 		return elements;
 	}
 	
+	/**
+	 * rimuove tutti gli elementi
+	 * @author Daniele Vezzoli
+	 */
 	public void removeAll(){
 		elements = new ArrayList<E>();
 	}
 	
+	/**
+	 * sostituisce tutti elementi da una lista che viene passata
+	 * @param _elements
+	 * @author Daniele Vezzoli
+	 */
 	public void setElements(List<E> _elements){
 		elements=_elements;
 	}

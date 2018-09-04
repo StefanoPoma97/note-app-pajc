@@ -12,9 +12,18 @@ public class UserArchive extends Archive<User> {
 	
 private static UserArchive userarchive=null;
 	
-	public UserArchive() {
+	/**
+	 * costruttore privato
+	 * @author Stefano Poma
+	 */
+	private UserArchive() {
 	}
 
+	/**
+	 * metodo per restituire l'unica istanza di userarchive
+	 * @return UserArchive
+	 * @author Stefano Poma
+	 */
 	public static UserArchive getIstance()
 	{
 		if (userarchive == null)
@@ -56,11 +65,11 @@ private static UserArchive userarchive=null;
 	 * Esso deve avere l'username e la password uguali per essere accettato
 	 * @param username
 	 * @param password
-	 * @return
+	 * @return true se l'utente è accettato
+	 * @author Daniele Vezzoli
 	 */
 	public boolean authenticate(String username, String password) {
-		// Questo assume che ci sia un solo utente con quell'username come dovrebbe
-		// essere
+		// Questo assume che ci sia un solo utente con quell'username come dovrebbe essere
 		String tmp = AuthenticationUtility.generateHash(password);
 		//prende dalla lista tutti gli utenti con lo stesso username (solo 1), poi confronta la password
 		if (this.getWhere(x -> x.getName().equals(username)).isEmpty())
@@ -73,20 +82,16 @@ private static UserArchive userarchive=null;
 			return false;
 	}
 	
+	//INUTILE
 	public Set<Tag> getTagsByUser(User us){
 		return getWhere(x->x.getID()==us.getID()).get(0).getPersonalTag();
 	}
 	
-//	public void addTag(Tag tag, User us){
-//		getWhere(x->x.getID()==us.getID()).get(0).addTag(tag);
-//		System.out.println("label aggiunta con successo");
-//		System.out.println(getWhere(x->x.getID()==us.getID()).get(0).getPersonalTag());
-//	}
-	
 	/**
 	 * restituisce le labels associate ad un utente
 	 * @param u
-	 * @return
+	 * @return ArrayList di Labels
+	 * @author Stefano Poma
 	 */
 	public ArrayList<String> getlabelsByUser(User u){
 		return getWhere(x->x.getID()==u.getID()).get(0).getLabel();
@@ -96,7 +101,8 @@ private static UserArchive userarchive=null;
 	 * aggiunge una label ad un utente specificato
 	 * @param label
 	 * @param us
-	 * @return
+	 * @return true se è stata aggiunta con successo
+	 * @author Stefano Poma
 	 */
 	public boolean addLabel (String label, User us){
 		return getWhere(x->x.getID()==us.getID()).get(0).addLabel(label);
@@ -108,11 +114,18 @@ private static UserArchive userarchive=null;
 	 * associate ad un utente specificato
 	 * @param str
 	 * @param us
+	 * @author Stefano Poma
 	 */
 	public void updateLabel(ArrayList<String>str, User us){
 		getWhere(x->x.getID()==us.getID()).get(0).updateLabel(str);
 	}
 	
+	/**
+	 * restituisce tutti gli utenti
+	 * @param u
+	 * @return ArrayList con tutti gli utenti
+	 * @author Stefano Poma
+	 */
 	public ArrayList<User> getAllUsers(User u){
 		return (ArrayList<User>)getWhere(x->x.getID()!=u.getID());
 	}
