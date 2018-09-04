@@ -61,6 +61,7 @@ public class NoteView extends JPanel {
 	private JButton btnRefresh;
 	private JButton btnNewNote;
 	private JButton btnExplore;
+	private JButton btnLogOut;
 	private JButton btnPin;
 	private JButton btnShare;
 	private JComboBox comboLabelsAdd;
@@ -769,6 +770,31 @@ public class NoteView extends JPanel {
 		});
 		btnExplore.setToolTipText("Explore section");
 		contentInfo.add(btnExplore);
+		
+		
+		btnLogOut = new JButton("Log Out");
+		btnLogOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				view.logOut();
+				view.saveOnFile();
+	
+
+			}
+		});
+		btnLogOut.setEnabled(false);
+		btnLogOut.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnLogOut.setEnabled(true);
+				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnLogOut.setEnabled(false);
+			}
+		});
+		btnLogOut.setToolTipText("Log Out");
+		contentInfo.add(btnLogOut);
 		
 		 try {
 			  ImageIcon addIcon = new ImageIcon("PinButton.png");

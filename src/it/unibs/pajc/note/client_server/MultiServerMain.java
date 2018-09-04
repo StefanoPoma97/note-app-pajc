@@ -124,6 +124,7 @@ public class MultiServerMain {
 			)
 		{
 			while (true){
+				//TODO caricare i dati su file la prima volta
 				new MultiServer(server.accept()).start();
 			}
 	

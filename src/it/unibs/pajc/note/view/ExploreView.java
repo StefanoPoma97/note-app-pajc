@@ -439,10 +439,13 @@ public class ExploreView extends JPanel {
 			btnLike.setToolTipText("Pinned the note");
 			btnLike.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					if (textFieldTitleNote.getText().equals("Select one note..."))
+						return;
 //					Note note= view.getNoteByTitleLike(textFieldTitleNote.getText());
 					System.out.println("ID DELLA NOTA A CUI METTO LIKE: "+modifyNoteID);
 					Note note= view.getNotebyID(modifyNoteID);
 					System.out.println("NOTA A CUI METTO LIKE: "+note);
+					
 					if(btnLike.getBackground().equals(new JButton().getBackground())){
 						btnLike.setBackground(Color.RED);
 						note.addLike();

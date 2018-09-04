@@ -93,6 +93,11 @@ public class MainView {
 		return output.getLoginResult();
 	}
 	
+	public void logOut(){
+		noteView.setVisible(false);
+		initializeLoginView();
+	}
+	
 	/**
 	 * metodo che permette di passare nome e password per la creazione di un nuovo account
 	 * @param name
@@ -394,6 +399,10 @@ public class MainView {
 		return noteController.getNotebyID(client, ID);
 	}
 	
+	public void saveOnFile(){
+		
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -444,9 +453,23 @@ public class MainView {
 		gc.gridy = 0;
 		gc.fill= GridBagConstraints.BOTH;
 		contentPanel.add(loginView, gc);
+		
 
 
 
+	}
+	
+	private void initializeLoginView(){
+		//GridBgLayout per il pannello principale
+				loginView = new LoginView(this);
+				GridBagConstraints gc = new GridBagConstraints();
+				gc.insets = new Insets(0, 0, 5, 0);
+				gc.weightx=1;
+				gc.weighty=1;
+				gc.gridx = 0;
+				gc.gridy = 0;
+				gc.fill= GridBagConstraints.BOTH;
+				contentPanel.add(loginView, gc);
 	}
 	
 	private void initializeNoteView(){

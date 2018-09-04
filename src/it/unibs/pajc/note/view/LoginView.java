@@ -75,7 +75,7 @@ public class LoginView extends JPanel {
 	//costruttore è necessario che riceva il MainView
 	public LoginView(MainView view) {
 		setPreferredSize(new Dimension(500, 500));
-		this.build();
+		this.build(view);
 		this.actionListener(view);
 		String out=view.connetti();
 
@@ -122,7 +122,7 @@ public class LoginView extends JPanel {
 	/**
 	 * Metodo per costruire l'interfaccia grafica relativa al Login
 	 */
-	private void build() {
+	private void build(MainView view) {
 
 		this.setLayout(new GridBagLayout());
 		
@@ -231,11 +231,14 @@ public class LoginView extends JPanel {
 	btnLogin.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			if (!textFieldName.getText().isEmpty() && !textFieldPassword.getText().isEmpty())
+			if (!textFieldName.getText().isEmpty() && !textFieldPassword.getText().isEmpty()){
 				btnLogin.setEnabled(true);
+			}
+				
 		}
 		@Override
 		public void mouseExited(MouseEvent e) {
+			
 			btnLogin.setEnabled(false);
 		}
 	});

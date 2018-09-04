@@ -48,8 +48,8 @@ public class MultiServer extends Thread{
 				
 				output_stream.writeObject(input.createResponse(NoteArchive.getIstance() ,UserArchive.getIstance()));
 				output_stream.flush();
-//				if ("QUIT".equals(response))
-//					break;
+				//TODO messaggio di salvataggio su file gestirlo con save sui file
+
 			}
 
 			
@@ -57,6 +57,7 @@ public class MultiServer extends Thread{
 		catch(IOException | ClassNotFoundException e)
 		{
 			System.err.println("Errore di comunicazione: " +e);
+			//TODO dopo errore di comunicazione salvare tutto su file
 		}
 
 		System.out.println("SERVER STOP dentro");
