@@ -22,6 +22,7 @@ public class MultiServer extends Thread{
 	 * costrutture del MultiServer
 	 * riceve in ingresso un Socket e crea una connessione con quest'ultimo
 	 * @param _socket
+	 * @author Stefano Poma
 	 */
 	public MultiServer(Socket _socket)
 	{

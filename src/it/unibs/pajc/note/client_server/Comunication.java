@@ -46,6 +46,7 @@ public class Comunication implements Serializable{
 	/**
 	 * setta il messaggio di errore
 	 * @param in
+	 * @author Stefano Poma
 	 */
 	public void setError(String in){
 		error=in;
@@ -54,6 +55,7 @@ public class Comunication implements Serializable{
 	/**
 	 * ritorna la striga info, utile per capire che cosa stiamo comunicando
 	 * @return
+	 * @author Stefano Poma
 	 */
 	public String getInfo(){
 		return info;
@@ -62,6 +64,7 @@ public class Comunication implements Serializable{
 	/**
 	 * setta la stringa info
 	 * @param in
+	 * @author Stefano Poma
 	 */
 	public void setInfo(String in){
 		info=in;
@@ -72,6 +75,7 @@ public class Comunication implements Serializable{
 	 * imposta tutte le variabili per il LogIn
 	 * @param name
 	 * @param pass
+	 * @author Stefano Poma
 	 */
 	public void setLogin(String name, String pass){
 		name_pass= new ArrayList<>();
@@ -82,6 +86,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta il valore di ritorno per il login (boolean)
 	 * @param er
+	 * @author Stefano Poma
 	 */
 	public void setLoginResult(boolean er){
 		login=er;
@@ -90,6 +95,7 @@ public class Comunication implements Serializable{
 	/**
 	 * restituisce il risultato in seguito al logn
 	 * @return boolean
+	 * @author Stefano Poma
 	 */
 	public boolean getLoginResult(){
 		return login;
@@ -98,6 +104,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta il valore di ValidationError in seguito ad un operazione che richiede esso come risultato
 	 * @param er
+	 * @author Stefano Poma
 	 */
 	public void setCreate(ValidationError er){
 		create=er;
@@ -106,6 +113,7 @@ public class Comunication implements Serializable{
 	/**
 	 * restituisce il valore di ValidationError 
 	 * @return ValidationError
+	 * @author Stefano Poma
 	 */
 	public ValidationError getCreateResult(){
 		return create;
@@ -116,6 +124,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta l'utente selezionato
 	 * @param u
+	 * @author Stefano Poma
 	 */
 	public void setUser(User u){
 		utente=u;
@@ -124,6 +133,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta le note
 	 * @param list
+	 * @author Stefano Poma
 	 */
 	public void setNotes(ArrayList<Note> list){
 		notes=list;
@@ -132,6 +142,7 @@ public class Comunication implements Serializable{
 	/**
 	 * retituisce un arrayList di note a seconda di cosa stavamo cercando
 	 * @return
+	 * @author Stefano Poma
 	 */
 	public ArrayList<Note> getNotes(){
 		return notes;
@@ -140,6 +151,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta un ArrayList di utenti
 	 * @param list
+	 * @author Stefano Poma
 	 */
 	public void setUsers(ArrayList<User> list){
 		users=list;
@@ -148,6 +160,7 @@ public class Comunication implements Serializable{
 	/**
 	 * restituisce un ArrayList di utenti
 	 * @return
+	 * @author Stefano Poma
 	 */
 	public ArrayList<User> getUsers(){
 		return users;
@@ -156,6 +169,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta un Set di utenti
 	 * @param list
+	 * @author Stefano Poma
 	 */
 	public void setUsersSet(Set<User> list){
 		usersSet=list;
@@ -164,6 +178,7 @@ public class Comunication implements Serializable{
 	/**
 	 * restituisce un Set di utenti
 	 * @return
+	 * @author Stefano Poma
 	 */
 	public Set<User> getUsersSet(){
 		return usersSet;
@@ -173,6 +188,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta un ArrayList di Label
 	 * @param list
+	 * @author Stefano Poma
 	 */
 	public void setLabels(ArrayList<String> list){
 		labels=list;
@@ -181,6 +197,7 @@ public class Comunication implements Serializable{
 	/**
 	 * restituisce un arrayList di Label
 	 * @return
+	 * @author Stefano Poma
 	 */
 	public ArrayList<String> getLabels(){
 		return labels;
@@ -189,6 +206,7 @@ public class Comunication implements Serializable{
 	/**
 	 * restituisce il titolo
 	 * @return
+	 * @author Stefano Poma
 	 */
 	public String getTitle(){
 		return title;
@@ -197,6 +215,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta il titolo
 	 * @param in
+	 * @author Stefano Poma
 	 */
 	public void setTitle(String in){
 		title=in;
@@ -206,6 +225,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta una Note
 	 * @param n
+	 * @author Stefano Poma
 	 */
 	public void setNote(Note n){
 		note=n;
@@ -214,6 +234,7 @@ public class Comunication implements Serializable{
 	/**
 	 * restituisce la Note impostata precedentemente
 	 * @return
+	 * @author Stefano Poma
 	 */
 	public Note getNote (){
 		return note;
@@ -223,6 +244,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta un indirizzo ID
 	 * @param i
+	 * @author Stefano Poma
 	 */
 	public void setID (int i){
 		ID=i;
@@ -231,6 +253,7 @@ public class Comunication implements Serializable{
 	/**
 	 * restituisce l'indirizzo ID impostato precedentemente
 	 * @return
+	 * @author Stefano Poma
 	 */
 	public int getID (){
 		return ID;
@@ -239,6 +262,7 @@ public class Comunication implements Serializable{
 	/**
 	 * imposta una variabile booleana
 	 * @return
+	 * @author Stefano Poma
 	 */
 	public boolean getBoolean(){
 		return bool;
@@ -247,6 +271,7 @@ public class Comunication implements Serializable{
 	/**
 	 * restituisce la variabile booleana
 	 * @param b
+	 * @author Stefano Poma
 	 */
 	public void setBoolean(boolean b){
 		bool=b;

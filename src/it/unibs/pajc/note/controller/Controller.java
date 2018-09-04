@@ -11,8 +11,9 @@ public abstract class Controller<E extends Identifiable> {
 	protected Archive<E> archive;
 	
 	/**
-	 * metodo che permette di caricare un archivio gi� esistente 
+	 * metodo che permette di caricare un archivio gia' esistente 
 	 * @param e
+	 * @author Stefano Poma, Daniele Vezzoli
 	 */
 	public void setArchive(Archive<E> e) {
 		archive = e;
@@ -21,6 +22,7 @@ public abstract class Controller<E extends Identifiable> {
 	/**
 	 * Metodo per la ricezione di tutte gli elementi
 	 * @return Tutti gli elementi dell'archivio
+	 * @author Stefano Poma, Daniele Vezzoli
 	 */
 	public List<E> all() {
 		return archive.all();
@@ -30,18 +32,31 @@ public abstract class Controller<E extends Identifiable> {
 	 * Mostra un elemento specifico in base all'id
 	 * @param id l'id secondo il quale cercare l'elemento
 	 * @return
+	 * @author Stefano Poma, Daniele Vezzoli
 	 */
 	public E show(int id) {
 		return archive.getWhere(x -> x.getID() == id).get(0);
 	}
 
 	
-	// Decidere se ritornare uno stato o la nota modificata
+	/**
+	 * aggiorna una nota esistente, ricevendo la nuova nota e l'ID della nota da modificare
+	 * @param e
+	 * @param id
+	 * @return
+	 * @author Stefano Poma, Daniele Vezzoli
+	 */
 	public ValidationError update(E e, int id) {
 		return archive.update(e, id);
+		
 	}
 
-	// Magari ritornare uno stato
+	/**
+	 * elimina una nota sulla base del suo ID
+	 * @param id
+	 * @return
+	 * @author Stefano Poma, Daniele Vezzoli
+	 */
 	public boolean destroy(int id) {
 		return archive.remove(x-> x.getID() == id);
 	}

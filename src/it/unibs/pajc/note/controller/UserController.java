@@ -20,6 +20,12 @@ public class UserController extends Controller<User> {
 	public UserController() {
 	}
 
+	/**
+	 * metodo per permettere la connessione del client
+	 * @author Stefano Poma
+	 * @param _client
+	 * @return
+	 */
 	public String connetti(Client _client){
 		client=_client;
 		return client.connetti();
@@ -28,10 +34,13 @@ public class UserController extends Controller<User> {
 	
 	
 	/**
-	 * metodo per verificare un login
-	 * @param name
-	 * @param password
-	 * @return un boolean (valido o non valido)
+	 * sfruttando la comunicazione con il client crea una classe Comunication indicata 
+	 * per richiedere il login
+	 * ottiene una classe Comunication con il riusultato
+	 * @param _client
+	 * @param _name
+	 * @param _pass
+	 * @return
 	 */
 	public Comunication login(Client _client, String _name, String _pass) {
 		client=_client;
@@ -44,10 +53,15 @@ public class UserController extends Controller<User> {
 	}
 
 	/**
-	 * metodo per creare un nuovo account
-	 * @param username
-	 * @param password
-	 * @return ValidateError
+	 * sfruttando la comunicazione con il client crea una classe Comunication indicata 
+	 * per richiedere la creazione di un nuovo utente
+	 * ottiene una classe Comunication con il riusultato
+	 * @author Stefano Poma
+	 * @param _client
+	 * @param _name
+	 * @param _pass
+	 * @return
+	 
 	 */
 	public ValidationError create(Client _client, String _name, String _pass) {
 		client=_client;
@@ -59,6 +73,15 @@ public class UserController extends Controller<User> {
 		return validate;
 	}
 
+	/**
+	 * sfruttando la comunicazione con il client crea una classe Comunication indicata 
+	 * per richiedere tutte le labels associate ad un utente
+	 * ottiene una classe Comunication con il riusultato
+	 * @author Stefano Poma
+	 * @param _client
+	 * @param u
+	 * @return
+	 */
 	public ArrayList<String> getLabelsByUser (Client _client, User u){
 		client=_client;
 		Comunication input= new Comunication();
@@ -71,6 +94,16 @@ public class UserController extends Controller<User> {
 		return output.getLabels();
 	}
 	
+	/**
+	 * sfruttando la comunicazione con il client crea una classe Comunication indicata 
+	 * per richiedere l'aggiunta di una nuova Label
+	 * ottiene una classe Comunication con il riusultato
+	 * @author Stefano Poma
+	 * @param _client
+	 * @param label
+	 * @param us
+	 * @return
+	 */
 	public boolean addLabel (Client _client, String label, User us){
 		client=_client;
 		Comunication input= new Comunication();
@@ -82,6 +115,15 @@ public class UserController extends Controller<User> {
 		return out.getBoolean();
 	}
 	
+	/**
+	 * sfruttando la comunicazione con il client crea una classe Comunication indicata 
+	 * per richiedere l'aggiornamento delle labels
+	 * ottiene una classe Comunication con il riusultato
+	 * @author Stefano Poma
+	 * @param _client
+	 * @param str
+	 * @param us
+	 */
 	public void updateLabel(Client _client, ArrayList<String> str, User us){
 		//TODO rendere pi� efficiente
 		client=_client;
@@ -92,6 +134,15 @@ public class UserController extends Controller<User> {
 		Comunication output2= client.comunica(input);
 	}
 	
+	/**
+	 * sfruttando la comunicazione con il client crea una classe Comunication indicata 
+	 * per richiedere di restituire tutti gli utenti
+	 * ottiene una classe Comunication con il riusultato
+	 * @author Stefano Poma
+	 * @param _client
+	 * @param u
+	 * @return
+	 */
 	public ArrayList<User> getAllUsers(Client _client, User u){
 		client=_client;
 		Comunication input= new Comunication();

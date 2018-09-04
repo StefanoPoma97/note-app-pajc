@@ -33,6 +33,7 @@ public class Client {
 	/**
 	 * metodo per la connessione al server, ritorna una Stringa che specifica se la connessione è avvenuta
 	 * @return Stringa che indica se la connessione è avvenuta
+	 * @author Stefano Poma
 	 */
 	public String connetti()
 	{
@@ -53,6 +54,7 @@ public class Client {
 	
 	/** 
 	 * metodo per interrompere la comunicazione con il server, va a chiudere tutti gli stream
+	 * @author Stefano Poma
 	 */
 	public void stop()
 	{
@@ -74,6 +76,7 @@ public class Client {
 	 * metodo per svolgere tutte le comunicazioni con il server
 	 * @param output una classe Comunication riempita a seconda delle esigenze
 	 * @return Comunication
+	 * @author Stefano Poma
 	 */
 	public Comunication comunica (Comunication output)
 	{
