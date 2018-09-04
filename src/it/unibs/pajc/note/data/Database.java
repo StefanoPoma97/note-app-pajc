@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Database implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private NoteArchive notes;
-	private UserArchive users;
+	private NoteArchive notes= NoteArchive.getIstance();
+	private UserArchive users= UserArchive.getIstance();
 	
 	public Database (){
 	}

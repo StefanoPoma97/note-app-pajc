@@ -464,9 +464,10 @@ public class MainView {
 	
 	/**
 	 * comando che permette il salvataggio su file degli archivi
+	 * @author Stefano Poma
 	 */
 	public void saveOnFile(){
-		
+		userController.saveOnFile(client);
 	}
 	
 	/**

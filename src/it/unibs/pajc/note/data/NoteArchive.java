@@ -34,6 +34,14 @@ public class NoteArchive extends Archive<Note> {
 		return notearchive;
 	}
 	
+	public static NoteArchive getIstance(NoteArchive no)
+	{
+		if (notearchive == null)
+			notearchive =no;
+		return notearchive;
+	}
+	
+	
 	/**
 	 * Una nota è valida se il titolo non è vuoto.
 	 */

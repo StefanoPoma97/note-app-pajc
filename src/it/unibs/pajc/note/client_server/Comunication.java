@@ -1,14 +1,17 @@
 package it.unibs.pajc.note.client_server;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Set;
 
+import it.unibs.pajc.note.data.Database;
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.data.UserArchive;
 import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.status.ValidationError;
+import it.unibs.pajc.note.utility.ServizioFile;
 
 public class Comunication implements Serializable{
 
@@ -501,6 +504,17 @@ public class Comunication implements Serializable{
 			output.setNote(noteArchive.getNoteByID(ID));
 			return output;
 		}
+		
+		case "save_on_file":{
+			output= new Comunication();
+			output.setInfo("save_on_file_response");
+			File file = new File("save.dat");
+			Database data = new Database(NoteArchive.getIstance(), UserArchive.getIstance());
+			ServizioFile.salvaSingoloOggetto(file, data);
+			System.out.println("salvato su file");
+			return output;
+		}
+		
 		
 		
 		default:

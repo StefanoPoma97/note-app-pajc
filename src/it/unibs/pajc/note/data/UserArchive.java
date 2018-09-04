@@ -30,6 +30,14 @@ private static UserArchive userarchive=null;
 			userarchive =new UserArchive();
 		return userarchive;
 	}
+	
+	public static UserArchive getIstance(UserArchive us)
+	{
+		if (userarchive == null)
+			userarchive =us;
+		return userarchive;
+	}
+	
 
 	/**
 	 * Un utente è valido se:

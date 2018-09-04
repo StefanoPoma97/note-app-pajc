@@ -1,13 +1,16 @@
 package it.unibs.pajc.note.client_server;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import it.unibs.pajc.note.data.Database;
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.data.UserArchive;
+import it.unibs.pajc.note.utility.ServizioFile;
 
 
 
@@ -34,6 +37,17 @@ public class MultiServer extends Thread{
 	}
 	
 	/**
+	 * metodo per salvare gli archivi su un file
+	 * @author Stefano Poma
+	 */
+	private void saveOnFile(){
+		File file = new File("save.dat");
+		Database data = new Database(NoteArchive.getIstance(), UserArchive.getIstance());
+		ServizioFile.salvaSingoloOggetto(file, data);
+		System.out.println("salvato su file");
+	}
+	
+	/**
 	 * metodo esteso dalla classe Thread
 	 * crea gli stream e mediante un ciclo while ogni volta che c'è qualcosa in ingresso restituisce un risultasto in uscita
 	 */
@@ -52,8 +66,6 @@ public class MultiServer extends Thread{
 				System.out.println("\nCLIENT -> "+input.getInfo()+ ", ricevuta da: "+socket.getInetAddress());
 				
 				
-				
-				
 				output_stream.writeObject(input.createResponse(NoteArchive.getIstance() ,UserArchive.getIstance()));
 				output_stream.flush();
 				//TODO messaggio di salvataggio su file gestirlo con save sui file
@@ -65,7 +77,7 @@ public class MultiServer extends Thread{
 		catch(IOException | ClassNotFoundException e)
 		{
 			System.err.println("Errore di comunicazione: " +e);
-			//TODO dopo errore di comunicazione salvare tutto su file
+			saveOnFile();
 		}
 
 //		System.out.println("SERVER STOP dentro");

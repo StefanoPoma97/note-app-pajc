@@ -152,4 +152,17 @@ public class UserController extends Controller<User> {
 		Comunication output= client.comunica(input);
 		return output.getUsers();
 	}
+	
+	/**
+	 * metodo per comunicare il comando salva si file
+	 * @param _client
+	 * @author Stefano Poma
+	 */
+	public void saveOnFile(Client _client){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("save_on_file");
+		
+		client.comunica(input);
+	}
 }
