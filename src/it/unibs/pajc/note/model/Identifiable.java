@@ -4,13 +4,11 @@ import java.io.Serializable;
 
 /**
  * Per la gestione degli id
- * @author danielevezz
+ * @author Daniele Vezzoli
  *
  */
 public abstract class Identifiable implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
