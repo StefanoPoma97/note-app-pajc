@@ -534,7 +534,7 @@ public class Comunication implements Serializable{
 			output= new Comunication();
 			output.setInfo("modify_id_response");
 			Syncro sn= Syncro.getIstance();
-			output.setBoolean(sn.modify(utente, ID));
+			output=sn.modify(utente, ID);
 			return output;
 		}
 		

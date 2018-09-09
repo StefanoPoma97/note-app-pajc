@@ -5,7 +5,7 @@ import it.unibs.pajc.note.model.User;
 public class Sync {
 	
 	private User utente=null;
-	private Integer ID=-1;
+	private Integer ID=null;
 	
 	public Sync (User u){
 		utente=u;

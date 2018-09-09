@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JFormattedTextField;
@@ -152,11 +153,21 @@ public class MainView {
 			
 			noteLabels.addAll(getLabelsByNote(nota.getTitle()));
 		}
-		ArrayList<String> userLabels_cp= new ArrayList<>(userLabels);
-		userLabels_cp.removeAll(noteLabels);
-		userLabels.removeAll(userLabels_cp);
+//		System.out.println("NOTE LABEL: "+noteLabels);
+		Set<String> set1=new HashSet<String>(noteLabels);
+		Set<String> set2=new HashSet<String>(userLabels);
+		Set<String> set3=new HashSet<String>();
+		set3.addAll(set1); set3.addAll(set2);
+		Set<String> set4=new HashSet<String>();
+		set4.addAll(set3);
+		set4.removeAll(set1);
+		set3.removeAll(set4);
+//		userLabels_cp.removeAll(noteLabels);
+//		userLabels.removeAll(userLabels_cp);
+		userLabels=new ArrayList<>(set3);
 		userLabels.add(0, "Labels");
 		
+		System.out.println("USER LABEL: "+userLabels);
 		userController.updateLabel(client, userLabels, utente);
 		
 	}
@@ -479,7 +490,7 @@ public class MainView {
 		return noteController.deleteNote(client, ID);
 	}
 	
-	public boolean modifyID(int ID){
+	public Comunication modifyID(int ID){
 		return noteController.modifyID(client, ID, utente);
 	}
 	

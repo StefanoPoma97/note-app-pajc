@@ -13,6 +13,8 @@ import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.model.Tag;
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.utility.ServizioFile;
+import it.unibs.pajc.note.client_server.Sync;
+import it.unibs.pajc.note.client_server.Syncro;
 
 
 
@@ -148,7 +150,7 @@ public class MultiServerMain {
 //			noteArchive.add(nota);
 //		}
 //		
-//	File file = new File("save.dat");
+//	file = new File("save.dat");
 //	data = new Database(noteArchive, userArchive);
 //	ServizioFile.salvaSingoloOggetto(file, data);
 //	System.out.println("Ho salvato");

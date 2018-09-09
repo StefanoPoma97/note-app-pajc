@@ -33,6 +33,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+import it.unibs.pajc.note.client_server.Comunication;
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.model.User;
@@ -113,7 +114,7 @@ public class NoteView extends JPanel {
 		note.setBody(textAreaNote.getText());
 //		System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
 		note.addLabels(temporanyLabels);
-		System.out.println("HO AGGIUNTO ALLA NOTA LE TEMPORANY LABEL: "+temporanyLabels);
+//		System.out.println("HO AGGIUNTO ALLA NOTA LE TEMPORANY LABEL: "+temporanyLabels);
 		note.addSharedUsers(sharedUser);
 		ValidationError validate;
 //		System.out.println("ID che sto modificando "+modifyID);
@@ -242,6 +243,7 @@ public class NoteView extends JPanel {
 		//carico le labels
 		ArrayList<String> _labels= new ArrayList<>();
 		_labels= view.getMyLabel();
+		System.out.println("LABELS: "+_labels);
 		labels= _labels.toArray(new String [_labels.size()]);
 		
 //		System.out.println("MY Label: "+labels);
@@ -396,6 +398,20 @@ public class NoteView extends JPanel {
 			btn_modify.setToolTipText("Modify this note");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+					modifyID= view.getIDbyTitle(lbl_title.getText());
+					Comunication input= view.modifyID(modifyID);
+					if(!input.getBoolean()){
+						showInfoMessage("accesso contemporaneo ad un'altro utente");
+						modifyID=null;
+						return;
+					}
+					if(input.getInfo().equals("modify_id_response_refresh")){
+						showInfoMessage("La nota è stata aggiornata, necessario un refresh della pagina");
+						refreshNoteList(view);
+					}
+						
+					
 //					System.out.println("TASTO MODIFICA");
 					temporanyLabels= new ArrayList<>();
 					sharedUser= new HashSet<>();
@@ -417,7 +433,7 @@ public class NoteView extends JPanel {
 					temporanyLabels= view.getLabelsByNote(lbl_title.getText());
 					sharedUser= view.getSharredUser(lbl_title.getText());
 //					System.out.println("Sharred USer "+sharedUser);
-					modifyID= view.getIDbyTitle(lbl_title.getText());
+					
 					refreshLabelPanel(view);
 					refreshSharePanel(view);
 				}
@@ -625,6 +641,7 @@ public class NoteView extends JPanel {
 		contentNote.revalidate();
 		
 		loadInfo(view);
+		view.stopModify();
 		contentNote.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 			
@@ -838,6 +855,7 @@ public class NoteView extends JPanel {
 		btnExplore = new JButton("Esplora");
 		btnExplore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				view.stopModify();
 				view.exploreView();
 	
 
@@ -862,6 +880,7 @@ public class NoteView extends JPanel {
 		btnLogOut = new JButton("Log Out");
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				view.stopModify();
 				view.logOut();
 				view.saveOnFile();
 	
@@ -1092,7 +1111,9 @@ public class NoteView extends JPanel {
 			        }
 			    }
 			   
-			    sharedUser.add(listUser.get(index));
+			    if(index>0)
+			    	sharedUser.add(listUser.get(index));
+			    
 			    refreshSharePanel(view);
 			 
 		}});
@@ -1132,7 +1153,7 @@ public class NoteView extends JPanel {
 					return;
 				}
 				
-				System.out.println("MODIFY ID: "+modifyID);
+//				System.out.println("MODIFY ID: "+modifyID);
 				if(modifyID!=null){
 					view.deleteNote(modifyID);
 					notes=view.getMyNote();
@@ -1208,6 +1229,7 @@ public class NoteView extends JPanel {
 				}
 				sharedUser= new HashSet<>();
 				view.updateMyLabels();
+				view.stopModify();
 				refreshLabelPanel(view);
 				refreshNoteList(view);
 				refreshSharePanel(view);
@@ -1246,6 +1268,7 @@ public class NoteView extends JPanel {
 					    save(view);
 					}
 				}
+				view.stopModify();
 				temporanyLabels= new ArrayList<>();
 				sharedUser= new HashSet<>();
 				refreshLabelPanel(view);
@@ -1289,6 +1312,7 @@ public class NoteView extends JPanel {
 					    save(view);
 					}
 				}
+				view.stopModify();
 				switch ((String)comboFilter.getSelectedItem()) {
 				
 				case "Titolo":{
@@ -1360,6 +1384,7 @@ public class NoteView extends JPanel {
 					    save(view);
 					}
 				}
+				view.stopModify();
 				String label = (String)comboLabels.getSelectedItem();
 				if (label.equals("Labels")){ 
 					notes=view.getMyNote();

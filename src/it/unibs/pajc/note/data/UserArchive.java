@@ -135,7 +135,8 @@ private static UserArchive userarchive=null;
 	 * @author Stefano Poma
 	 */
 	public ArrayList<User> getAllUsers(User u){
-		return (ArrayList<User>)getWhere(x->x.getID()!=u.getID());
+		System.out.println("TUTTI GLI UTENTI: "+all());
+		return (ArrayList<User>)getWhere(x->!x.getName().equals(u.getName()));
 	}
 
 }

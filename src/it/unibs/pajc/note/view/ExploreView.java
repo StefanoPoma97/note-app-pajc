@@ -30,6 +30,8 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+
+import it.unibs.pajc.note.client_server.Comunication;
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.model.Note;
 import it.unibs.pajc.note.model.User;
@@ -348,11 +350,7 @@ public class ExploreView extends JPanel {
 			btn_modify.setToolTipText("Modify this note");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(isShare){
-						btnSave.setEnabled(true);
-						modifyID= view.getIDbyTitle(lbl_title.getText());
-						textAreaNote.setBackground(new JTextArea().getBackground());
-					}
+					
 					createModifyNote(view);
 					nuova=false;
 					modifica=true;
@@ -367,12 +365,28 @@ public class ExploreView extends JPanel {
 					if(view.iLikeThisNote(note))
 						btnLike.setBackground(Color.RED);
 					note=null;
-				
-//					textFieldTitleNote.setEditable(isShare);
-					textAreaNote.setEditable(isShare);
+					textAreaNote.setEditable(false);
 					btnSave.setEnabled(false);
 					
+					if(isShare){
+						btnSave.setEnabled(true);
+						modifyID= view.getIDbyTitle(lbl_title.getText());
+						Comunication input= view.modifyID(modifyID);
+						if(!input.getBoolean()){
+							showInfoMessage("accesso contemporaneo ad un'altro utente");
+							modifyID=null;
+							return;
+						}
+						if(input.getInfo().equals("modify_id_response_refresh")){
+							showInfoMessage("La nota è stata aggiornata, necessario un refresh della pagina");
+							refreshNoteList(view);
+						}
+						else{
+							textAreaNote.setBackground(new JTextArea().getBackground());
+							textAreaNote.setEditable(true);
+						}
 						
+					}
 					
 					
 						
@@ -430,6 +444,9 @@ public class ExploreView extends JPanel {
 		contentNote.revalidate();
 		
 		loadInfo(view);
+		
+		view.stopModify();
+		
 		contentNote.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		modifyID=null;
@@ -562,6 +579,7 @@ public class ExploreView extends JPanel {
 		btnExplore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				btnSave.setEnabled(false);
+				view.stopModify();
 				view.noteView();
 	
 

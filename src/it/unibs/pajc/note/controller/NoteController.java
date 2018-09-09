@@ -488,7 +488,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		return output.getBoolean();
 	}
 	
-	public boolean modifyID(Client _client, int ID, User u){
+	public Comunication modifyID(Client _client, int ID, User u){
 		client=_client;
 		Comunication input= new Comunication();
 		input.setInfo("modify_id");
@@ -496,7 +496,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		input.setUser(u);
 		
 		Comunication output= client.comunica(input);
-		return output.getBoolean();
+		return output;
 	}
 	
 	public boolean stopModify(Client _client, User u){
