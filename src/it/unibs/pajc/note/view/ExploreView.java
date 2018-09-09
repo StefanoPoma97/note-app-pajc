@@ -96,7 +96,60 @@ public class ExploreView extends JPanel {
 //	private int modifyID;
 	private JButton btnNewButton;
 	
+	
 
+	/**
+	 * salva tutte le modifiche
+	 * @param view
+	 * @author Stefano Poma
+	 */
+	private void save(MainView view){
+		if (textFieldTitleNote.getText().equals("Select one note...")){
+			showInfoMessage("Devi prima selezionare una nota");
+		}
+		else{
+			System.out.println("TITOLO DELLA NOTA DA CERCARE: "+modifyTitle);
+//			Note note = view.getNoteByTitle(modifyTitle);
+			Note note= view.getNotebyID(modifyNoteID);
+			if(textFieldTitleNote.getText().toCharArray().length>15){
+				showErrorMessage("Title max length = 15!!");
+				textFieldTitleNote.setText("");
+				return;
+			}
+			note.setTitle(textFieldTitleNote.getText());
+			note.setBody(textAreaNote.getText());
+			ValidationError validate;
+			if (modifyID==null){
+				System.out.println("YO bro non dovresti entrare in questo if");
+			}				
+			else{
+				note.setUpdatedAt(new GregorianCalendar());
+				validate=view.exUpdate(note, modifyID);
+				System.out.println("UPDATE "+validate);
+				if (validate.equals(ValidationError.TITLE_EMPTY)){
+					showInfoMessage(validate);
+					return;
+				}
+		}
+		
+			
+			notes=view.getAllNote();
+			modifyID= null;
+			textFieldTitleNote.setText("Select one note...");
+			textAreaNote.setText("");
+			modifica=false;
+			btnSave.setEnabled(false);
+			createModifyNote(view);
+			refreshButton(view);
+			repaint();
+			
+			System.out.println(note.getTitle()+"  "+note.getBody()+ "   "+note.getSharedWith().toString());
+
+		}
+		
+		refreshNoteList(view);
+	}
+	
 	/**
 	 * metodo per visualizzare un messaggio di errore data una stringa
 	 * @param in
@@ -548,51 +601,7 @@ public class ExploreView extends JPanel {
 		 btnSave.setToolTipText("Save the note");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if (textFieldTitleNote.getText().equals("Select one note...")){
-					showInfoMessage("Devi prima selezionare una nota");
-				}
-				else{
-					System.out.println("TITOLO DELLA NOTA DA CERCARE: "+modifyTitle);
-//					Note note = view.getNoteByTitle(modifyTitle);
-					Note note= view.getNotebyID(modifyNoteID);
-					if(textFieldTitleNote.getText().toCharArray().length>15){
-						showErrorMessage("Title max length = 15!!");
-						textFieldTitleNote.setText("");
-						return;
-					}
-					note.setTitle(textFieldTitleNote.getText());
-					note.setBody(textAreaNote.getText());
-					ValidationError validate;
-					if (modifyID==null){
-						System.out.println("YO bro non dovresti entrare in questo if");
-					}				
-					else{
-						note.setUpdatedAt(new GregorianCalendar());
-						validate=view.exUpdate(note, modifyID);
-						System.out.println("UPDATE "+validate);
-						if (validate.equals(ValidationError.TITLE_EMPTY)){
-							showInfoMessage(validate);
-							return;
-						}
-				}
-				
-					
-					notes=view.getAllNote();
-					modifyID= null;
-					textFieldTitleNote.setText("Select one note...");
-					textAreaNote.setText("");
-					modifica=false;
-					btnSave.setEnabled(false);
-					createModifyNote(view);
-					refreshButton(view);
-					repaint();
-					
-					System.out.println(note.getTitle()+"  "+note.getBody()+ "   "+note.getSharedWith().toString());
-		
-				}
-				
-				refreshNoteList(view);
+				save(view);
 			}
 		});
 		contentModify.add(btnSave);
@@ -702,7 +711,15 @@ public class ExploreView extends JPanel {
 				});
 		comboFilter.setToolTipText("Filter your list");
 		comboFilter.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
+				if (modifyID!=null){
+					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					    save(view);
+					}
+				}
+				
 				switch ((String)comboFilter.getSelectedItem()) {
 				
 				case "Titolo":{
@@ -765,11 +782,17 @@ public class ExploreView extends JPanel {
 			});
 		btnShareWithMe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (modifyID!=null){
+					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					    save(view);
+					}
+				}
 				notes=view.shareWithMe();
 				btnSave.setEnabled(false);
 				refreshNoteList(view);
 				createModifyNote(view);
-				System.out.println("NOTE CHE POSSO MODIFICARE "+notes);
+//				System.out.println("NOTE CHE POSSO MODIFICARE "+notes);
 			}
 		});
 		

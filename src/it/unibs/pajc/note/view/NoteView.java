@@ -99,6 +99,85 @@ public class NoteView extends JPanel {
 	private int actualIndex=-1;
 	
 	/**
+	 * salvataggio delle modifiche fatte
+	 * @param view
+	 * @author Stefano Poma
+	 */
+	private void save(MainView view){
+		Note note = new Note(textFieldTitleNote.getText());
+		if(textFieldTitleNote.getText().toCharArray().length>15){
+			showErrorMessage("Title max length = 15!!");
+			textFieldTitleNote.setText("");
+			return;
+		}
+		note.setBody(textAreaNote.getText());
+//		System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
+		note.addLabels(temporanyLabels);
+		System.out.println("HO AGGIUNTO ALLA NOTA LE TEMPORANY LABEL: "+temporanyLabels);
+		note.addSharedUsers(sharedUser);
+		ValidationError validate;
+//		System.out.println("ID che sto modificando "+modifyID);
+		note.setPin(btnPin.getBackground().equals(Color.RED));
+		if (sharedUser.size()>0)
+			note.setPublic(true);
+		else
+		note.setPublic(chckbxPublic.isSelected());
+		
+		if (modifyID==null){
+			validate = view.addNote(note);
+			if (validate.equals(ValidationError.TITLE_EMPTY)){
+				showInfoMessage(validate);
+				return;
+			}
+//			System.out.println("nota aggiunta");
+			notes=view.getMyNote();
+			textFieldTitleNote.setText("Select one note...");
+			textAreaNote.setText("");
+			temporanyLabels=new ArrayList<>();
+			sharedUser= new HashSet<>();
+			actualLabels=new ArrayList<>();
+			nuova=false;
+			btnPin.setBackground(new JButton().getBackground());
+			chckbxPublic.setSelected(false);
+			view.updateMyLabels();
+			
+			createModifyNote(view);
+			refreshButton(view);
+			refreshButton(view);
+			repaint();
+
+		}
+			
+		else{
+			note.setUpdatedAt(new GregorianCalendar());
+			validate=view.update(note, modifyID);
+			if (validate.equals(ValidationError.TITLE_EMPTY)){
+				showInfoMessage(validate);
+				return;
+			}
+//			System.out.println("nota aggiornata");
+			notes=view.getMyNote();
+			modifyID= null;
+			textFieldTitleNote.setText("Select one note...");
+			textAreaNote.setText("");
+			actualLabels=new ArrayList<>();
+			temporanyLabels=new ArrayList<>();
+			sharedUser= new HashSet<>();
+			modifica=false;
+			btnPin.setBackground(new JButton().getBackground());
+			chckbxPublic.setSelected(false);
+			view.updateMyLabels();
+			sharedUser= new HashSet<>();
+			createModifyNote(view);
+			refreshButton(view);
+			repaint();
+
+		}
+		
+		refreshNoteList(view);
+	}
+	
+	/**
 	 * metodo per far apparire messaggio di errore data una stringa
 	 * @param in
 	 * @author Stefano Poma
@@ -884,78 +963,7 @@ public class NoteView extends JPanel {
 		 btnSave.setToolTipText("Save the note");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				Note note = new Note(textFieldTitleNote.getText());
-				if(textFieldTitleNote.getText().toCharArray().length>15){
-					showErrorMessage("Title max length = 15!!");
-					textFieldTitleNote.setText("");
-					return;
-				}
-				note.setBody(textAreaNote.getText());
-//				System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
-				note.addLabels(temporanyLabels);
-				System.out.println("HO AGGIUNTO ALLA NOTA LE TEMPORANY LABEL: "+temporanyLabels);
-				note.addSharedUsers(sharedUser);
-				ValidationError validate;
-//				System.out.println("ID che sto modificando "+modifyID);
-				note.setPin(btnPin.getBackground().equals(Color.RED));
-				if (sharedUser.size()>0)
-					note.setPublic(true);
-				else
-				note.setPublic(chckbxPublic.isSelected());
-				
-				if (modifyID==null){
-					validate = view.addNote(note);
-					if (validate.equals(ValidationError.TITLE_EMPTY)){
-						showInfoMessage(validate);
-						return;
-					}
-//					System.out.println("nota aggiunta");
-					notes=view.getMyNote();
-					textFieldTitleNote.setText("Select one note...");
-					textAreaNote.setText("");
-					temporanyLabels=new ArrayList<>();
-					sharedUser= new HashSet<>();
-					actualLabels=new ArrayList<>();
-					nuova=false;
-					btnPin.setBackground(new JButton().getBackground());
-					chckbxPublic.setSelected(false);
-					view.updateMyLabels();
-					
-					createModifyNote(view);
-					refreshButton(view);
-					refreshButton(view);
-					repaint();
-		
-				}
-					
-				else{
-					note.setUpdatedAt(new GregorianCalendar());
-					validate=view.update(note, modifyID);
-					if (validate.equals(ValidationError.TITLE_EMPTY)){
-						showInfoMessage(validate);
-						return;
-					}
-//					System.out.println("nota aggiornata");
-					notes=view.getMyNote();
-					modifyID= null;
-					textFieldTitleNote.setText("Select one note...");
-					textAreaNote.setText("");
-					actualLabels=new ArrayList<>();
-					temporanyLabels=new ArrayList<>();
-					sharedUser= new HashSet<>();
-					modifica=false;
-					btnPin.setBackground(new JButton().getBackground());
-					chckbxPublic.setSelected(false);
-					view.updateMyLabels();
-					sharedUser= new HashSet<>();
-					createModifyNote(view);
-					refreshButton(view);
-					repaint();
-		
-				}
-				
-				refreshNoteList(view);
+				save(view);
 			}
 		});
 		contentModify.add(btnSave);
@@ -1192,6 +1200,12 @@ public class NoteView extends JPanel {
 		  btnRefresh.setToolTipText("Refresh your list");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (modifyID!=null){
+					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					    save(view);
+					}
+				}
 				sharedUser= new HashSet<>();
 				view.updateMyLabels();
 				refreshLabelPanel(view);
@@ -1226,6 +1240,12 @@ public class NoteView extends JPanel {
 		  btnNewNote.setToolTipText("Create a new note");
 		btnNewNote.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (modifyID!=null){
+					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					    save(view);
+					}
+				}
 				temporanyLabels= new ArrayList<>();
 				sharedUser= new HashSet<>();
 				refreshLabelPanel(view);
@@ -1263,6 +1283,12 @@ public class NoteView extends JPanel {
 		comboFilter.setToolTipText("Filter your list");
 		comboFilter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (modifyID!=null){
+					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					    save(view);
+					}
+				}
 				switch ((String)comboFilter.getSelectedItem()) {
 				
 				case "Titolo":{
@@ -1328,6 +1354,12 @@ public class NoteView extends JPanel {
 		comboLabels.setToolTipText("filter by labels");
 		comboLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (modifyID!=null){
+					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					    save(view);
+					}
+				}
 				String label = (String)comboLabels.getSelectedItem();
 				if (label.equals("Labels")){ 
 					notes=view.getMyNote();
