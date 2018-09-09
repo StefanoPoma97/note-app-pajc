@@ -49,7 +49,10 @@ public class MultiServerMain {
 			userArchive= UserArchive.getIstance();
 		}
 		
-		
+		Syncro sn= Syncro.getIstance();
+		for (User u: userArchive.all()){
+			sn.addSync(new Sync(u));
+		}
 		
 		
 //		User utente= new User("paolo", "merazza");

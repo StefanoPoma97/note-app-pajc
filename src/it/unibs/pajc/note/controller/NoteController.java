@@ -472,11 +472,38 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		return output.getNote();
 	}
 	
+	/**
+	 * elimina una nota dato il suo ID
+	 * @param _client
+	 * @param ID
+	 * @return true se è stata eliminata con successo
+	 */
 	public boolean deleteNote(Client _client, int ID){
 		client=_client;
 		Comunication input= new Comunication();
 		input.setInfo("delete_note");
 		input.setID(ID);
+		
+		Comunication output= client.comunica(input);
+		return output.getBoolean();
+	}
+	
+	public boolean modifyID(Client _client, int ID, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("modify_id");
+		input.setID(ID);
+		input.setUser(u);
+		
+		Comunication output= client.comunica(input);
+		return output.getBoolean();
+	}
+	
+	public boolean stopModify(Client _client, User u){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("stop_modify");
+		input.setUser(u);
 		
 		Comunication output= client.comunica(input);
 		return output.getBoolean();

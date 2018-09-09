@@ -470,8 +470,21 @@ public class MainView {
 		userController.saveOnFile(client);
 	}
 	
+	/**
+	 * elimina una nota dato il suo ID
+	 * @param ID
+	 * @return
+	 */
 	public boolean deleteNote(int ID){
 		return noteController.deleteNote(client, ID);
+	}
+	
+	public boolean modifyID(int ID){
+		return noteController.modifyID(client, ID, utente);
+	}
+	
+	public void stopModify(){
+		noteController.stopModify(client, utente);
 	}
 	
 	/**

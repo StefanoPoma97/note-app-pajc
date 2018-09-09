@@ -522,6 +522,22 @@ public class Comunication implements Serializable{
 			return output;
 		}
 		
+		case "stop_modify":{
+			output= new Comunication();
+			output.setInfo("stop_modify_response");
+			Syncro sn= Syncro.getIstance();
+			sn.stopModify(utente);
+			return output;
+		}
+		
+		case "modify_id":{
+			output= new Comunication();
+			output.setInfo("modify_id_response");
+			Syncro sn= Syncro.getIstance();
+			output.setBoolean(sn.modify(utente, ID));
+			return output;
+		}
+		
 		
 		
 		default:

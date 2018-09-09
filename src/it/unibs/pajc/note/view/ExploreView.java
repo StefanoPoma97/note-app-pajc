@@ -348,6 +348,11 @@ public class ExploreView extends JPanel {
 			btn_modify.setToolTipText("Modify this note");
 			btn_modify.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					if(isShare){
+						btnSave.setEnabled(true);
+						modifyID= view.getIDbyTitle(lbl_title.getText());
+						textAreaNote.setBackground(new JTextArea().getBackground());
+					}
 					createModifyNote(view);
 					nuova=false;
 					modifica=true;
@@ -366,11 +371,7 @@ public class ExploreView extends JPanel {
 //					textFieldTitleNote.setEditable(isShare);
 					textAreaNote.setEditable(isShare);
 					btnSave.setEnabled(false);
-					if(isShare){
-						btnSave.setEnabled(true);
-						modifyID= view.getIDbyTitle(lbl_title.getText());
-						textAreaNote.setBackground(new JTextArea().getBackground());
-					}
+					
 						
 					
 					
