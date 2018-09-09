@@ -470,6 +470,10 @@ public class MainView {
 		userController.saveOnFile(client);
 	}
 	
+	public boolean deleteNote(int ID){
+		return noteController.deleteNote(client, ID);
+	}
+	
 	/**
 	 * Launch the application.
 	 */

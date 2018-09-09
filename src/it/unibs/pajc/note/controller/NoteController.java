@@ -472,6 +472,16 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		return output.getNote();
 	}
 	
+	public boolean deleteNote(Client _client, int ID){
+		client=_client;
+		Comunication input= new Comunication();
+		input.setInfo("delete_note");
+		input.setID(ID);
+		
+		Comunication output= client.comunica(input);
+		return output.getBoolean();
+	}
+	
 	
 	
 }

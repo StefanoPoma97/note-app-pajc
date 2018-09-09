@@ -64,6 +64,7 @@ public class NoteView extends JPanel {
 	private JButton btnLogOut;
 	private JButton btnPin;
 	private JButton btnShare;
+	private JButton btnDelete;
 	private JComboBox comboLabelsAdd;
 	private JComboBox comboFilter;
 	private JComboBox comboLabels;
@@ -1056,6 +1057,8 @@ public class NoteView extends JPanel {
 		 btnShare.setToolTipText("Other users can modify your note");
 		 btnShare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(textFieldTitleNote.getText().equals("Select one note..."))
+					return;
 				
 				ArrayList<User> listUser= new ArrayList<>();
 				listUser= view.getAllUsers();
@@ -1086,6 +1089,68 @@ public class NoteView extends JPanel {
 			 
 		}});
 		 contentModify.add(btnShare);
+		 
+		 
+		 try {
+			  ImageIcon addIcon = new ImageIcon("deleteButton.png");
+			  Image im= addIcon.getImage();
+			  Image newimg = im.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+			  btnDelete = new JButton(new ImageIcon(newimg));
+			  btnDelete.setContentAreaFilled(true);
+			  btnDelete.setMargin(new Insets(0, 0, 0, 0));
+			  btnDelete.setBorder(null);
+			 
+
+		  } catch (Exception ex) {
+		    System.out.println(ex);
+		  } 
+		 btnDelete.setEnabled(false);
+		 btnDelete.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnDelete.setEnabled(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnDelete.setEnabled(false);
+				}
+			});
+		 btnDelete.setToolTipText("Delete the note");
+		 btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if (textFieldTitleNote.getText().equals("Select one note...")){
+					showErrorMessage("Non hai selezionato nessuna nota");
+					return;
+				}
+				
+				System.out.println("MODIFY ID: "+modifyID);
+				if(modifyID!=null){
+					view.deleteNote(modifyID);
+					notes=view.getMyNote();
+					modifyID= null;
+					textFieldTitleNote.setText("Select one note...");
+					textAreaNote.setText("");
+					actualLabels=new ArrayList<>();
+					temporanyLabels=new ArrayList<>();
+					sharedUser= new HashSet<>();
+					modifica=false;
+					btnPin.setBackground(new JButton().getBackground());
+					chckbxPublic.setSelected(false);
+					view.updateMyLabels();
+					sharedUser= new HashSet<>();
+					createModifyNote(view);
+					refreshButton(view);
+					refreshNoteList(view);
+					repaint();
+				}
+				else{
+					showErrorMessage("Non puoi eliminare una nota che non è stata salvata");
+				}
+				
+			 
+		}});
+		 contentModify.add(btnDelete);
 		
 		contentModify.repaint();
 	}

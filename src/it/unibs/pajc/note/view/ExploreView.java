@@ -279,7 +279,7 @@ public class ExploreView extends JPanel {
 			btn_modify.setToolTipText("Modifica");
 			btn_modify.setActionCommand(notes.get(i).getBody());
 			int moment_id= notes.get(i).getID();
-			System.out.println("MOMENT ID: "+moment_id);
+//			System.out.println("MOMENT ID: "+moment_id);
 			btn_modify.setEnabled(false);
 			btn_modify.addMouseListener(new MouseAdapter() {
 				@Override
@@ -310,13 +310,13 @@ public class ExploreView extends JPanel {
 						btnLike.setBackground(Color.RED);
 					note=null;
 				
-					textFieldTitleNote.setEditable(isShare);
+//					textFieldTitleNote.setEditable(isShare);
 					textAreaNote.setEditable(isShare);
 					btnSave.setEnabled(false);
 					if(isShare){
 						btnSave.setEnabled(true);
 						modifyID= view.getIDbyTitle(lbl_title.getText());
-						textAreaNote.setBackground(textFieldTitleNote.getBackground());
+						textAreaNote.setBackground(new JTextArea().getBackground());
 					}
 						
 					
@@ -386,6 +386,7 @@ public class ExploreView extends JPanel {
 			textFieldTitleNote.setHorizontalAlignment(SwingConstants.LEFT);
 			textFieldTitleNote.setText("Select one note...");
 			textFieldTitleNote.setPreferredSize(new Dimension(100, 30));
+			textFieldTitleNote.setEditable(false);
 			gbc_textFieldTitleNote.weightx=1;
 			gbc_textFieldTitleNote.gridx = 0;
 			gbc_textFieldTitleNote.gridy = 0;

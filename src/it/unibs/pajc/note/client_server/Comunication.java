@@ -515,6 +515,13 @@ public class Comunication implements Serializable{
 			return output;
 		}
 		
+		case "delete_note":{
+			output= new Comunication();
+			output.setInfo("delete_note_response");
+			output.setBoolean(noteArchive.remove(x->x.getID()==ID));
+			return output;
+		}
+		
 		
 		
 		default:
