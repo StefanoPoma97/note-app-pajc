@@ -98,6 +98,17 @@ public class NoteView extends JPanel {
 	private Object[] colours={};
 	private Set<User> sharedUser= new HashSet<>();
 	private int actualIndex=-1;
+	private StringBuffer modifyText=null;
+	
+	private static void removeBlankSpace(StringBuffer sb) {
+		  int j = 0;
+		  for(int i = 0; i < sb.length(); i++) {
+		    if (!Character.isWhitespace(sb.charAt(i))) {
+		       sb.setCharAt(j++, sb.charAt(i));
+		    }
+		  }
+		  sb.delete(j, sb.length());
+		}
 	
 	/**
 	 * salvataggio delle modifiche fatte
@@ -410,8 +421,9 @@ public class NoteView extends JPanel {
 						showInfoMessage("La nota è stata aggiornata, necessario un refresh della pagina");
 						refreshNoteList(view);
 					}
-						
-					
+					modifyText=new StringBuffer();
+					modifyText.append(titolo);
+					modifyText.append(corpo);
 //					System.out.println("TASTO MODIFICA");
 					temporanyLabels= new ArrayList<>();
 					sharedUser= new HashSet<>();
@@ -1221,12 +1233,25 @@ public class NoteView extends JPanel {
 		  btnRefresh.setToolTipText("Refresh your list");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (modifyID!=null){
-					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
-					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					    save(view);
+				if(modifyText!=null){
+					StringBuffer str= new StringBuffer();
+					str.append(textFieldTitleNote.getText());
+					str.append(textAreaNote.getText());
+					removeBlankSpace(str);
+					removeBlankSpace(modifyText);
+//					System.out.println("IL MIO TESTO: "+str.toString());
+//					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
+					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
+						System.out.println("non sono uguali");
+						
+							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							    save(view);
+							
+						}
 					}
 				}
+				modifyText=null;
 				sharedUser= new HashSet<>();
 				view.updateMyLabels();
 				view.stopModify();
@@ -1262,12 +1287,25 @@ public class NoteView extends JPanel {
 		  btnNewNote.setToolTipText("Create a new note");
 		btnNewNote.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (modifyID!=null){
-					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
-					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					    save(view);
+				if(modifyText!=null){
+					StringBuffer str= new StringBuffer();
+					str.append(textFieldTitleNote.getText());
+					str.append(textAreaNote.getText());
+					removeBlankSpace(str);
+					removeBlankSpace(modifyText);
+//					System.out.println("IL MIO TESTO: "+str.toString());
+//					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
+					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
+						System.out.println("non sono uguali");
+						
+							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							    save(view);
+							
+						}
 					}
 				}
+				modifyText=null;
 				view.stopModify();
 				temporanyLabels= new ArrayList<>();
 				sharedUser= new HashSet<>();
@@ -1306,12 +1344,25 @@ public class NoteView extends JPanel {
 		comboFilter.setToolTipText("Filter your list");
 		comboFilter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (modifyID!=null){
-					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
-					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					    save(view);
+				if(modifyText!=null){
+					StringBuffer str= new StringBuffer();
+					str.append(textFieldTitleNote.getText());
+					str.append(textAreaNote.getText());
+					removeBlankSpace(str);
+					removeBlankSpace(modifyText);
+//					System.out.println("IL MIO TESTO: "+str.toString());
+//					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
+					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
+						System.out.println("non sono uguali");
+						
+							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							    save(view);
+							
+						}
 					}
 				}
+				modifyText=null;
 				view.stopModify();
 				switch ((String)comboFilter.getSelectedItem()) {
 				
@@ -1378,12 +1429,28 @@ public class NoteView extends JPanel {
 		comboLabels.setToolTipText("filter by labels");
 		comboLabels.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (modifyID!=null){
-					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
-					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					    save(view);
+				
+				if(modifyText!=null){
+					StringBuffer str= new StringBuffer();
+					str.append(textFieldTitleNote.getText());
+					str.append(textAreaNote.getText());
+					removeBlankSpace(str);
+					removeBlankSpace(modifyText);
+//					System.out.println("IL MIO TESTO: "+str.toString());
+//					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
+					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
+						System.out.println("non sono uguali");
+						
+							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							    save(view);
+							
+						}
 					}
 				}
+				
+					
+				modifyText=null;
 				view.stopModify();
 				String label = (String)comboLabels.getSelectedItem();
 				if (label.equals("Labels")){ 

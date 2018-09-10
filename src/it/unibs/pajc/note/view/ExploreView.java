@@ -97,9 +97,19 @@ public class ExploreView extends JPanel {
 	private String modifyTitle= null;
 //	private int modifyID;
 	private JButton btnNewButton;
+	private StringBuffer modifyText=null;
 	
 	
-
+	static void removeBlankSpace(StringBuffer sb) {
+		  int j = 0;
+		  for(int i = 0; i < sb.length(); i++) {
+		    if (!Character.isWhitespace(sb.charAt(i))) {
+		       sb.setCharAt(j++, sb.charAt(i));
+		    }
+		  }
+		  sb.delete(j, sb.length());
+		}
+	
 	/**
 	 * salva tutte le modifiche
 	 * @param view
@@ -382,6 +392,9 @@ public class ExploreView extends JPanel {
 							refreshNoteList(view);
 						}
 						else{
+							modifyText=new StringBuffer();
+							modifyText.append(titolo);
+							modifyText.append(btn_modify.getActionCommand());
 							textAreaNote.setBackground(new JTextArea().getBackground());
 							textAreaNote.setEditable(true);
 						}
@@ -732,12 +745,25 @@ public class ExploreView extends JPanel {
 		comboFilter.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				if (modifyID!=null){
-					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
-					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					    save(view);
+				if(modifyText!=null){
+					StringBuffer str= new StringBuffer();
+					str.append(textFieldTitleNote.getText());
+					str.append(textAreaNote.getText());
+					removeBlankSpace(str);
+					removeBlankSpace(modifyText);
+//					System.out.println("IL MIO TESTO: "+str.toString());
+//					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
+					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
+						System.out.println("non sono uguali");
+						
+							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							    save(view);
+							
+						}
 					}
 				}
+				modifyText=null;
 				
 				switch ((String)comboFilter.getSelectedItem()) {
 				
@@ -801,12 +827,25 @@ public class ExploreView extends JPanel {
 			});
 		btnShareWithMe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (modifyID!=null){
-					if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
-					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					    save(view);
+				if(modifyText!=null){
+					StringBuffer str= new StringBuffer();
+					str.append(textFieldTitleNote.getText());
+					str.append(textAreaNote.getText());
+					removeBlankSpace(str);
+					removeBlankSpace(modifyText);
+//					System.out.println("IL MIO TESTO: "+str.toString());
+//					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
+					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
+						System.out.println("non sono uguali");
+						
+							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
+							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							    save(view);
+							
+						}
 					}
 				}
+				modifyText=null;
 				notes=view.shareWithMe();
 				btnSave.setEnabled(false);
 				refreshNoteList(view);
