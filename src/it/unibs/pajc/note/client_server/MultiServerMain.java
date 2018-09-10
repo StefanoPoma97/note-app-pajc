@@ -3,18 +3,15 @@ package it.unibs.pajc.note.client_server;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 import it.unibs.pajc.note.data.Database;
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.data.UserArchive;
-import it.unibs.pajc.note.model.Note;
-import it.unibs.pajc.note.model.Tag;
+import it.unibs.pajc.note.log.FileLogger;
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.utility.ServizioFile;
-import it.unibs.pajc.note.client_server.Sync;
-import it.unibs.pajc.note.client_server.Syncro;
 
 
 
@@ -27,6 +24,10 @@ public class MultiServerMain {
 		NoteArchive noteArchive = null;
 		UserArchive userArchive = null;
 		boolean load = false;
+	    
+		Logger logger = new FileLogger("main", "main.log").get();
+		
+	    logger.info("Start Server");
 		
 		if(file.exists()) {
 			try {
@@ -35,17 +36,20 @@ public class MultiServerMain {
 				userArchive=UserArchive.getIstance(data.getUsers());
 			} catch (ClassCastException e) {
 				System.err.println("Il file non puo' essere letto");
+				logger.severe("Il file non puo' essere letto");
 			} 
 			finally {
 				if(data != null) {
 					load = true;
 					System.out.println("Ho caricato il file");
+					logger.finer("Caricato il file");
 				}
 			}
 		}
 		
 		if(!load) {
 			System.out.println("Creo il file da zero");
+			logger.info("Creo il file database");
 			data=new Database();
 			noteArchive= NoteArchive.getIstance();
 			userArchive= UserArchive.getIstance();
@@ -56,6 +60,15 @@ public class MultiServerMain {
 			sn.addSync(new Sync(u));
 		}
 		
+		logger.info("Server STOP");
+		System.out.println("Server Stop!");
+
+//		Handler[] hs = logger.getHandlers();
+//		for(Handler h : hs) {
+//			h.close();
+//			System.out.println("Chiudo :" + h.toString());
+//		}
+//		
 		
 //		User utente= new User("paolo", "merazza");
 //		utente.addLabel("Labels");
@@ -178,7 +191,7 @@ public class MultiServerMain {
 		}
 
 		
-		System.out.println("Server Stop!");
+
 	}
 
 	}
