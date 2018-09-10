@@ -47,14 +47,10 @@ public class Sync {
 		return new ArrayList<User>(refreshedBy);
 	}
 	
-//	@Override
-//	public boolean equals(Object arg0) {
-//		Sync s= (Sync)arg0;
-//		if(s.getID().equals(ID)){
-//			return s.getUser().equals(utente);
-//		}
-//		else 
-//			return false;
-//	}
+	@Override
+	public boolean equals(Object arg0) {
+		Sync o = (Sync)arg0;
+		return toString().endsWith(o.toString());
+	}
 
 }

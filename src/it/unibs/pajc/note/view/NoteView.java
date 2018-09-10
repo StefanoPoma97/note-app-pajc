@@ -1123,9 +1123,11 @@ public class NoteView extends JPanel {
 			        }
 			    }
 			   
-			    if(index>0)
+//			    System.out.println("LISTA UTENTI SELEZIONATO: "+listUser.get(index));
+			    if(index>=0)
 			    	sharedUser.add(listUser.get(index));
 			    
+			    System.out.println("LISTA UTENTI CONDIVISI: "+sharedUser);
 			    refreshSharePanel(view);
 			 
 		}});

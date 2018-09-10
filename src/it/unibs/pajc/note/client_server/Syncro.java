@@ -39,9 +39,13 @@ private static Syncro sc=null;
 	}
 	
 	public void addRefresh(Sync add){
-		refreshID.add(add);
-		Set<Sync> cp = new HashSet<Sync>(refreshID);
-		refreshID=new ArrayList<>(cp);
+		if(!refreshID.contains(add)){
+			refreshID.add(add);
+			Set<Sync> cp = new HashSet<Sync>(refreshID);
+			refreshID=new ArrayList<>(cp);
+//			System.out.println("AGGIUNTO NUOVO REFRESH ORA E': "+refreshID);
+		}
+		
 		
 	}
 	
@@ -71,15 +75,15 @@ private static Syncro sc=null;
 		
 		s.deleteID();
 		
-		System.out.println("LISTA MODIFICHE ATTIVE:");
-		for(Sync sr :lista){
-			System.out.println(sr);
-		}
-		
-		System.out.println("REFRESH LISTA COMPLETA:");
-		for(Sync sr :refreshID){
-			System.out.println(sr);
-		}
+//		System.out.println("LISTA MODIFICHE ATTIVE:");
+//		for(Sync sr :lista){
+//			System.out.println(sr);
+//		}
+//		
+//		System.out.println("REFRESH LISTA COMPLETA:");
+//		for(Sync sr :refreshID){
+//			System.out.println(sr);
+//		}
 			
 		
 		
@@ -127,15 +131,15 @@ private static Syncro sc=null;
 				output.setBoolean(true);
 			}
 			
-			System.out.println("LISTA MODIFICHE ATTIVE:");
-			for(Sync sr :lista){
-				System.out.println(sr);
-			}
-			
-			System.out.println("REFRESH LISTA COMPLETA:");
-			for(Sync sr :refreshID){
-				System.out.println(sr);
-			}
+//			System.out.println("LISTA MODIFICHE ATTIVE:");
+//			for(Sync sr :lista){
+//				System.out.println(sr);
+//			}
+//			
+//			System.out.println("REFRESH LISTA COMPLETA:");
+//			for(Sync sr :refreshID){
+//				System.out.println(sr);
+//			}
 				
 			return output;
 			
