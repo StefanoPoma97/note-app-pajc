@@ -166,7 +166,7 @@ private static Syncro sc=null;
 //			return false;
 //		}
 		if (!sn.isEmpty()){
-			ArrayList<User> user= (ArrayList<User>) UserArchive.getIstance().all();
+			ArrayList<User> user= new ArrayList<>(UserArchive.getIstance().all());
 			user.remove(sn.get(0).getUser());
 			if(sn.get(0).getRefreshedBy().equals(user))
 				refreshID.remove(sn.get(0));
@@ -190,8 +190,8 @@ private static Syncro sc=null;
 //			}
 			sn.get(0).addRefreshed(u);
 			System.out.println("AGGIUNTO COME UTENTE CHE HA REFRESH FATTO");
-			ArrayList<User> user= (ArrayList<User>) UserArchive.getIstance().all();
-			user.remove(sn.get(0).getUser());
+			ArrayList<User> user= new ArrayList<>(UserArchive.getIstance().all());
+//			user.remove(sn.get(0).getUser());
 			if(sn.get(0).getRefreshedBy().equals(user))
 				refreshID.remove(sn.get(0));
 					
