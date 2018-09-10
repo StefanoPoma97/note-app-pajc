@@ -24,7 +24,7 @@ public class FileLogger {
 	    lgr.addHandler(ch);
 
 	    try {
-	        FileHandler fh = new FileHandler("log/" + filename,1000000,1);
+	        FileHandler fh = new FileHandler(filename,1000000,1);
 	        fh.setFormatter(new SimpleFormatter());
 	        fh.setLevel(Level.ALL);
 	        lgr.addHandler(fh);

@@ -82,7 +82,7 @@ public class MultiServer extends Thread{
 		}
 		catch(java.net.SocketException e1){
 			System.err.println("Errore di comunicazione: " +e1);
-			logger.severe("Errore di comunicazione: " +e1); 
+			logger.info("Chiusa connessione: " + socket.getInetAddress()); 
 			saveOnFile();
 		}
 		

@@ -60,15 +60,9 @@ public class MultiServerMain {
 			sn.addSync(new Sync(u));
 		}
 		
-		logger.info("Server STOP");
-		System.out.println("Server Stop!");
 
-//		Handler[] hs = logger.getHandlers();
-//		for(Handler h : hs) {
-//			h.close();
-//			System.out.println("Chiudo :" + h.toString());
-//		}
-//		
+
+
 		
 //		User utente= new User("paolo", "merazza");
 //		utente.addLabel("Labels");
