@@ -42,6 +42,8 @@ public class MultiServer extends Thread{
 	 */
 	private void saveOnFile(){
 		File file = new File("save.dat");
+		System.out.println("ELENCO UTENTI:");
+		System.out.println(UserArchive.getIstance().all());
 		Database data = new Database(NoteArchive.getIstance(), UserArchive.getIstance());
 		ServizioFile.salvaSingoloOggetto(file, data);
 		System.out.println("salvato su file");
@@ -74,10 +76,15 @@ public class MultiServer extends Thread{
 
 			
 		}
+		catch(java.net.SocketException e1){
+			System.err.println("Errore di comunicazione: " +e1);
+			saveOnFile();
+		}
+		
 		catch(IOException | ClassNotFoundException e)
 		{
 			System.err.println("Errore di comunicazione: " +e);
-			saveOnFile();
+			
 		}
 
 //		System.out.println("SERVER STOP dentro");

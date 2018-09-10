@@ -77,6 +77,9 @@ private static UserArchive userarchive=null;
 	 * @author Daniele Vezzoli
 	 */
 	public boolean authenticate(String username, String password) {
+		
+		System.out.println("ELENCO TUTTI UTENTI:");
+		System.out.println(all());
 		// Questo assume che ci sia un solo utente con quell'username come dovrebbe essere
 		String tmp = AuthenticationUtility.generateHash(password);
 		//prende dalla lista tutti gli utenti con lo stesso username (solo 1), poi confronta la password

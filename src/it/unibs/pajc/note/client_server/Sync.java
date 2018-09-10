@@ -15,6 +15,7 @@ public class Sync {
 	
 	public Sync (User u){
 		utente=u;
+		addRefreshed(u);
 	}
 	
 	public Integer getID(){

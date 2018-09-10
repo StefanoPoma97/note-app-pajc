@@ -509,6 +509,8 @@ public class Comunication implements Serializable{
 			output= new Comunication();
 			output.setInfo("save_on_file_response");
 			File file = new File("save.dat");
+			System.out.println("ELENCO UTENTI:");
+			System.out.println(UserArchive.getIstance().all());
 			Database data = new Database(NoteArchive.getIstance(), UserArchive.getIstance());
 			ServizioFile.salvaSingoloOggetto(file, data);
 			System.out.println("salvato su file");

@@ -419,7 +419,9 @@ public class NoteView extends JPanel {
 					}
 					if(input.getInfo().equals("modify_id_response_refresh")){
 						showInfoMessage("La nota è stata aggiornata, necessario un refresh della pagina");
+						loadInfo(view);
 						refreshNoteList(view);
+						return;
 					}
 					modifyText=new StringBuffer();
 					modifyText.append(titolo);
@@ -1101,6 +1103,9 @@ public class NoteView extends JPanel {
 				
 				ArrayList<User> listUser= new ArrayList<>();
 				listUser= view.getAllUsers();
+				if(listUser.isEmpty())
+					return;
+				
 				ArrayList<String> cp= (ArrayList<String>)listUser.stream()
 						.map(x->x.getName())
 						.collect(Collectors.toList());
