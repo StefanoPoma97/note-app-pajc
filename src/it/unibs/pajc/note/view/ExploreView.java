@@ -257,7 +257,7 @@ public class ExploreView extends JPanel {
 		contentList.removeAll();
 		contentList.revalidate();
 		
-		
+		view.iRefresh();
 		contentList.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		for (int i=0; i<notes.size(); i++){

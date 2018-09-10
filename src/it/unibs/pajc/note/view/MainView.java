@@ -498,6 +498,10 @@ public class MainView {
 		noteController.stopModify(client, utente);
 	}
 	
+	public void iRefresh(){
+		noteController.iRefresh(client, utente);
+	}
+	
 	/**
 	 * Launch the application.
 	 */

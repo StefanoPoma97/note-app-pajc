@@ -296,7 +296,7 @@ public class NoteView extends JPanel {
 		//metodi per far si che ogni volta sia possibile fare un refresh completo del pannello
 		contentList.removeAll();
 		contentList.revalidate();
-		
+		view.iRefresh();
 		//dimensione variabile a seconda del numero di note, e' necessario affinche la ScrollBar funzioni correttamente
 		contentList.setPreferredSize(new Dimension(500, (notes.size()-1)*50));
 		contentList.setLayout(new GridBagLayout());

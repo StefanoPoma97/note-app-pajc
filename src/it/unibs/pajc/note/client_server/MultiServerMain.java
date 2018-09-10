@@ -65,14 +65,14 @@ public class MultiServerMain {
 //		utente.addLabel("Memo3");
 //		userArchive.add(utente);
 //		userArchive.add(new User("utente1", "pass1"));
-//		userArchive.add(new User("utente2", "pass2"));
-//		userArchive.add(new User("utente3", "pass3"));
+////		userArchive.add(new User("utente2", "pass2"));
+////		userArchive.add(new User("utente3", "pass3"));
 //		System.out.println("AGGIUNTI GLI UTENTI");
 //		
 //		
 //		User u= new User("paolo", "merazza");
 //		User u1= new User("utente1", "pass1");
-//		User u2= new User("autente2","pass2");
+////		User u2= new User("autente2","pass2");
 //		u1.addTag(new Tag("Riunione"));
 //		u1.addTag(new Tag("Memo"));
 //		u1.addTag(new Tag("Memo2"));
@@ -128,27 +128,27 @@ public class MultiServerMain {
 //			noteArchive.add(nota);
 //		}
 //		
-//		for (int i=0; i<5; i++){
-//			Note nota = new Note("titolo cp"+i);
-//			nota.setBody("corpo della nota copia numero: "+i);
-//			nota.setAutor(u2);
-//			if(i==0){
-//				nota.setTitle("AAAAAAAAAAAAAA");
-//				nota.addLike();
-//				nota.addLike();
-//				nota.addLike();
-//				nota.addLabel("Riunione");
-//				Set<User> set= new HashSet<>();
-//				set.add(u);
-//				nota.addSharedUsers(set);
-////				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
-//			}
-//			if (i==1){
-//				nota.addLabel("Memo");
-//			}
-//				
-//			noteArchive.add(nota);
-//		}
+////		for (int i=0; i<5; i++){
+////			Note nota = new Note("titolo cp"+i);
+////			nota.setBody("corpo della nota copia numero: "+i);
+////			nota.setAutor(u2);
+////			if(i==0){
+////				nota.setTitle("AAAAAAAAAAAAAA");
+////				nota.addLike();
+////				nota.addLike();
+////				nota.addLike();
+////				nota.addLabel("Riunione");
+////				Set<User> set= new HashSet<>();
+////				set.add(u);
+////				nota.addSharedUsers(set);
+//////				System.out.println("NOTA CONDIVISA CON "+ nota.getSharedWith().toString());
+////			}
+////			if (i==1){
+////				nota.addLabel("Memo");
+////			}
+////				
+////			noteArchive.add(nota);
+////		}
 //		
 //	file = new File("save.dat");
 //	data = new Database(noteArchive, userArchive);

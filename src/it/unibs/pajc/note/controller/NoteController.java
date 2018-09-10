@@ -509,6 +509,16 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 		return output.getBoolean();
 	}
 	
+	public void iRefresh(Client _client, User u){
+			client=_client;
+			Comunication input= new Comunication();
+			input.setInfo("i_refresh");
+			input.setUser(u);
+			
+			client.comunica(input);
+			
+	}
+	
 	
 	
 }

@@ -538,6 +538,14 @@ public class Comunication implements Serializable{
 			return output;
 		}
 		
+		case "i_refresh":{
+			output= new Comunication();
+			output.setInfo("i_refresh_response");
+			Syncro sn= Syncro.getIstance();
+			sn.iRefresh(utente);
+			return output;
+		}
+		
 		
 		
 		default:

@@ -1,9 +1,12 @@
 package it.unibs.pajc.note.client_server;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibs.pajc.note.data.NoteArchive;
+import it.unibs.pajc.note.data.UserArchive;
 import it.unibs.pajc.note.model.User;
 
 public class Syncro {
@@ -37,6 +40,9 @@ private static Syncro sc=null;
 	
 	public void addRefresh(Sync add){
 		refreshID.add(add);
+		Set<Sync> cp = new HashSet<Sync>(refreshID);
+		refreshID=new ArrayList<>(cp);
+		
 	}
 	
 	public void stopModify(User u){
@@ -63,6 +69,8 @@ private static Syncro sc=null;
 			addRefresh(sync);
 		}
 		
+		s.deleteID();
+		
 		System.out.println("LISTA MODIFICHE ATTIVE:");
 		for(Sync sr :lista){
 			System.out.println(sr);
@@ -74,7 +82,7 @@ private static Syncro sc=null;
 		}
 			
 		
-		s.deleteID();
+		
 	}
 	
 	public Comunication modify (User u, int id){
@@ -101,18 +109,22 @@ private static Syncro sc=null;
 		}
 			
 		else{
-			Sync sy= lista.stream()
-					.filter(x->x.getUser().equals(u))
-					.collect(Collectors.toList())
-					.get(0);
-			Sync sync4= new Sync(sy.getUser());
-			sync4.setID(id);
-			lista.remove(sy);
-			lista.add(sync4);
-			output.setBoolean(true);
+			
 			if(refresh(u, id)){
 //				System.out.println("NECESSARIO REFRESH");
 				output.setInfo("modify_id_response_refresh");
+				output.setBoolean(true);
+			}
+			else{
+				Sync sy= lista.stream()
+						.filter(x->x.getUser().equals(u))
+						.collect(Collectors.toList())
+						.get(0);
+				Sync sync4= new Sync(sy.getUser());
+				sync4.setID(id);
+				lista.remove(sy);
+				lista.add(sync4);
+				output.setBoolean(true);
 			}
 			
 			System.out.println("LISTA MODIFICHE ATTIVE:");
@@ -133,27 +145,68 @@ private static Syncro sc=null;
 	}
 	
 	public boolean refresh(User u, int id){
-		System.out.println("REFRESH LISTA COMPLETA");
-		for(Sync s :refreshID){
-			System.out.println(s.getID());
-		}
+		
 		ArrayList<Integer> interi= new ArrayList<>();
 		interi=(ArrayList<Integer>)refreshID.stream()
 				.filter(x->!x.getUser().equals(u))
 				.map(x->x.getID())
 				.collect(Collectors.toList());
-		System.out.println("LISTA DEI MIEI ID: "+interi);
-		if (interi.isEmpty())
+		
+		ArrayList<Sync> sn =(ArrayList<Sync>) refreshID.stream()
+				.filter(x->!x.getUser().equals(u))
+				.filter(x->x.getID()==id)
+				.collect(Collectors.toList());
+		
+//		if (interi.isEmpty()){
+//			System.out.println("LISTA ID VUOTA QUINDI NIENTE REFRESH");
+//			return false;
+//		}
+		if (!sn.isEmpty()){
+			ArrayList<User> user= (ArrayList<User>) UserArchive.getIstance().all();
+			user.remove(sn.get(0).getUser());
+			if(sn.get(0).getRefreshedBy().equals(user))
+				refreshID.remove(sn.get(0));
+		}
+		
+		if (sn.isEmpty()){
+			System.out.println("SPECIFICO SYNC CHE HA MODIFICATO IL MIO ID VUOTO");
 			return false;
-		else if (interi.contains(id)){
-			refreshID=(ArrayList<Sync>)refreshID.stream()
-					.filter(x->!x.getID().equals(id))
-					.collect(Collectors.toList());
+		}
+		
+		else if (interi.contains(id) && !sn.get(0).getRefreshedBy().contains(u)){
+			System.out.println("C'E UN SYNC CHE COINCIDE");
+//			for(int i=0; i<refreshID.size()-1; i++){
+//				if(!refreshID.get(i).getUser().equals(u)){
+//					refreshID.get(i).addRefreshed(u);
+//				}
+//				if(refreshID.get(i).getRefreshedBy().equals(UserArchive.getIstance().all())){
+//					refreshID.remove(i);
+//					i--;
+//				}
+//			}
+			sn.get(0).addRefreshed(u);
+			System.out.println("AGGIUNTO COME UTENTE CHE HA REFRESH FATTO");
+			ArrayList<User> user= (ArrayList<User>) UserArchive.getIstance().all();
+			user.remove(sn.get(0).getUser());
+			if(sn.get(0).getRefreshedBy().equals(user))
+				refreshID.remove(sn.get(0));
 					
 			return true;
 		}
 		else
 			return false;
 		
+	}
+	
+	public void iRefresh(User u){
+		ArrayList<Sync> sync=(ArrayList<Sync>)refreshID.stream()
+							.filter(x->!x.getUser().equals(u))
+							.collect(Collectors.toList());
+			
+		for (Sync s: sync){
+			s.addRefreshed(u);
+			if(s.getRefreshedBy().equals(UserArchive.getIstance().all()))
+				sync.remove(s);
+		}
 	}
 }
