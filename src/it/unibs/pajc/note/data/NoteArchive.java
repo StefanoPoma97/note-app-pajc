@@ -355,7 +355,11 @@ public class NoteArchive extends Archive<Note> {
 	 * @author Stefano Poma
 	 */
 	public int getIDbyTitle(String title){
-		return getWhere(x->x.getTitle().equals(title)).get(0).getID();
+		ArrayList<Note> lista= (ArrayList<Note>) getWhere(x->x.getTitle().equals(title));
+		if (lista.isEmpty())
+			return -1;
+		else
+			return lista.get(0).getID();
 	}
 	
 	/**

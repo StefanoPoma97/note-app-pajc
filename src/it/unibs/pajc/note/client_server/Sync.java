@@ -24,7 +24,13 @@ public class Sync {
 	}
 	
 	public void deleteID(){
-		ID=-1;
+		ID=null;
+	}
+	
+	@Override
+	public String toString() {
+		String str=("INDIRIZZO: "+ID+" MODIFICATO SA: "+utente.getName());
+		return str;
 	}
 
 }

@@ -44,8 +44,11 @@ private static Syncro sc=null;
 		ArrayList<User> utenti= (ArrayList<User>)lista.stream()
 								.map(x->x.getUser())
 								.collect(Collectors.toList());
-		if (!utenti.contains(u))
-			addSync(new Sync(u));
+		if (!utenti.contains(u)){
+			Sync sync2=new Sync(u);
+			addSync(sync2);
+		}
+			
 		
 		//elimina ultimo id di modifica
 		Sync s= lista.stream()
@@ -55,13 +58,19 @@ private static Syncro sc=null;
 		
 		
 		if(s.getID()!=null){
-			addRefresh(s);
-			System.out.println("ID CHE AGGIUNGO AL REFRESH: "+s.getID());
+			Sync sync= new Sync(s.getUser());
+			sync.setID(s.getID());
+			addRefresh(sync);
 		}
 		
-		System.out.println("REFRESH LISTA COMPLETA");
+		System.out.println("LISTA MODIFICHE ATTIVE:");
+		for(Sync sr :lista){
+			System.out.println(sr);
+		}
+		
+		System.out.println("REFRESH LISTA COMPLETA:");
 		for(Sync sr :refreshID){
-			System.out.println(sr.getID());
+			System.out.println(sr);
 		}
 			
 		
@@ -75,8 +84,10 @@ private static Syncro sc=null;
 		ArrayList<User> utenti= (ArrayList<User>)lista.stream()
 				.map(x->x.getUser())
 				.collect(Collectors.toList());
-		if (!utenti.contains(u))
-			addSync(new Sync(u));
+		if (!utenti.contains(u)){
+			Sync sync3=new Sync(u);
+			addSync(sync3);
+		}
 		
 		//lista degli ID attivi
 		ArrayList<Integer> indirizzi= (ArrayList<Integer>)lista.stream()
@@ -94,11 +105,24 @@ private static Syncro sc=null;
 					.filter(x->x.getUser().equals(u))
 					.collect(Collectors.toList())
 					.get(0);
-			sy.setID(id);
+			Sync sync4= new Sync(sy.getUser());
+			sync4.setID(id);
+			lista.remove(sy);
+			lista.add(sync4);
 			output.setBoolean(true);
 			if(refresh(u, id)){
 //				System.out.println("NECESSARIO REFRESH");
 				output.setInfo("modify_id_response_refresh");
+			}
+			
+			System.out.println("LISTA MODIFICHE ATTIVE:");
+			for(Sync sr :lista){
+				System.out.println(sr);
+			}
+			
+			System.out.println("REFRESH LISTA COMPLETA:");
+			for(Sync sr :refreshID){
+				System.out.println(sr);
 			}
 				
 			return output;

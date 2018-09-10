@@ -380,7 +380,21 @@ public class ExploreView extends JPanel {
 					
 					if(isShare){
 						btnSave.setEnabled(true);
-						modifyID= view.getIDbyTitle(lbl_title.getText());
+						
+							modifyID= view.getIDbyTitle(lbl_title.getText());
+						
+							if(modifyID==-1){
+								showInfoMessage("La nota è stata aggiornata, necessario un refresh della pagina");
+								refreshNoteList(view);
+								createModifyNote(view);
+								modifyID=null;
+								return;
+								
+							}
+							
+						
+						
+						
 						Comunication input= view.modifyID(modifyID);
 						if(!input.getBoolean()){
 							showInfoMessage("accesso contemporaneo ad un'altro utente");
