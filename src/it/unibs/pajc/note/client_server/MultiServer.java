@@ -1,10 +1,12 @@
 package it.unibs.pajc.note.client_server;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 import it.unibs.pajc.note.data.Database;
@@ -73,7 +75,9 @@ public class MultiServer extends Thread{
 				System.out.println("\nCLIENT -> "+input.getInfo()+ ", ricevuta da: "+socket.getInetAddress());
 				logger.fine("\nCLIENT -> "+input.getInfo());
 				
-				output_stream.writeObject(input.createResponse(NoteArchive.getIstance() ,UserArchive.getIstance()));
+				Comunication c = input.createResponse(NoteArchive.getIstance() ,UserArchive.getIstance());
+				logger.info(c.toString());
+				output_stream.writeObject(c);
 				output_stream.flush();
 
 			}
@@ -82,15 +86,20 @@ public class MultiServer extends Thread{
 		}
 		catch(java.net.SocketException e1){
 			System.err.println("Errore di comunicazione: " +e1);
-			logger.info("Chiusa connessione: " + socket.getInetAddress()); 
+			logger.warning("Chiusa connessione: " + socket.getInetAddress()); 
 			saveOnFile();
 		}
-		
+		catch (EOFException e) {
+			logger.info("Chiusa connessione: " + socket.getInetAddress()); 
+		}
 		catch(IOException | ClassNotFoundException e)
 		{
 			System.err.println("Errore di comunicazione: " +e);
 			logger.severe("Errore di comunicazione: " +e); 
 			
+		}
+		finally {
+			Arrays.asList(logger.getHandlers()).forEach(h -> h.close());
 		}
 
 //		System.out.println("SERVER STOP dentro");

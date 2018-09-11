@@ -280,7 +280,9 @@ public class Comunication implements Serializable{
 		bool=b;
 	}
 	
-	
+	public String toString() {
+		return info;
+	}
 	
 	
 	
