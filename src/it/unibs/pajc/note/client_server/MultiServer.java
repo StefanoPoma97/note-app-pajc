@@ -37,14 +37,14 @@ public class MultiServer extends Thread{
 		logger = new FileLogger("MultiS" + clientId, "MultiServer - " + clientId + ".log").get();
 		logger.info("Thread: " + clientId);
 		socket= _socket;
-		System.out.println("CONNESSIONE STABILITA CON: "+socket.getInetAddress()+" sulla porta: "+socket.getPort());
+//		System.out.println("CONNESSIONE STABILITA CON: "+socket.getInetAddress()+" sulla porta: "+socket.getPort());
 		logger.info("CONNESSIONE STABILITA CON: "+socket.getInetAddress()+" sulla porta: "+socket.getPort());
 		clientName= "MS#"+clientId++;	
 	}
 	
 	private void close() throws IOException
 	{
-		System.out.println("SERVER -> CHIUSURA CONNESSIONE");
+//		System.out.println("SERVER -> CHIUSURA CONNESSIONE");
 		
 		if (output_stream!=null && input_stream!= null && socket!=null)
 		{
@@ -61,11 +61,11 @@ public class MultiServer extends Thread{
 	 */
 	private void saveOnFile(){
 		File file = new File("save.dat");
-		System.out.println("ELENCO UTENTI:");
-		System.out.println(UserArchive.getIstance().all());
+//		System.out.println("ELENCO UTENTI:");
+//		System.out.println(UserArchive.getIstance().all());
 		Database data = new Database(NoteArchive.getIstance(), UserArchive.getIstance());
 		ServizioFile.salvaSingoloOggetto(file, data);
-		System.out.println("salvato su file");
+//		System.out.println("salvato su file");
 		logger.info("Salvato su file il database");
 	}
 	
@@ -81,11 +81,11 @@ public class MultiServer extends Thread{
 			output_stream.flush();
 			input_stream= new ObjectInputStream(socket.getInputStream());
 			
-			System.out.println("STREAM CREATI...");
+//			System.out.println("STREAM CREATI...");
 			Comunication input;
 			while((input= (Comunication) input_stream.readObject())!=null)
 			{
-				System.out.println("\nCLIENT -> "+input.getInfo()+ ", ricevuta da: "+socket.getInetAddress());
+//				System.out.println("\nCLIENT -> "+input.getInfo()+ ", ricevuta da: "+socket.getInetAddress());
 				logger.fine("\nCLIENT -> "+input.getInfo());
 				
 				Comunication c = input.createResponse(NoteArchive.getIstance() ,UserArchive.getIstance());
@@ -107,7 +107,6 @@ public class MultiServer extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			stop();
 			interrupt();
 		}
 		catch (EOFException e) {

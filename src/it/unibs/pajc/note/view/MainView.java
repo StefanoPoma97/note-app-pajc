@@ -167,7 +167,7 @@ public class MainView {
 		userLabels=new ArrayList<>(set3);
 		userLabels.add(0, "Labels");
 		
-		System.out.println("USER LABEL: "+userLabels);
+//		System.out.println("USER LABEL: "+userLabels);
 		userController.updateLabel(client, userLabels, utente);
 		
 	}

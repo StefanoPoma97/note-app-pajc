@@ -326,7 +326,7 @@ public class Comunication implements Serializable{
 		
 		case "load_notes":{
 			ArrayList<Note>notes= (ArrayList<Note>)noteArchive.getWhere(x->x.getAuthor().equals(utente));
-			System.out.println("ECCO l'elenco delle Note: "+notes);
+//			System.out.println("ECCO l'elenco delle Note: "+notes);
 			output= new Comunication();
 			output.setNotes(notes);
 			output.setInfo("load_notes_response");
@@ -511,8 +511,8 @@ public class Comunication implements Serializable{
 			output= new Comunication();
 			output.setInfo("save_on_file_response");
 			File file = new File("save.dat");
-			System.out.println("ELENCO UTENTI:");
-			System.out.println(UserArchive.getIstance().all());
+//			System.out.println("ELENCO UTENTI:");
+//			System.out.println(UserArchive.getIstance().all());
 			Database data = new Database(NoteArchive.getIstance(), UserArchive.getIstance());
 			ServizioFile.salvaSingoloOggetto(file, data);
 			System.out.println("salvato su file");

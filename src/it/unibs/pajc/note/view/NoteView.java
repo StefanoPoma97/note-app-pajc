@@ -254,7 +254,7 @@ public class NoteView extends JPanel {
 		//carico le labels
 		ArrayList<String> _labels= new ArrayList<>();
 		_labels= view.getMyLabel();
-		System.out.println("LABELS: "+_labels);
+//		System.out.println("LABELS: "+_labels);
 		labels= _labels.toArray(new String [_labels.size()]);
 		
 //		System.out.println("MY Label: "+labels);
@@ -497,7 +497,7 @@ public class NoteView extends JPanel {
 					  btn_pn.setBackground(Color.RED);
 					
 			  } catch (Exception ex) {
-			    System.out.println(ex);
+				  ex.printStackTrace();
 			  } 
 			gc.gridx = 4;
 			gc.gridy = i;
@@ -515,7 +515,7 @@ public class NoteView extends JPanel {
 		textFieldTitleNote.setText("Select one note...");
 		textAreaNote.setText("");
 		repaint();
-		System.out.println("refresh");
+//		System.out.println("refresh");
 		
 	}
 	
@@ -839,7 +839,7 @@ public class NoteView extends JPanel {
 //									System.out.println("Label aggiunta la utente e salvata nelle temporanee");
 									
 									temporanyLabels.add(textFieldNewLabel.getText());
-									System.out.println("AGGIUNTA NUOVA LABEL: "+temporanyLabels);
+//									System.out.println("AGGIUNTA NUOVA LABEL: "+temporanyLabels);
 									refreshLabelPanel(view);
 									textFieldNewLabel.setText("");
 //									System.out.println(temporanyLabels);
@@ -927,7 +927,7 @@ public class NoteView extends JPanel {
 			 
 
 		  } catch (Exception ex) {
-		    System.out.println(ex);
+			  ex.printStackTrace();
 		  } 
 		 btnPin.setEnabled(false);
 		 btnPin.addMouseListener(new MouseAdapter() {
@@ -980,7 +980,7 @@ public class NoteView extends JPanel {
 			  btnSave.setBorder(null);
 			  btnSave.setOpaque(true);
 		  } catch (Exception ex) {
-		    System.out.println(ex);
+			  ex.printStackTrace();
 		  } 
 		 btnSave.setEnabled(false);
 		 btnSave.addMouseListener(new MouseAdapter() {
@@ -1016,7 +1016,7 @@ public class NoteView extends JPanel {
 			  comboColors.setOpaque(true);
 //				btnNewNote.setBorder(BorderFactory.createEmptyBorder());
 		  } catch (Exception ex) {
-		    System.out.println(ex);
+			  ex.printStackTrace();
 		  } 
 		comboColors.setEnabled(false);
 		comboColors.addMouseListener(new MouseAdapter() {
@@ -1082,7 +1082,7 @@ public class NoteView extends JPanel {
 			 
 
 		  } catch (Exception ex) {
-		    System.out.println(ex);
+			  ex.printStackTrace();
 		  } 
 		 btnShare.setEnabled(false);
 		 btnShare.addMouseListener(new MouseAdapter() {
@@ -1132,7 +1132,7 @@ public class NoteView extends JPanel {
 			    if(index>=0)
 			    	sharedUser.add(listUser.get(index));
 			    
-			    System.out.println("LISTA UTENTI CONDIVISI: "+sharedUser);
+//			    System.out.println("LISTA UTENTI CONDIVISI: "+sharedUser);
 			    refreshSharePanel(view);
 			 
 		}});
@@ -1150,7 +1150,7 @@ public class NoteView extends JPanel {
 			 
 
 		  } catch (Exception ex) {
-		    System.out.println(ex);
+			  ex.printStackTrace();
 		  } 
 		 btnDelete.setEnabled(false);
 		 btnDelete.addMouseListener(new MouseAdapter() {
@@ -1224,7 +1224,7 @@ public class NoteView extends JPanel {
 			  btnRefresh.setMargin(new Insets(0, 0, 0, 0));
 			  btnRefresh.setBorder(null);
 		  } catch (Exception ex) {
-		    System.out.println(ex);
+			  ex.printStackTrace();
 		  } 
 		  btnRefresh.setEnabled(false);
 		  btnRefresh.addMouseListener(new MouseAdapter() {
@@ -1249,7 +1249,7 @@ public class NoteView extends JPanel {
 //					System.out.println("IL MIO TESTO: "+str.toString());
 //					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
 					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
-						System.out.println("non sono uguali");
+//						System.out.println("non sono uguali");
 						
 							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
 							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -1278,7 +1278,7 @@ public class NoteView extends JPanel {
 			  btnNewNote.setMargin(new Insets(0, 0, 0, 0));
 			  btnNewNote.setBorder(null);
 		  } catch (Exception ex) {
-		    System.out.println(ex);
+			  ex.printStackTrace();
 		  } 
 		  btnNewNote.setEnabled(false);
 		  btnNewNote.addMouseListener(new MouseAdapter() {
@@ -1303,7 +1303,7 @@ public class NoteView extends JPanel {
 //					System.out.println("IL MIO TESTO: "+str.toString());
 //					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
 					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
-						System.out.println("non sono uguali");
+//						System.out.println("non sono uguali");
 						
 							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
 							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -1360,7 +1360,7 @@ public class NoteView extends JPanel {
 //					System.out.println("IL MIO TESTO: "+str.toString());
 //					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
 					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
-						System.out.println("non sono uguali");
+//						System.out.println("non sono uguali");
 						
 							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
 							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -1446,7 +1446,7 @@ public class NoteView extends JPanel {
 //					System.out.println("IL MIO TESTO: "+str.toString());
 //					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
 					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
-						System.out.println("non sono uguali");
+//						System.out.println("non sono uguali");
 						
 							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
 							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {

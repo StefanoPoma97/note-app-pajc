@@ -173,12 +173,12 @@ private static Syncro sc=null;
 		}
 		
 		if (sn.isEmpty()){
-			System.out.println("SPECIFICO SYNC CHE HA MODIFICATO IL MIO ID VUOTO");
+//			System.out.println("SPECIFICO SYNC CHE HA MODIFICATO IL MIO ID VUOTO");
 			return false;
 		}
 		
 		else if (interi.contains(id) && !sn.get(0).getRefreshedBy().contains(u)){
-			System.out.println("C'E UN SYNC CHE COINCIDE");
+//			System.out.println("C'E UN SYNC CHE COINCIDE");
 //			for(int i=0; i<refreshID.size()-1; i++){
 //				if(!refreshID.get(i).getUser().equals(u)){
 //					refreshID.get(i).addRefreshed(u);
@@ -189,7 +189,7 @@ private static Syncro sc=null;
 //				}
 //			}
 			sn.get(0).addRefreshed(u);
-			System.out.println("AGGIUNTO COME UTENTE CHE HA REFRESH FATTO");
+//			System.out.println("AGGIUNTO COME UTENTE CHE HA REFRESH FATTO");
 			ArrayList<User> user= new ArrayList<>(UserArchive.getIstance().all());
 //			user.remove(sn.get(0).getUser());
 			if(sn.get(0).getRefreshedBy().equals(user))

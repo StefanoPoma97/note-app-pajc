@@ -120,7 +120,7 @@ public class ExploreView extends JPanel {
 			showInfoMessage("Devi prima selezionare una nota");
 		}
 		else{
-			System.out.println("TITOLO DELLA NOTA DA CERCARE: "+modifyTitle);
+//			System.out.println("TITOLO DELLA NOTA DA CERCARE: "+modifyTitle);
 //			Note note = view.getNoteByTitle(modifyTitle);
 			Note note= view.getNotebyID(modifyNoteID);
 			if(textFieldTitleNote.getText().toCharArray().length>15){
@@ -132,12 +132,12 @@ public class ExploreView extends JPanel {
 			note.setBody(textAreaNote.getText());
 			ValidationError validate;
 			if (modifyID==null){
-				System.out.println("YO bro non dovresti entrare in questo if");
+//				System.out.println("YO bro non dovresti entrare in questo if");
 			}				
 			else{
 				note.setUpdatedAt(new GregorianCalendar());
 				validate=view.exUpdate(note, modifyID);
-				System.out.println("UPDATE "+validate);
+//				System.out.println("UPDATE "+validate);
 				if (validate.equals(ValidationError.TITLE_EMPTY)){
 					showInfoMessage(validate);
 					return;
@@ -155,7 +155,7 @@ public class ExploreView extends JPanel {
 			refreshButton(view);
 			repaint();
 			
-			System.out.println(note.getTitle()+"  "+note.getBody()+ "   "+note.getSharedWith().toString());
+//			System.out.println(note.getTitle()+"  "+note.getBody()+ "   "+note.getSharedWith().toString());
 
 		}
 		
@@ -523,7 +523,7 @@ public class ExploreView extends JPanel {
 				 
 
 			  } catch (Exception ex) {
-			    System.out.println(ex);
+			    ex.printStackTrace();
 			  } 
 			btnLike.setEnabled(false);
 			btnLike.addMouseListener(new MouseAdapter() {
@@ -640,7 +640,7 @@ public class ExploreView extends JPanel {
 			  btnSave.setOpaque(true);
 //				btnNewNote.setBorder(BorderFactory.createEmptyBorder());
 		  } catch (Exception ex) {
-		    System.out.println(ex);
+		    ex.printStackTrace();
 		  } 
 		 btnSave.setEnabled(false);
 
@@ -667,7 +667,7 @@ public class ExploreView extends JPanel {
 			  comboColors.setOpaque(true);
 //				btnNewNote.setBorder(BorderFactory.createEmptyBorder());
 		  } catch (Exception ex) {
-		    System.out.println(ex);
+		    ex.printStackTrace();
 		  } 
 		comboColors.setEnabled(false);
 		comboColors.addMouseListener(new MouseAdapter() {
@@ -768,7 +768,7 @@ public class ExploreView extends JPanel {
 //					System.out.println("IL MIO TESTO: "+str.toString());
 //					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
 					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
-						System.out.println("non sono uguali");
+//						System.out.println("non sono uguali");
 						
 							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
 							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -783,7 +783,7 @@ public class ExploreView extends JPanel {
 				
 				case "Titolo":{
 					notes=view.exFilterByTitle();
-					System.out.println(notes);
+//					System.out.println(notes);
 					btnSave.setEnabled(false);
 					refreshNoteList(view);
 					createModifyNote(view);
@@ -850,7 +850,7 @@ public class ExploreView extends JPanel {
 //					System.out.println("IL MIO TESTO: "+str.toString());
 //					System.out.println("IL TESTO DEL CONFRONTO: "+modifyText.toString());
 					if(!modifyText.toString().equals(str.toString()) && modifyID!=null){
-						System.out.println("non sono uguali");
+//						System.out.println("non sono uguali");
 						
 							if (JOptionPane.showConfirmDialog(null, "Vuoi salvare le modifiche?", "INFO",
 							        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {

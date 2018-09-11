@@ -41,14 +41,14 @@ public class MultiServerMain {
 			finally {
 				if(data != null) {
 					load = true;
-					System.out.println("Ho caricato il file");
+//					System.out.println("Ho caricato il file");
 					logger.finer("Caricato il file");
 				}
 			}
 		}
 		
 		if(!load) {
-			System.out.println("Creo il file da zero");
+//			System.out.println("Creo il file da zero");
 			logger.info("Creo il file database");
 			data=new Database();
 			noteArchive= NoteArchive.getIstance();
@@ -169,7 +169,7 @@ public class MultiServerMain {
 		 * appena succede viene dichiarata una nuova istanza di MultiServer e avviato il Thread
 		 */
 		int port=2270;
-		System.out.println("MULTISERVER START!");
+//		System.out.println("MULTISERVER START!");
 		try (
 				ServerSocket server = new ServerSocket(port);
 			)

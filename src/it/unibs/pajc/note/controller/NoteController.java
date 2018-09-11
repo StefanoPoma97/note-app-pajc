@@ -150,7 +150,7 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * @return ValidationError che indica se è avvenuta l'operazione
 	 */
 	public ValidationError create(String title) {
-		System.out.println("info arrivate: titolo= " + title);
+//		System.out.println("info arrivate: titolo= " + title);
 		Note n = new Note(title);
 		return archive.add(n);
 	}

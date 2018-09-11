@@ -299,7 +299,7 @@ public class NoteArchive extends Archive<Note> {
 //		System.out.println("NOTE CONDIVISE CON ME: "+out.toString());
 		ArrayList<Note> out2= (ArrayList<Note>)out.stream().filter(x->x.getTitle().equals(n)).collect(Collectors.toList());
 		//TODO impedire doppioni
-		System.out.println(out2);
+//		System.out.println(out2);
 		if(out2.size()>1)
 			System.out.println("DOPPIONEEEE!!!!!");
 		return out2.get(0);
@@ -315,7 +315,7 @@ public class NoteArchive extends Archive<Note> {
 	public Note getNoteByTitleLike(String n, User u){
 		ArrayList<Note> out2= (ArrayList<Note>)getWhere(x->x.getTitle().equals(n));
 		//TODO impedire doppioni
-		System.out.println(out2);
+//		System.out.println(out2);
 		if(out2.size()>1)
 			System.out.println("DOPPIONEEEE!!!!!");
 		return out2.get(0);
