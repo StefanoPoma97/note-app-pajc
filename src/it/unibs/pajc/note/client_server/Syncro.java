@@ -139,6 +139,7 @@ private static Syncro sc=null;
 			System.out.println("REFRESH LISTA COMPLETA:");
 			for(Sync sr :refreshID){
 				System.out.println(sr);
+				System.out.println(sr.getRefreshedBy());
 			}
 				
 			return output;
@@ -192,7 +193,9 @@ private static Syncro sc=null;
 //			System.out.println("AGGIUNTO COME UTENTE CHE HA REFRESH FATTO");
 			ArrayList<User> user= new ArrayList<>(UserArchive.getIstance().all());
 //			user.remove(sn.get(0).getUser());
-			if(sn.get(0).getRefreshedBy().equals(user))
+			System.out.println("Refreshed by: " + sn.get(0).getRefreshedBy());
+			System.out.println(user);
+			if(sn.get(0).getRefreshedBy().size()==user.size())
 				refreshID.remove(sn.get(0));
 					
 			return true;
