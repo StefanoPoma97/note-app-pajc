@@ -105,6 +105,8 @@ private static UserArchive userarchive=null;
 	 * @author Stefano Poma
 	 */
 	public ArrayList<String> getlabelsByUser(User u){
+		System.out.println("STO CERCANDO LABEL DI: "+u.toString());
+		System.out.println("TUTTI GLI UTENTI: "+all());
 		return getWhere(x->x.getID()==u.getID()).get(0).getLabel();
 	}
 	

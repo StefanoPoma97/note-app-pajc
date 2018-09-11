@@ -42,6 +42,19 @@ public class MultiServer extends Thread{
 		clientName= "MS#"+clientId++;	
 	}
 	
+	private void close() throws IOException
+	{
+		System.out.println("SERVER -> CHIUSURA CONNESSIONE");
+		
+		if (output_stream!=null && input_stream!= null && socket!=null)
+		{
+			output_stream.close();
+			input_stream.close();
+			socket.close();
+		}
+		logger.info("Chiusa connessione lato Server: " + socket.getInetAddress());
+	}
+	
 	/**
 	 * metodo per salvare gli archivi su un file
 	 * @author Stefano Poma
@@ -88,6 +101,14 @@ public class MultiServer extends Thread{
 			System.err.println("Errore di comunicazione: " +e1);
 			logger.warning("Chiusa connessione: " + socket.getInetAddress()); 
 			saveOnFile();
+			try {
+				close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			stop();
+			interrupt();
 		}
 		catch (EOFException e) {
 			logger.info("Chiusa connessione: " + socket.getInetAddress()); 
