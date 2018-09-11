@@ -354,12 +354,18 @@ public class NoteArchive extends Archive<Note> {
 	 * @return ID associato a quel titolo (titolo univoco)
 	 * @author Stefano Poma
 	 */
-	public int getIDbyTitle(String title){
+	public int getIDbyTitle(String title, User utente){
 		ArrayList<Note> lista= (ArrayList<Note>) getWhere(x->x.getTitle().equals(title));
 		if (lista.isEmpty())
 			return -1;
-		else
-			return lista.get(0).getID();
+		else{
+			for(Note n:lista){
+				if(n.getAuthor().equals(utente))
+					return n.getID();
+			}
+			return -1;
+		}
+			
 	}
 	
 	/**

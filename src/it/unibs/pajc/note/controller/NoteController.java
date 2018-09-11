@@ -131,11 +131,12 @@ public ArrayList<String> getLabelsByNote(Client _client, String title, User us){
 	 * @return l'ID associato a quel titolo
 	 * @author Stefano Poma
 	 */
-	public int getIDbyTitle(Client _client, String title){
+	public int getIDbyTitle(Client _client, String title, User utente){
 		client=_client;
 		Comunication input= new Comunication();
 		input.setInfo("get_id_by_title");
 		input.setTitle(title);
+		input.setUser(utente);
 		
 		Comunication output= client.comunica(input);
 		return output.getID();

@@ -244,7 +244,7 @@ public class MainView {
 	 * 
 	 */
 	public int getIDbyTitle(String title){
-		return noteController.getIDbyTitle(client, title);
+		return noteController.getIDbyTitle(client, title, utente);
 		
 	}
 	

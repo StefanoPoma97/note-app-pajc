@@ -394,7 +394,7 @@ public class Comunication implements Serializable{
 		case "get_id_by_title":{
 			output= new Comunication();
 			output.setInfo("get_id_by_title_response");
-			output.setID(noteArchive.getIDbyTitle(title));
+			output.setID(noteArchive.getIDbyTitle(title, utente));
 			return output;
 		}
 		
