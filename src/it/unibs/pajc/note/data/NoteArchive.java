@@ -62,7 +62,7 @@ public class NoteArchive extends Archive<Note> {
 	 * se la nota e' segnata
 	 * @param titolo
 	 * @param utente
-	 * @return true se è segnata
+	 * @return true se ï¿½ segnata
 	 * @author Stefano Poma
 	 */
 	public Boolean isPinned (String titolo, User utente){
@@ -355,6 +355,7 @@ public class NoteArchive extends Archive<Note> {
 	 * @author Stefano Poma
 	 */
 	public int getIDbyTitle(String title, User utente){
+		System.out.println("UTENTE: " + utente);
 		ArrayList<Note> lista= (ArrayList<Note>) getWhere(x->x.getTitle().equals(title));
 		if (lista.isEmpty())
 			return -1;

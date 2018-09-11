@@ -3,13 +3,16 @@ package it.unibs.pajc.note.client_server;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.logging.Handler;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import it.unibs.pajc.note.data.Database;
 import it.unibs.pajc.note.data.NoteArchive;
 import it.unibs.pajc.note.data.UserArchive;
 import it.unibs.pajc.note.log.FileLogger;
+import it.unibs.pajc.note.model.Note;
+import it.unibs.pajc.note.model.Tag;
 import it.unibs.pajc.note.model.User;
 import it.unibs.pajc.note.utility.ServizioFile;
 
@@ -63,7 +66,7 @@ public class MultiServerMain {
 
 
 
-		
+//		
 //		User utente= new User("paolo", "merazza");
 //		utente.addLabel("Labels");
 //		utente.addLabel("Riunione");

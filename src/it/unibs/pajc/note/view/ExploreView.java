@@ -261,7 +261,7 @@ public class ExploreView extends JPanel {
 		contentList.setLayout(new GridBagLayout());
 		GridBagConstraints gc = new GridBagConstraints();
 		for (int i=0; i<notes.size(); i++){
-			
+			int tmpID = notes.get(i).getID();
 			//ROW 0
 				//col 0
 			gc = new GridBagConstraints();
@@ -269,7 +269,7 @@ public class ExploreView extends JPanel {
 			String titolo=notes.get(i).getTitle();
 			StringBuffer str= new StringBuffer();
 			int count=0;
-			//per ragioni di semplicità il titolo non può contenere più di 15 caratteri
+			//per ragioni di semplicitï¿½ il titolo non puï¿½ contenere piï¿½ di 15 caratteri
 			for (char c : titolo.toCharArray()) {
 			  if(count<15){
 				  str.append(c);
@@ -381,16 +381,17 @@ public class ExploreView extends JPanel {
 					if(isShare){
 						btnSave.setEnabled(true);
 						
-							modifyID= view.getIDbyTitle(lbl_title.getText());
-						
-							if(modifyID==-1){
-								showInfoMessage("La nota è stata aggiornata, necessario un refresh della pagina");
-								refreshNoteList(view);
-								createModifyNote(view);
-								modifyID=null;
-								return;
-								
-							}
+//							modifyID= view.getIDbyTitle(lbl_title.getText());
+							modifyID = tmpID;
+//						
+//							if(modifyID==-1){
+//								showInfoMessage("La nota ï¿½ stata aggiornata, necessario un refresh della pagina");
+//								refreshNoteList(view);
+//								createModifyNote(view);
+//								modifyID=null;
+//								return;
+//								
+//							}
 							
 						
 						
@@ -402,7 +403,8 @@ public class ExploreView extends JPanel {
 							return;
 						}
 						if(input.getInfo().equals("modify_id_response_refresh")){
-							showInfoMessage("La nota è stata aggiornata, necessario un refresh della pagina");
+							showInfoMessage("La nota ï¿½ stata aggiornata, necessario un refresh della pagina");
+							loadInfo(view);
 							refreshNoteList(view);
 						}
 						else{
