@@ -98,7 +98,7 @@ public class MultiServer extends Thread{
 			
 		}
 		catch(java.net.SocketException e1){
-			System.err.println("Errore di comunicazione: " +e1);
+//			System.err.println("Errore di comunicazione: " +e1);
 			logger.warning("Chiusa connessione: " + socket.getInetAddress()); 
 			saveOnFile();
 			try {
