@@ -122,7 +122,10 @@ public class NoteView extends JPanel {
 			textFieldTitleNote.setText("");
 			return;
 		}
-		if(view.getMyNote().contains(textFieldTitleNote.getText())){
+		ArrayList<String> titoli= (ArrayList<String>)view.getMyNote().stream()
+				.map(x->x.getTitle())
+				.collect(Collectors.toList());
+		if(titoli.contains(textFieldTitleNote.getText())){
 			showInfoMessage("Due note con lo stesso nome");
 			return;
 		}
