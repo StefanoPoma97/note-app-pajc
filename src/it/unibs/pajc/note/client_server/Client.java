@@ -3,6 +3,7 @@ package it.unibs.pajc.note.client_server;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class Client {
 
 	/**
 	 * costruttore del client, va specificata la porta corretta e l'indirizzo IP dell'host
-	 * 127.0.0.1 serve per test in locale, ma il funzionamento è lo stesso
+	 * 127.0.0.1 serve per test in locale, ma il funzionamento ï¿½ lo stesso
 	 */
 	public Client()
 	{
@@ -31,8 +32,8 @@ public class Client {
 	}
 	
 	/**
-	 * metodo per la connessione al server, ritorna una Stringa che specifica se la connessione è avvenuta
-	 * @return Stringa che indica se la connessione è avvenuta
+	 * metodo per la connessione al server, ritorna una Stringa che specifica se la connessione ï¿½ avvenuta
+	 * @return Stringa che indica se la connessione ï¿½ avvenuta
 	 * @author Stefano Poma
 	 */
 	public String connetti()
@@ -46,6 +47,13 @@ public class Client {
 			System.out.println("CONNESSIONE STABILITA");
 			String out ="CONNESSIONE STABILITA";
 			return out;
+		} catch (ConnectException e) {
+			System.err.println("Server non trovato o non risponde");
+			return e.toString();
+		} catch (IOException e) {
+			System.err.println("Errore nella comunicazione");
+			e.printStackTrace();
+			return e.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return e.toString();
