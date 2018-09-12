@@ -19,7 +19,7 @@ public class Client {
 	 * dell'host 127.0.0.1 serve per test in locale, ma il funzionamento � lo stesso
 	 */
 	public Client() {
-		hostName = "192.168.1.216";
+		hostName = "127.0.0.1";
 		port = 2270;
 		System.out.println("IN ATTESA DI CONNESSIONE... su Host: " + hostName + " alla porta: " + port);
 	}

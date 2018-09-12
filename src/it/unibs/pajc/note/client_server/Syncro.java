@@ -67,15 +67,15 @@ public class Syncro {
 
 		s.deleteID();
 
-		System.out.println("LISTA MODIFICHE ATTIVE:");
-		for (Sync sr : lista) {
-			System.out.println(sr);
-		}
-
-		System.out.println("REFRESH LISTA COMPLETA:");
-		for (Sync sr : refreshID) {
-			System.out.println(sr);
-		}
+//		System.out.println("LISTA MODIFICHE ATTIVE:");
+//		for (Sync sr : lista) {
+//			System.out.println(sr);
+//		}
+//
+//		System.out.println("REFRESH LISTA COMPLETA:");
+//		for (Sync sr : refreshID) {
+//			System.out.println(sr);
+//		}
 
 	}
 
@@ -113,16 +113,16 @@ public class Syncro {
 				output.setBoolean(true);
 			}
 
-			System.out.println("LISTA MODIFICHE ATTIVE:");
-			for (Sync sr : lista) {
-				System.out.println(sr);
-			}
-
-			System.out.println("REFRESH LISTA COMPLETA:");
-			for (Sync sr : refreshID) {
-				System.out.println(sr);
-				System.out.println(sr.getRefreshedBy());
-			}
+//			System.out.println("LISTA MODIFICHE ATTIVE:");
+//			for (Sync sr : lista) {
+//				System.out.println(sr);
+//			}
+//
+//			System.out.println("REFRESH LISTA COMPLETA:");
+//			for (Sync sr : refreshID) {
+//				System.out.println(sr);
+//				System.out.println(sr.getRefreshedBy());
+//			}
 
 			return output;
 
