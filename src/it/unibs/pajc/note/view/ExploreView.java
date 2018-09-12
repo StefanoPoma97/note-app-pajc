@@ -416,7 +416,7 @@ public class ExploreView extends JPanel {
 				data = (GregorianCalendar) notes.get(i).getCreatedAt();
 			else
 				data = (GregorianCalendar) notes.get(i).getUpdatedAt();
-			SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy " + " hh:mm");
+			SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy " + " HH:mm");
 			fmt.setCalendar(data);
 			String dateFormatted = fmt.format(data.getTime());
 			JLabel lb_data = new JLabel(dateFormatted);
