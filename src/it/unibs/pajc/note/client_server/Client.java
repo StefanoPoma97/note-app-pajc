@@ -5,47 +5,41 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
-import java.util.ArrayList;
-
-import it.unibs.pajc.note.controller.NoteController;
-import it.unibs.pajc.note.controller.UserController;
-import it.unibs.pajc.note.data.NoteArchive;
 
 public class Client {
-	
+
 	private String hostName;
 	private int port;
-	private Socket client=null;
+	private Socket client = null;
 	private ObjectOutputStream output_stream;
 	private ObjectInputStream input_stream;
-	
 
 	/**
-	 * costruttore del client, va specificata la porta corretta e l'indirizzo IP dell'host
-	 * 127.0.0.1 serve per test in locale, ma il funzionamento � lo stesso
+	 * costruttore del client, va specificata la porta corretta e l'indirizzo IP
+	 * dell'host 127.0.0.1 serve per test in locale, ma il funzionamento � lo stesso
 	 */
-	public Client()
-	{
+	public Client() {
 		hostName = "192.168.1.216";
-		port= 2270;
-		System.out.println("IN ATTESA DI CONNESSIONE... su Host: "+hostName+" alla porta: "+port);
+		port = 2270;
+		System.out.println("IN ATTESA DI CONNESSIONE... su Host: " + hostName + " alla porta: " + port);
 	}
-	
+
 	/**
-	 * metodo per la connessione al server, ritorna una Stringa che specifica se la connessione � avvenuta
+	 * metodo per la connessione al server, ritorna una Stringa che specifica se la
+	 * connessione � avvenuta
+	 * 
 	 * @return Stringa che indica se la connessione � avvenuta
 	 * @author Stefano Poma
 	 */
-	public String connetti()
-	{
+	public String connetti() {
 		try {
 			client = new Socket(hostName, port);
 			output_stream = new ObjectOutputStream(client.getOutputStream());
 			output_stream.flush();
 			input_stream = new ObjectInputStream(client.getInputStream());
-			
+
 			System.out.println("CONNESSIONE STABILITA");
-			String out ="CONNESSIONE STABILITA";
+			String out = "CONNESSIONE STABILITA";
 			return out;
 		} catch (ConnectException e) {
 			System.err.println("Server non trovato o non risponde");
@@ -59,16 +53,16 @@ public class Client {
 			return e.toString();
 		}
 	}
-	
-	/** 
-	 * metodo per interrompere la comunicazione con il server, va a chiudere tutti gli stream
+
+	/**
+	 * metodo per interrompere la comunicazione con il server, va a chiudere tutti
+	 * gli stream
+	 * 
 	 * @author Stefano Poma
 	 */
-	public void stop()
-	{
-		
-		if (output_stream!=null && input_stream!= null && client!=null)
-		{
+	public void stop() {
+
+		if (output_stream != null && input_stream != null && client != null) {
 			try {
 				output_stream.close();
 				input_stream.close();
@@ -76,31 +70,31 @@ public class Client {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
-	
+
 	/**
 	 * metodo per svolgere tutte le comunicazioni con il server
-	 * @param output una classe Comunication riempita a seconda delle esigenze
+	 * 
+	 * @param output
+	 *            una classe Comunication riempita a seconda delle esigenze
 	 * @return Comunication contenente le informazioni di ritorno
 	 * @author Stefano Poma
 	 */
-	public Comunication comunica (Comunication output)
-	{
+	public Comunication comunica(Comunication output) {
 		try {
-			System.out.println("CLIENT-> "+output.getInfo());
+			System.out.println("CLIENT-> " + output.getInfo());
 
-			
 			output_stream.writeObject(output);
 			output_stream.flush();
 
-			Comunication input=(Comunication) input_stream.readObject();
-			System.out.println("SERVER-> "+input.getInfo());
+			Comunication input = (Comunication) input_stream.readObject();
+			System.out.println("SERVER-> " + input.getInfo());
 			return input;
-			
+
 		} catch (Exception e) {
-			Comunication input= new Comunication();
+			Comunication input = new Comunication();
 			input.setError(e.toString());
 			return input;
 		}

@@ -4,13 +4,14 @@ import java.io.Serializable;
 
 /**
  * Per la gestione degli id
+ * 
  * @author Daniele Vezzoli
  *
  */
-public abstract class Identifiable implements Serializable{
-	
+public abstract class Identifiable implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private int id;
 
 	public int getID() {
@@ -20,6 +21,5 @@ public abstract class Identifiable implements Serializable{
 	public void setID(int id) {
 		this.id = id;
 	}
-	
-	
+
 }
