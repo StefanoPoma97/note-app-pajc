@@ -1521,7 +1521,7 @@ public class NoteView extends JPanel {
 		gc_1.insets = new Insets(0, 0, 5, 0);
 		this.contentInfo = new JPanel();
 		this.contentInfo.setPreferredSize(new Dimension(100, 50));
-		contentInfo.setBackground(new Color(0, 0, 255));
+		contentInfo.setBackground(new Color(237, 106, 90));
 		gc_1.weightx = 1; // cresce completamente 100% lungo X
 		gc_1.gridx = 1;
 		gc_1.gridy = 0;
@@ -1556,7 +1556,7 @@ public class NoteView extends JPanel {
 		gc_3 = new GridBagConstraints();
 		gc_3.insets = new Insets(0, 0, 5, 0);
 		this.contentNote = new JPanel();
-		contentNote.setBackground(new Color(240, 230, 140));
+		contentNote.setBackground(new Color(245, 238, 150));
 		// contentNote.setLayout(null);
 		gc_3.weightx = 1;
 		gc_3.weighty = 1.0;
@@ -1573,7 +1573,7 @@ public class NoteView extends JPanel {
 		gc_4 = new GridBagConstraints();
 		gc_4.insets = new Insets(0, 0, 5, 0);
 		this.contentModify = new JPanel();
-		contentModify.setBackground(new Color(255, 255, 0));
+		contentModify.setBackground(new Color(25, 83, 95));
 		this.contentModify.setPreferredSize(new Dimension(100, 50));
 		gc_4.weightx = 0.001;
 		gc_4.gridx = 1;
