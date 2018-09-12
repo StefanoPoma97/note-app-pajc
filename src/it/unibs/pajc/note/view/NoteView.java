@@ -122,6 +122,10 @@ public class NoteView extends JPanel {
 			textFieldTitleNote.setText("");
 			return;
 		}
+		if(view.getMyNote().contains(textFieldTitleNote.getText())){
+			showInfoMessage("Due note con lo stesso nome");
+			return;
+		}
 		note.setBody(textAreaNote.getText());
 //		System.out.println("DEVO AGGIUNGERE QUESTE temporany labels: "+temporanyLabels);
 		note.addLabels(temporanyLabels);
